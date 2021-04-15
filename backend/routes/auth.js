@@ -7,7 +7,16 @@ const {
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 
+const verify = require('./verifyToken')
 
+
+
+router.get("/",verify,async(req,res)=>{
+
+  const users = await User.find({})
+
+  res.send(users);
+})
 
 router.post("/register", async (req, res) => {
   const error = registerValidation(req.body);

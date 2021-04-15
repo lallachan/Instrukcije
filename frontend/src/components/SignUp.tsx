@@ -1,16 +1,132 @@
-import React from 'react'
+import { Button } from "@chakra-ui/button";
+import { FormLabel } from "@chakra-ui/form-control";
+import { FormControl } from "@chakra-ui/form-control";
+import { Input } from "@chakra-ui/input";
+import { Divider, VStack } from "@chakra-ui/layout";
+import React from "react";
+import axios from "axios"
 
-interface Props {
+interface Props {}
+
+const SignUp: React.FC = (props: Props) => {
+
+    const [serverResponse, setServerResponse] = React.useState("")
+    const [loginResponse, setLoginResponse] = React.useState("")
+
+  const handleSubmit: Function = (e: any) => {
+      e.preventDefault()
+
+        const userObj = {
+            name: e.target[0].value,
+            password : e.target[1].value,
+            email: e.target[2].value
+        }
+
+        axios.post("http://localhost:5000/api/user/register",userObj)
+        .then(res=>{
+           setServerResponse(res.data.user)
+        })
+        .catch((err)=>{
+            console.log(err.response.data)
+           setServerResponse(err.response.data)
+        })
+        
+  };
+
+  const handleLogIn:Function = (e:any)=>{
+      e.preventDefault()
+      const userObj = {
+        email: e.target[0].value,
+        password : e.target[1].value,
+    }
+
+    axios.post("http://localhost:5000/api/user/login",userObj)
+    .then(res=>{
+        console.log(res)
+        setLoginResponse(res.data)  
+        localStorage.setItem('token', res.data);
+    })
+    .catch((err)=>{
+        console.log(err.response.data)
+        setLoginResponse(err.response.data)
+    })
+  }
+
+
+  const handleUser: Function = ()=>{
+    axios.get("http://localhost:5000/api/user/",{
+        data:{},
+        headers:{
+            "auth-token": localStorage.getItem('token')
+        },
+    })
+    .then(res=>{
+        console.log(res.data)
+    })
+    .catch((err)=>{
+        console.log(err.response.data)
+    })
+  }
+
+  return (
     
-}
+    <VStack>
+          <h1>Register</h1>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <FormControl id="Name" name="name" isRequired>
+          <FormLabel>Name</FormLabel>
+          <Input placeholder="Name" />
+        </FormControl>
+        <FormControl id="password" isRequired>
+          <FormLabel>Password</FormLabel>
+          <Input placeholder="password" />
+        </FormControl>
+        <FormControl id="email" isRequired>
+          <FormLabel>Email</FormLabel>
+          <Input placeholder="email" />
+        </FormControl>
+        <Button colorScheme="teal" size="md" type="submit">
+          Button
+        </Button>
+      </form>
+        <p>Server Response: {serverResponse} </p>
+       
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <h1>Log in</h1>
+        <form onSubmit={(e) => handleLogIn(e)}>
+        <FormControl id="email" isRequired>
+          <FormLabel>Email</FormLabel>
+          <Input placeholder="email" />
+        </FormControl>
+        <FormControl id="password" isRequired>
+          <FormLabel>Password</FormLabel>
+          <Input placeholder="password" />
+        </FormControl>
+        <Button colorScheme="teal" size="md" type="submit">
+          Button
+        </Button>
+      </form>
+      <p>Server Response: {loginResponse} </p>
+      
+      <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Divider/>
+        <Button onClick ={()=>handleUser()}>Users</Button>
+        <Button onClick ={()=>localStorage.removeItem('token')}>Log Out</Button>
+    </VStack>
+  );
+};
 
-const SignUp : React.FC = (props: Props) => {
-    return (
-        <div>
-            sg
-        </div>
-    )
-}
-
-export default SignUp
- 
+export default SignUp;

@@ -1,9 +1,10 @@
 const express = require("express")
 const app = express()
 
+
 const mongoose = require("mongoose")
 const dotenv = require("dotenv").config()
-
+const cors = require("cors")
 
 
 
@@ -21,7 +22,7 @@ const authRoute = require('./routes/auth')
 // router Middlewares
 //app.use(express.urlencoded({ extended: true })); maybe someday
 app.use(express.json())
-
+app.use(cors())
 app.use('/api/user',authRoute)
 
 

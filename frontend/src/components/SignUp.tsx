@@ -28,7 +28,16 @@ const SignUp: React.FC = (props: Props) => {
             email: e.target[2].value
         }
 
-        axios.post(REACT_APP_SERVER_CONNECT+"/api/user/register",userObj)
+        axios.post(REACT_APP_SERVER_CONNECT+"/api/user/register",{
+          header:{
+            "Access-Control-Allow-Origin" :'*' ,
+            'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,OPTIONS',
+            "Access-Control-Allow-Credentials": true,
+            'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
+          },
+          data:userObj,
+          crossdomain:true
+        })
         .then(res=>{
            setServerResponse(res.data.user)
         })

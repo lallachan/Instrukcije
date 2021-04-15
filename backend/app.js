@@ -12,7 +12,7 @@ const cors = require("cors")
 const {SetLandingInstructors } = require('./functions/ServerFunctions')
 const Instruktor_Landing = require("./models/Instruktor_Landing")
 
-
+console.log("Hey")
 
 //DB_CONNECT
 mongoose.connect(process.env.DB_CONNECT,{useUnifiedTopology: true ,useNewUrlParser: true},(msg)=>{
@@ -28,7 +28,7 @@ const ladingRoute = require('./routes/landing')
 
 
 // router Middlewares
-//app.use(express.urlencoded({ extended: true })); maybe someday
+app.use(express.urlencoded({ extended: true })); maybe someday
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(cors())

@@ -9,8 +9,8 @@ interface Props {
 const Aside : React.FC = (props: Props) => {
     return (
         <VStack
-        w="50%"
         h="100%"
+        width={{ base:"50%",xl:"50%", md: "0" ,sm: "0"}}
         >
         <Image src={tutor}
         w="100%"

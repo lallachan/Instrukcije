@@ -26,7 +26,7 @@ const Header = (props: Props) => {
             Log in
           </Button>
           <Button colorScheme="teal" variant="outline">
-            Sign in
+            Sign up
           </Button>
         </Stack>
       </HStack>

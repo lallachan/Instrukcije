@@ -11,14 +11,14 @@ interface Props {}
 
 export const Introduction: React.FC = (props: Props) => {
   return (
-    <VStack ml="4" w="50%">
+    <VStack ml="4" w={{base:"50%",lg:"50%",md:"100%",sm:"100%"}}>
       <Heading
       alignSelf="flex-start"
       fontSize="80px"
       >Pronađi instruktora</Heading>
       <Text
         as="h1"
-        fontSize="90px"
+        fontSize="100px"
         fontWeight="bold"
         color="white"
         alignSelf="flex-start"
@@ -31,19 +31,20 @@ export const Introduction: React.FC = (props: Props) => {
           Kreni
         </Button>
       </HStack>
-      <HStack w="100%" >
+      <HStack w="100%" spacing={4}>
         <Button colorScheme="teal" variant="solid" >
           Log in
         </Button>
         <Button colorScheme="teal" variant="solid" >
-          Sign in
+          Sign up
+        </Button>
+        <Button backgroundColor="black" variant="solid" color="white" alignSelf="flex-start"  p="2">
+          Postani Instruktor
+     
         </Button>
        
       </HStack>
-      <Button backgroundColor="black" variant="solid" color="white" alignSelf="flex-start" size="lg" p="2">
-          Become a Tutor
      
-        </Button>
     </VStack>
   );
 };

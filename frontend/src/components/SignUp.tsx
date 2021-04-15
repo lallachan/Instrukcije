@@ -13,6 +13,12 @@ const SignUp: React.FC = (props: Props) => {
     const [serverResponse, setServerResponse] = React.useState("")
     const [loginResponse, setLoginResponse] = React.useState("")
 
+   
+    const {REACT_APP_SERVER_CONNECT} = process.env
+    console.log(process.env)
+    console.log(process.env.REACT_APP_SERVER_CONNECT)
+
+
   const handleSubmit: Function = (e: any) => {
       e.preventDefault()
 
@@ -22,7 +28,7 @@ const SignUp: React.FC = (props: Props) => {
             email: e.target[2].value
         }
 
-        axios.post("http://localhost:5000/api/user/register",userObj)
+        axios.post(REACT_APP_SERVER_CONNECT+"/api/user/register",userObj)
         .then(res=>{
            setServerResponse(res.data.user)
         })
@@ -40,7 +46,7 @@ const SignUp: React.FC = (props: Props) => {
         password : e.target[1].value,
     }
 
-    axios.post("http://localhost:5000/api/user/login",userObj)
+    axios.post(REACT_APP_SERVER_CONNECT +"/api/user/login",userObj)
     .then(res=>{
         console.log(res)
         setLoginResponse(res.data)  
@@ -54,7 +60,7 @@ const SignUp: React.FC = (props: Props) => {
 
 
   const handleUser: Function = ()=>{
-    axios.get("http://localhost:5000/api/user/",{
+    axios.get(REACT_APP_SERVER_CONNECT+"/api/user/",{
         data:{},
         headers:{
             "auth-token": localStorage.getItem('token')

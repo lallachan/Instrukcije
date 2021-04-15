@@ -26,7 +26,7 @@ const Cards: React.FC = (props: Props) => {
       <Heading mt="10">Most Popular</Heading>
       <Divider mb="10" />
  
-      <Flex justify="space-evenly" p="20" direction={['column','column','column','row']}
+      <Flex justify="center" p="20" direction={['column','column','column','row']}
     >
         {arr.map((el) => {
           return (

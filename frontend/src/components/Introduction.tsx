@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
 import { Input } from "@chakra-ui/input";
-import { Heading, HStack, Text, VStack } from "@chakra-ui/layout";
+import { Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import React from "react";
 import {FaEllo} from 'react-icons/fa'
 
@@ -11,27 +11,28 @@ interface Props {}
 
 export const Introduction: React.FC = (props: Props) => {
   return (
-    <VStack ml="4" w={{base:"50%",lg:"50%",md:"100%",sm:"100%"}}>
+    <VStack ml="4" maxW={{base:'90vw',sm:'80vw',lg:'50vw',xl:'40vw'}}>
       <Heading
       alignSelf="flex-start"
-      fontSize="80px"
+      textAlign="left"
+      fontSize={["60px","60px","100px","100px"]}
       >Pronađi instruktora</Heading>
       <Text
         as="h1"
-        fontSize="100px"
+        fontSize={["70px","70px","100px","100px"]}
         fontWeight="bold"
         color="white"
         alignSelf="flex-start"
       >
         DANAS
       </Text>
-      <HStack w="100%">
-        <Input placeholder="Pronađi instruktore" size="lg" background="white" />
+      <HStack w="100%"  direction={['row','row','row','row']}>
+        <Input placeholder="Pronađi instruktore" size="lg" background="white" w={['100%']}/>
         <Button backgroundColor="black" color="white" size="lg">
           Kreni
         </Button>
       </HStack>
-      <HStack w="100%" spacing={4}>
+      <HStack w="100%" direction={['row','row','row','row']}>
         <Button colorScheme="teal" variant="solid" >
           Log in
         </Button>
@@ -44,6 +45,8 @@ export const Introduction: React.FC = (props: Props) => {
         </Button>
        
       </HStack>
+
+      
      
     </VStack>
   );

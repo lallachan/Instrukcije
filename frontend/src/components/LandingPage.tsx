@@ -18,7 +18,7 @@ const LandingPage: React.FC = () => {
       
       <Main />
       <Cards />
-      <Form/>
+     
 
     </VStack>
   );

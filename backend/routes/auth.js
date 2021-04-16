@@ -12,8 +12,12 @@ const verify = require('./verifyToken')
 
 
 router.get("/",verify,async(req,res)=>{
-
-  const users = await User.find({})
+  try {
+    const users = await User.find({}) 
+  } catch (error) {
+    console.log(error)
+  }
+ 
 
   res.send(users);
 })
@@ -25,12 +29,17 @@ router.post("/register", async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
 
-  //check for same email
-  const emailExist = await User.findOne({email:req.body.email})
-  if(emailExist){
-      return res.status(400).send("Email already exsists")
+  try {
+    const emailExist = await User.findOne({email:req.body.email})
+    if(emailExist){
+        return res.status(400).send("Email already exsists")
+    }
+  
+  } catch (error) {
+    console.log(error)
   }
-
+  //check for same email
+ 
   //hash password
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(req.body.password,salt)
@@ -56,12 +65,16 @@ router.post("/login", async (req,res)=>{
     if(error){
         return res.status(400).send(error.details[0].message);
         }
-    
-    //Check if user has REQ email 
-    const user = await User.findOne({email:req.body.email})
-    if(!user){
-        return res.status(400).send("Invalid email or password/E")
+    try {
+      const user = await User.findOne({email:req.body.email})
+      if(!user){
+          return res.status(400).send("Invalid email or password/E")
+      }
+    } catch (error) {
+      console.log(error)
     }
+    //Check if user has REQ email 
+ 
 
     //Check Password
     const validPass = await bcrypt.compare(req.body.password,user.password)

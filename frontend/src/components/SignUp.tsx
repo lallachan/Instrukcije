@@ -15,29 +15,20 @@ const SignUp: React.FC = (props: Props) => {
 
    
     const {REACT_APP_SERVER_CONNECT} = process.env
-    console.log(process.env)
-    console.log(process.env.REACT_APP_SERVER_CONNECT)
+
 
 
   const handleSubmit: Function = (e: any) => {
+  
       e.preventDefault()
-
+    
         const userObj = {
             name: e.target[0].value,
             password : e.target[1].value,
             email: e.target[2].value
         }
-
-        axios.post(REACT_APP_SERVER_CONNECT+"/api/user/register",{
-          header:{
-            "Access-Control-Allow-Origin" :'*' ,
-            'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,OPTIONS',
-            "Access-Control-Allow-Credentials": true,
-            'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
-          },
-          data:userObj,
-          crossdomain:true
-        })
+        console.log(userObj)
+        axios.post(REACT_APP_SERVER_CONNECT+"/api/user/register",userObj)
         .then(res=>{
            setServerResponse(res.data.user)
         })
@@ -54,7 +45,7 @@ const SignUp: React.FC = (props: Props) => {
         email: e.target[0].value,
         password : e.target[1].value,
     }
-
+    console.log(userObj)
     axios.post(REACT_APP_SERVER_CONNECT +"/api/user/login",userObj)
     .then(res=>{
         console.log(res)

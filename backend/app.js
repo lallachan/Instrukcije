@@ -42,7 +42,13 @@ app.get("/",(req,res)=>{
 })
 
 app.listen(process.env.PORT || 5000, async ()=>{
-    const instruktors = await Instruktor_Landing.find({})
-    if (instruktors.length===0 || instruktors === null) SetLandingInstructors()
+    try{
+        const instruktors = await Instruktor_Landing.find({})
+        if (instruktors.length===0 || instruktors === null) SetLandingInstructors()
+    }catch(err){
+        console.log(err)
+    }
+   
+   
 })
 

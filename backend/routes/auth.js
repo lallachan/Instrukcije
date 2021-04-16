@@ -70,13 +70,7 @@ router.post("/login", async (req,res)=>{
       if(!user){
           return res.status(400).send("Invalid email or password/E")
       }
-    } catch (error) {
-      console.log(error)
-    }
-    //Check if user has REQ email 
- 
-
-    //Check Password
+          //Check Password
     const validPass = await bcrypt.compare(req.body.password,user.password)
     if(!validPass){
         return res.status(400).send("Invalid email or password/P")
@@ -85,6 +79,13 @@ router.post("/login", async (req,res)=>{
     //Create and assign Token
     const token = jwt.sign({_id:user._id},process.env.TOKEN_SECRET)
     res.header('auth-token',token).send(token)
+
+
+    } catch (error) {
+      console.log(error)
+    }
+    //Check if user has REQ email 
+ 
 
 
     

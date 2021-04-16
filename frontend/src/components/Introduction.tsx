@@ -1,17 +1,26 @@
 import { Button } from "@chakra-ui/button";
+import { useDisclosure } from "@chakra-ui/hooks";
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
 import { Input } from "@chakra-ui/input";
 import { Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/modal";
 import React from "react";
 import {FaEllo} from 'react-icons/fa'
+import { Form } from "./Form";
+
+import {UseModalContext} from '../ModalContex'
 
 
 interface Props {}
 
 export const Introduction: React.FC = (props: Props) => {
+
+  const {isOpen,onClose,onOpen} = UseModalContext()
+
+
   return (
-    <VStack ml="4" maxW={{base:'90vw',sm:'80vw',lg:'50vw',xl:'40vw'}}>
+    <VStack ml="4" maxW={{sm:'80vw'}}>
       <Heading
       alignSelf="flex-start"
       textAlign="left"
@@ -33,16 +42,17 @@ export const Introduction: React.FC = (props: Props) => {
         </Button>
       </HStack>
       <HStack w="100%" direction={['row','row','row','row']}>
-        <Button colorScheme="teal" variant="solid" >
+        <Button colorScheme="teal" variant="solid"  onClick={()=>{localStorage.setItem('login','1') ;onOpen()}}>
           Log in
         </Button>
-        <Button colorScheme="teal" variant="solid" >
+        <Button colorScheme="teal" variant="solid"  onClick={()=>{localStorage.setItem('login','0') ;onOpen()}}>
           Sign up
         </Button>
         <Button backgroundColor="black" variant="solid" color="white" alignSelf="flex-start"  p="2">
           Postani Instruktor
      
         </Button>
+        
        
       </HStack>
 

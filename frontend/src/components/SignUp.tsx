@@ -13,16 +13,22 @@ const SignUp: React.FC = (props: Props) => {
     const [serverResponse, setServerResponse] = React.useState("")
     const [loginResponse, setLoginResponse] = React.useState("")
 
-  const handleSubmit: Function = (e: any) => {
-      e.preventDefault()
+   
+    const {REACT_APP_SERVER_CONNECT} = process.env
 
+
+
+  const handleSubmit: Function = (e: any) => {
+  
+      e.preventDefault()
+    
         const userObj = {
             name: e.target[0].value,
             password : e.target[1].value,
             email: e.target[2].value
         }
-
-        axios.post("http://localhost:5000/api/user/register",userObj)
+        console.log(userObj)
+        axios.post(REACT_APP_SERVER_CONNECT+"/api/user/register",userObj)
         .then(res=>{
            setServerResponse(res.data.user)
         })
@@ -39,8 +45,8 @@ const SignUp: React.FC = (props: Props) => {
         email: e.target[0].value,
         password : e.target[1].value,
     }
-
-    axios.post("http://localhost:5000/api/user/login",userObj)
+    console.log(userObj)
+    axios.post(REACT_APP_SERVER_CONNECT +"/api/user/login",userObj)
     .then(res=>{
         console.log(res)
         setLoginResponse(res.data)  
@@ -54,7 +60,7 @@ const SignUp: React.FC = (props: Props) => {
 
 
   const handleUser: Function = ()=>{
-    axios.get("http://localhost:5000/api/user/",{
+    axios.get(REACT_APP_SERVER_CONNECT+"/api/user/",{
         data:{},
         headers:{
             "auth-token": localStorage.getItem('token')

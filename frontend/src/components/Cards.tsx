@@ -26,15 +26,20 @@ const Cards: React.FC = (props: Props) => {
       <Heading mt="10">Most Popular</Heading>
       <Divider mb="10" />
  
-      <Flex justify="center" p="20" direction={['column','column','column','row']}
+      
+      <Flex  justify="center" p="20" w="100%" direction={['column','column','column','row']}
+      
     >
         {arr.map((el) => {
           return (
+          
             <Box
               border="1px solid teal"
               borederRadius="20%"
               height="100%"
               p="10"
+              w={{sm:"100%"}}
+              
               
             >
               <VStack>
@@ -56,11 +61,13 @@ const Cards: React.FC = (props: Props) => {
                   More
                 </Button>
               </VStack>
+             
             </Box>
            
           );
         })}
       </Flex>
+     
     </VStack>
   );
 };

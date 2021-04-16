@@ -14,12 +14,13 @@ const verify = require('./verifyToken')
 router.get("/",verify,async(req,res)=>{
   try {
     const users = await User.find({}) 
+    res.send(users);
   } catch (error) {
     console.log(error)
   }
  
 
-  res.send(users);
+
 })
 
 router.post("/register", async (req, res) => {

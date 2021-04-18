@@ -2,9 +2,10 @@ const Joi = require("joi");
 
  const registerValidation  = (register_obj)=>{
     const register_schema = Joi.object({
-        name: Joi.string()
-        .min(6)
+        firstName: Joi.string()
+        .min(2)
         .required(),
+        lastName:Joi.string().min(2).required(),
         email: Joi.string().min(6).required().email(),
         password: Joi.string().min(6).required(),
       });

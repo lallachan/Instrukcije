@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const InstruktorLanding = mongoose.Schema({
-    name:{
+    firstName:{
         type:String,
         required:true,
         min:2,
         max:255
     },
-    surname:{
+    lastName:{
         type:String,
         required:true,
         default:"Prezime",

@@ -5,9 +5,9 @@ async function  SetLandingInstructors  () {
     //TODO TAKE ONLY INSTRUCTORS
     const users = await User.find({})
     users.forEach(user =>{
-        const {name,email} = user
+        const {firstName,lastName,email} = user
         const instruktor = new Inst_L({
-            name,email,
+            firstName,lastName,email,
             desc:"Opis"
         })
 

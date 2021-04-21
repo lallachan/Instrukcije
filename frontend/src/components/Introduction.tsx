@@ -10,6 +10,7 @@ import {FaEllo} from 'react-icons/fa'
 import { Form } from "./Form";
 
 import {UseModalContext} from '../ModalContex'
+import { Link, Router as BrowserRouter, Router, useHistory } from "react-router-dom";
 
 
 interface Props {}
@@ -17,7 +18,7 @@ interface Props {}
 export const Introduction: React.FC = (props: Props) => {
 
   const {isOpen,onClose,onOpen} = UseModalContext()
-
+  const history = useHistory()
 
   return (
     <VStack ml="4" maxW={{sm:'80vw'}}>
@@ -48,10 +49,17 @@ export const Introduction: React.FC = (props: Props) => {
         <Button colorScheme="teal" variant="solid"  onClick={()=>{localStorage.setItem('login','0') ;onOpen()}}>
           Sign up
         </Button>
-        <Button backgroundColor="black" variant="solid" color="white" alignSelf="flex-start"  p="2">
+       
+      
+     
+        <Button backgroundColor="black" variant="solid" color="white" alignSelf="flex-start"  p="2" onClick={()=>{
+          history.push("/tutorSignUp")
+        }}>
           Postani Instruktor
      
         </Button>
+     
+       
         
        
       </HStack>

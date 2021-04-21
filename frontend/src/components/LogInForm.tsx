@@ -31,18 +31,19 @@ import { useForm } from "react-hook-form";
 
       try {
       
-      console.log(data)
-      const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/user/login", data)
+      console.log(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_LOGIN_ROUTE)
+      const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_LOGIN_ROUTE, data)
       console.log(response)
       localStorage.setItem('token',response.data)
 
-      const userResponse = await axios.get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {
-        headers: {
-          "auth-token" : localStorage.getItem('token')
-        }
-      })
+      // // TODO REMOVE THIS
+      // const userResponse = await axios.get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {
+      //   headers: {
+      //     "auth-token" : localStorage.getItem('token')
+      //   }
+      // })
   
-      console.log(userResponse.data)
+      // console.log(userResponse.data)
 
 
       } catch (error) {

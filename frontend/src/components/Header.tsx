@@ -11,6 +11,7 @@ import {
   Stack,
   useModalContext,
 } from "@chakra-ui/react";
+import { BrowserRouter as Router, Route, Link, useHistory } from "react-router-dom";
 
 import logo from "../images/logo.png";
 
@@ -18,15 +19,20 @@ import {UseModalContext} from '../ModalContex'
 
 interface Props {}
 
-const Header = (props: Props) => {
+const Header : React.FC = (props: Props) => {
 
   const {isOpen,onClose,onOpen} = UseModalContext()
+
+  const history = useHistory()
+
   return (
    <>
    
       <HStack w="100%"  h="10vh" position="fixed" background="white" boxShadow="md" zIndex="100">
         <Box w="90%"  ml="4" mt="2">
-          <Image src={logo} boxSize="50px" />
+         
+          <Image src={logo} boxSize="50px" onClick={()=>history.push("/")}/>
+         
         </Box>
         <Stack direction="row" spacing={4} p="2">
     

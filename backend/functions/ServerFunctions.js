@@ -1,9 +1,10 @@
 const Inst_L = require("../models/Instruktor_Landing");
-const User = require("../models/User");
+const User_Auth = require("../models/User_Auth");
 
-async function  SetLandingInstructors  () {
+
+exports.SetLandingInstructors=  async  ()=> {
     //TODO TAKE ONLY INSTRUCTORS
-    const users = await User.find({})
+    const users = await User_Auth.find({})
     users.forEach(user =>{
         const {firstName,lastName,email} = user
         const instruktor = new Inst_L({
@@ -15,4 +16,3 @@ async function  SetLandingInstructors  () {
     })
 }
 
-module.exports.SetLandingInstructors = SetLandingInstructors

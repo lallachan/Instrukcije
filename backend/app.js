@@ -5,20 +5,16 @@ const app = express()
 
 
 const mongoose = require("mongoose")
-const dotenv = require("dotenv").config()
+const dotenv = require("dotenv").config({path:'./config/config.env'})
 const cors = require("cors")
 
 
 const {SetLandingInstructors } = require('./functions/ServerFunctions')
 const Instruktor_Landing = require("./models/Instruktor_Landing")
-
-console.log("Hey")
+const connect_to_DB = require('./config/db')
 
 //DB_CONNECT
-mongoose.connect(process.env.DB_CONNECT,{useUnifiedTopology: true ,useNewUrlParser: true},(msg)=>{
-
-    if(msg) console.log(msg)
- })
+connect_to_DB()
 
 
 //import Route
@@ -34,7 +30,7 @@ app.use(express.json())
 app.use(cors())
 
 
-app.use('/api/user',authRoute)
+app.use('/api/userAuth',authRoute)
 app.use('/api/landing',ladingRoute)
 
 app.get("/",(req,res)=>{

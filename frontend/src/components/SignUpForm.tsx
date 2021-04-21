@@ -31,7 +31,7 @@ export const SignUpForm: React.FC = (props: Props) => {
     try {
     
     console.log(data)
-    const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/user/register", data)
+    const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_REGISTER_ROUTE, data)
     console.log(response)
 
     } catch (error) {

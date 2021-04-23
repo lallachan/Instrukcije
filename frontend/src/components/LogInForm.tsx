@@ -14,6 +14,8 @@ import axios from "axios";
   import React from "react";
 import { useForm } from "react-hook-form";
   import {FaEnvelope,FaInfoCircle,FaLock} from 'react-icons/fa'
+import { useHistory } from "react-router";
+import { UseModalContext } from "../ModalContex";
   
 
   type LoginUser = {
@@ -25,7 +27,11 @@ import { useForm } from "react-hook-form";
   
   export const LogInForm: React.FC = (props: Props) => {
 
+    const {onClose} = UseModalContext()
+
     const { register, handleSubmit } = useForm<LoginUser>();
+
+    const history = useHistory()
 
     const onSubmit = handleSubmit( async(data) => {
 
@@ -34,7 +40,7 @@ import { useForm } from "react-hook-form";
       console.log(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_LOGIN_ROUTE)
       const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_LOGIN_ROUTE, data)
       console.log(response)
-      localStorage.setItem('token',response.data)
+      localStorage.setItem('token',response.data)// ! CHANGE THIS
 
       // // TODO REMOVE THIS
       // const userResponse = await axios.get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {
@@ -44,7 +50,8 @@ import { useForm } from "react-hook-form";
       // })
   
       // console.log(userResponse.data)
-
+      history.push("/myPage")
+      onClose()
 
       } catch (error) {
         console.log(error.response.data)

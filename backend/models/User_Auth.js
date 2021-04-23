@@ -19,6 +19,10 @@ const User_AuthSchema = mongoose.Schema({
         min:6,
         max:255
     },
+    emailVerifed:{
+        type:String,
+        default:false,
+    },
     password:{
         type:String,
         required:true,

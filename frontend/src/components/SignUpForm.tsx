@@ -56,7 +56,7 @@ export const SignUpForm: React.FC = (props: Props) => {
 
   const EmailValidation: React.FC = (props: Props) => {
 
-    return <VStack>
+    return <VStack justifyContent="left" textAlign="left">
       <Heading>Email validacija</Heading>
       <Text>Poruka je poslana na vašu e-mail adresu.Molim vas kliknite na link i validirajte email.
         Ukoliko poruka nije došla, pričekajte par minuta.

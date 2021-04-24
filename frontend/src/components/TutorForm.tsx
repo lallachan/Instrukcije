@@ -43,6 +43,7 @@ import {
   FaPhone,
 } from "react-icons/fa";
 import { useForm, Resolver } from "react-hook-form";
+import { getValueTransition } from "framer-motion/types/animation/utils/transitions";
 
 
 
@@ -78,6 +79,8 @@ const TutorForm: React.FC = (props: Props) => {
   const [toggleTab2, setToggleTab2] = useState(true);
   const [toggleTab3, setToggleTab3 ] = useState(true);
 
+  const [cijena, setCijena] = useState(0)
+
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
 
@@ -99,12 +102,12 @@ const TutorForm: React.FC = (props: Props) => {
 
   function handleSubmit(){
     setEndNoTag(tags.length===0)
-    const post = {...watch(),...watch2(),tags:[...tags]}
+    const post = {...watch(),...watch2(),tags:[...tags],cijena}
     console.log(post)
   }
 
   return (
-    <VStack h="max-content">
+    <VStack>
       <Stack backgroundColor="teal" w="100vw" mb="50">
         <Heading
           fontSize="50px"
@@ -117,7 +120,7 @@ const TutorForm: React.FC = (props: Props) => {
           Postanite instruktor u 3 koraka
         </Heading>
       </Stack>
-      <Tabs isFitted colorScheme="teal" mt="20" h="100vh" w="80vh" mx="auto">
+      <Tabs isFitted colorScheme="teal" mt="20"  w="80vh" mx="auto">
         <TabList mx="auto" defaultIndex={0} justifyContent="center">
           <Tab fontSize="2xl" ref={ref1}>
             1
@@ -129,7 +132,7 @@ const TutorForm: React.FC = (props: Props) => {
             3
           </Tab>
         </TabList>
-        <TabPanels h="500vh">
+        <TabPanels >
          
          
           <TabPanel>
@@ -401,6 +404,12 @@ const TutorForm: React.FC = (props: Props) => {
                        type="number"
                        placeholder="cijena/h"
                        variant="filled"
+                       value={cijena}
+                      onChange={(e:any)=>{
+                        let num:number = parseFloat(e.target.value)
+                        let cleannum:number = Number.parseFloat(num.toFixed(2))
+                        return setCijena(cleannum)
+                      }}
                        _hover={{ border: "2px solid teal" }}
                        
                      />

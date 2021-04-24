@@ -25,7 +25,7 @@ export const Form : React.FC = (props: Props) => {
                         <SignUpForm/>
                     </TabPanel>
                     <TabPanel>
-                        <LogInForm/>
+                        <LogInForm />
                     </TabPanel>
                 </TabPanels>
             </Tabs>

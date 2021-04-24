@@ -18,6 +18,7 @@ import {
 } from "react-router-dom";
 import { Button } from "@chakra-ui/button";
 import TutorForm from "./components/TutorForm";
+import TutorFormik from "./components/TutorFormik";
 
 function App() {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -28,33 +29,26 @@ function App() {
   };
 
   return (
-    // <Router>
-    // <VStack className="App">
-    //   <ModalContext.Provider value={modalValues}>
-    //   <Header/>
-    //   <LandingPage/>
-    //   <Footer/>
-    //   </ModalContext.Provider>
-    //   <LogInSignUpModal isOpen={modalValues.isOpen} onClose={modalValues.onClose} onOpen={modalValues.onOpen}/>
-    // </VStack>
-    // </Router>
+    
+
+
     <VStack className="App">
-     
       <ModalContext.Provider value={modalValues}>
         <Router>
-        <Header />
+          <Header />
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route path="/tutorSignUp" component={TutorForm} />
           </Switch>
+          <Footer />
+          <LogInSignUpModal
+            isOpen={modalValues.isOpen}
+            onClose={modalValues.onClose}
+            onOpen={modalValues.onOpen}
+          />
+         
         </Router>
-        <Footer />
       </ModalContext.Provider>
-      <LogInSignUpModal
-        isOpen={modalValues.isOpen}
-        onClose={modalValues.onClose}
-        onOpen={modalValues.onOpen}
-      />
     </VStack>
   );
 }

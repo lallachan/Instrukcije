@@ -4,68 +4,85 @@ import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
 import { Input } from "@chakra-ui/input";
 import { Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/modal";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/modal";
 import React from "react";
-import {FaEllo} from 'react-icons/fa'
+import { FaEllo, FaGraduationCap } from "react-icons/fa";
 import { Form } from "./Form";
 
-import {UseModalContext} from '../ModalContex'
-import { Link, Router as BrowserRouter, Router, useHistory } from "react-router-dom";
-
+import { UseModalContext } from "../ModalContex";
+import {
+  Link,
+  Router as BrowserRouter,
+  Router,
+  useHistory,
+} from "react-router-dom";
 
 interface Props {}
 
 export const Introduction: React.FC = (props: Props) => {
-
-  const {isOpen,onClose,onOpen} = UseModalContext()
-  const history = useHistory()
+  const { isOpen, onClose, onOpen } = UseModalContext();
+  const history = useHistory();
 
   return (
-    <VStack ml="4" maxW={{sm:'80vw'}}>
+    <VStack ml="4" maxW={{ sm: "80vw",md:"100vw" }}>
       <Heading
-      alignSelf="flex-start"
-      textAlign="left"
-      fontSize={["60px","60px","100px","100px"]}
-      >Pronađi instruktora</Heading>
+        alignSelf="flex-start"
+        textAlign="left"
+        fontSize={["60px", "60px", "100px", "100px"]}
+      >
+        Pronađi instruktora
+      </Heading>
       <Text
         as="h1"
-        fontSize={["70px","70px","100px","100px"]}
+        fontSize={["70px", "70px", "100px", "100px"]}
         fontWeight="bold"
         color="white"
         alignSelf="flex-start"
       >
         DANAS
       </Text>
-      <HStack w="100%"  direction={['row','row','row','row']}>
-        <Input placeholder="Pronađi instruktore" size="lg" background="white" w={['100%']}/>
+      <HStack w="100%" direction={["row", "row", "row", "row"]}>
+        <Input
+          placeholder="Pronađi instruktore"
+          size="lg"
+          background="white"
+          w={["100%"]}
+        />
         <Button backgroundColor="black" color="white" size="lg">
           Kreni
         </Button>
       </HStack>
-      <HStack w="100%" direction={['row','row','row','row']}>
-        <Button colorScheme="teal" variant="solid"  onClick={()=>{localStorage.setItem('login','1') ;onOpen()}}>
-          Log in
+      <HStack w="100%" direction={["row", "row", "row", "row"]}>
+        <Button
+          backgroundColor="black"
+          variant="solid"
+          color="white"
+          size="lg"
+          p="2"
+          alignSelf="flex-start"
+          _hover={{
+            padding: "30px",
+            fontSize:"30px"
+            
+          }}
+          
+          onClick={() => {
+            history.push("/tutorSignUp");
+          }}
+        >
+          Postani Instruktor 
+          
+        {/* <FaGraduationCap/> */}
         </Button>
-        <Button colorScheme="teal" variant="solid"  onClick={()=>{localStorage.setItem('login','0') ;onOpen()}}>
-          Sign up
-        </Button>
-       
-      
-     
-        <Button backgroundColor="black" variant="solid" color="white" alignSelf="flex-start"  p="2" onClick={()=>{
-          history.push("/tutorSignUp")
-        }}>
-          Postani Instruktor
-     
-        </Button>
-     
-       
-        
-       
-      </HStack>
 
-      
-     
+      </HStack>
     </VStack>
   );
 };

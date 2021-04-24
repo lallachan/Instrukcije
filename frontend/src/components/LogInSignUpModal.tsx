@@ -22,7 +22,7 @@ const LogInSignUpModal : React.FC<modalValues> = (props: modalValues) => {
                 <ModalOverlay />
                 <ModalContent backgroundColor="transparent" w={['100vw','100vw','50vw','50vw']}>
                     <ModalBody>
-                        <Form/>
+                        <Form />
                     </ModalBody>
                 </ModalContent>
                 

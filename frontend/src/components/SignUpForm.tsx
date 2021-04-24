@@ -7,12 +7,18 @@ import {
   FormControl,
   Icon,
   Button,
+  VStack,
+  Heading,
+  Text,
 } from "@chakra-ui/react";
 import axios, { AxiosResponse } from "axios";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEnvelope, FaInfoCircle, FaLock } from "react-icons/fa";
+
+
+
 
 type RegisterUser = {
   firstName: string;
@@ -26,6 +32,8 @@ interface Props {}
 export const SignUpForm: React.FC = (props: Props) => {
   const { register, handleSubmit } = useForm<RegisterUser>();
 
+  const [toggleEmailVal, seTtoggleEmailVal] = useState(false)
+
   const onSubmit = handleSubmit( async(data) => {
 
     try {
@@ -33,6 +41,9 @@ export const SignUpForm: React.FC = (props: Props) => {
     console.log(data)
     const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_REGISTER_ROUTE, data)
     console.log(response)
+    if (response.status == 200){
+      seTtoggleEmailVal(true)
+    }
 
     } catch (error) {
       console.log(error.response.data)
@@ -42,9 +53,22 @@ export const SignUpForm: React.FC = (props: Props) => {
   
   );
 
+  const EmailValidation: React.FC = (props: Props) => {
+
+    return <VStack>
+      <Heading>Email validacija</Heading>
+      <Text>Poruka je poslana na vašu e-mail adresu.Molim vas kliknite na link i validirajte email.
+        Ukoliko poruka nije došla, pričekajte par minuta.
+        Ukoliko ne vidite poruku pogledajte vaše poruke (neželjena pošta).
+      </Text>
+    </VStack>
+  }
 
 
-  return (
+
+
+  return (<>
+    {toggleEmailVal? <EmailValidation/> : 
     <form onSubmit={onSubmit}>
       {/* TODO ADD VALIDATION */}
       <Stack spacing={4}>
@@ -117,5 +141,8 @@ export const SignUpForm: React.FC = (props: Props) => {
         <br />
       </Stack>
     </form>
+
+    }
+    </>
   );
 };

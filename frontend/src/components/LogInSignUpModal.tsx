@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/hooks'
-import { Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/modal'
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay } from '@chakra-ui/modal'
 import React, { createContext, useContext } from 'react'
 import { Form } from './Form'
 
@@ -20,8 +20,11 @@ const LogInSignUpModal : React.FC<modalValues> = (props: modalValues) => {
         <Modal motionPreset="slideInBottom"  onClose={onClose} isOpen={isOpen}>
                
                 <ModalOverlay />
+              
                 <ModalContent backgroundColor="transparent" w={['100vw','100vw','50vw','50vw']}>
+               
                     <ModalBody>
+                    <ModalCloseButton/>
                         <Form />
                     </ModalBody>
                 </ModalContent>

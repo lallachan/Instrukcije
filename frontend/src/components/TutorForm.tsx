@@ -32,6 +32,7 @@ import { predmeti } from "../PREDMETI.json";
 import {
   FaAddressBook,
   FaClosedCaptioning,
+  FaDollarSign,
   FaEnvelope,
   FaEye,
   FaEyeSlash,
@@ -140,6 +141,7 @@ const TutorForm: React.FC = (props: Props) => {
               p="10"
               mt="10"
               isRounded="true"
+             
             >
          
               <FormControl isRequired>
@@ -364,7 +366,8 @@ const TutorForm: React.FC = (props: Props) => {
               </HStack>
               {endNOTag && <p>Unesite predmet .</p>}
               <Stack direction="row">
-                {tags.map((i: any) => (
+                {tags.map((i: any) => ( 
+                   
                   <Tag
                     size="lg"
                     p="5"
@@ -383,8 +386,26 @@ const TutorForm: React.FC = (props: Props) => {
                   >
                     {i}
                   </Tag>
+                  
+                
                 ))}
+                
               </Stack>
+              <FormControl isRequired>
+                   <InputGroup>
+                     <InputLeftElement
+                       pointerEvents="none"
+                       children={<FaDollarSign color="gray.300" />}
+                     />
+                     <Input
+                       type="number"
+                       placeholder="cijena/h"
+                       variant="filled"
+                       _hover={{ border: "2px solid teal" }}
+                       
+                     />
+                   </InputGroup>
+                 </FormControl>
             </Stack>
 
             <Button

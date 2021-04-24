@@ -38,7 +38,7 @@ export const SignUpForm: React.FC = (props: Props) => {
 
     try {
     
-    console.log(data)
+
     const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_REGISTER_ROUTE, data)
     console.log(response)
     if (response.status == 200){
@@ -46,7 +46,8 @@ export const SignUpForm: React.FC = (props: Props) => {
     }
 
     } catch (error) {
-      console.log(error.response.data)
+  
+     console.log(error.response.data)
     }
 
   }

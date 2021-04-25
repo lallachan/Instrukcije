@@ -107,11 +107,11 @@ const TutorForm: React.FC = (props: Props) => {
   }
 
   return (
-    <VStack>
-      <Stack backgroundColor="teal" w="100vw" mb="50">
+    <div>
+    <VStack w="100vw">
+      <Box backgroundColor="teal" w="100vw" mb="50">
         <Heading
           fontSize="50px"
-          isTruncated
           mt="20"
           color="white"
           backgroundColor="teal"
@@ -119,9 +119,9 @@ const TutorForm: React.FC = (props: Props) => {
         >
           Postanite instruktor u 3 koraka
         </Heading>
-      </Stack>
-      <Tabs isFitted colorScheme="teal" mt="20"  w="80vh" mx="auto">
-        <TabList mx="auto" defaultIndex={0} justifyContent="center">
+      </Box>
+      <Tabs isFitted colorScheme="teal" mt="20" w="80vw" mx="auto">
+        <TabList defaultIndex={0} mx="auto" justifyContent="center" w={["80vw","40vw","40vw","40vw"]}>
           <Tab fontSize="2xl" ref={ref1}>
             1
           </Tab>
@@ -144,6 +144,8 @@ const TutorForm: React.FC = (props: Props) => {
               p="10"
               mt="10"
               isRounded="true"
+              mx="auto"
+              w={["80vw","50vw","30vw","30vw"]}
              
             >
          
@@ -239,7 +241,7 @@ const TutorForm: React.FC = (props: Props) => {
             <Heading>Osnovni podaci</Heading>
 
             <Stack
-              maxW = {{md:"2xl",sm:"xs"}}
+             
               spacing={4}
               border="2px solid teal"
              
@@ -248,6 +250,7 @@ const TutorForm: React.FC = (props: Props) => {
               mt="10"
               isRounded="true"
               mx="auto"
+              w={["80vw","50vw","30vw","30vw"]}
             >
               <FormControl isRequired>
                 <Textarea
@@ -349,6 +352,8 @@ const TutorForm: React.FC = (props: Props) => {
               p="10"
               mt="10"
               isRounded="true"
+              mx="auto"
+              w={["80vw","50vw","30vw","30vw"]}
             >
               <Heading fontSize="2xl">Dodajte predmete koje predajete</Heading>
               <HStack>
@@ -436,7 +441,7 @@ const TutorForm: React.FC = (props: Props) => {
           
         </TabPanels>
       </Tabs>
-    </VStack>
+    </VStack></div>
   );
 };
 

@@ -135,7 +135,7 @@ const TutorForm: React.FC = (props: Props) => {
         <TabPanels >
          
          
-          <TabPanel>
+          <TabPanel >
             <Heading>Registracija</Heading>
             <Stack
               spacing={4}
@@ -239,8 +239,10 @@ const TutorForm: React.FC = (props: Props) => {
             <Heading>Osnovni podaci</Heading>
 
             <Stack
+              maxW = {{md:"2xl",sm:"xs"}}
               spacing={4}
               border="2px solid teal"
+             
               borderRadius="10"
               p="10"
               mt="10"

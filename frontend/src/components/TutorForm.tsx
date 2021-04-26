@@ -121,7 +121,7 @@ const TutorForm: React.FC = (props: Props) => {
           Postanite instruktor u 3 koraka
         </Heading>
       </Box>
-      <Tabs isFitted colorScheme="teal" mt="20" w="80vw" mx="auto">
+      <Tabs isFitted colorScheme="teal" mt="20" w="100vw" mx="auto">
         <TabList defaultIndex={0} mx="auto" justifyContent="center" w={["80vw","40vw","40vw","40vw"]}>
           <Tab fontSize="2xl" ref={ref1}>
             1
@@ -146,7 +146,7 @@ const TutorForm: React.FC = (props: Props) => {
               mt="10"
               isRounded="true"
               mx="auto"
-              w={["80vw","50vw","30vw","30vw"]}
+              w={["80vw","50vw","50vw","50vw","30vw"]}
              
             >
          
@@ -251,7 +251,7 @@ const TutorForm: React.FC = (props: Props) => {
               mt="10"
               isRounded="true"
               mx="auto"
-              w={["80vw","50vw","30vw","30vw"]}
+              w={["80vw","50vw","50vw","50vw","30vw"]}
             >
               <FormControl isRequired>
                 <Textarea
@@ -354,7 +354,7 @@ const TutorForm: React.FC = (props: Props) => {
               mt="10"
               isRounded="true"
               mx="auto"
-              w={["80vw","80vw","30vw","50vw"]}
+              w={["80vw","80vw","80vw","80vw","50vw"]}
             >
               <Heading fontSize="2xl">Dodajte predmete koje predajete</Heading>
               <HStack>

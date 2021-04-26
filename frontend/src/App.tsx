@@ -18,7 +18,6 @@ import {
 } from "react-router-dom";
 import { Button } from "@chakra-ui/button";
 import TutorForm from "./components/TutorForm";
-import TutorFormik from "./components/TutorFormik";
 
 function App() {
   const { isOpen, onClose, onOpen } = useDisclosure();

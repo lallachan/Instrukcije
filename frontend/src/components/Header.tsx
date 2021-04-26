@@ -34,7 +34,7 @@ const Header : React.FC = (props: Props) => {
           <Image src={logo} boxSize="50px" onClick={()=>history.push("/")}/>
          
         </Box>
-        <Stack direction="row" spacing={4} p="2">
+        <Stack direction="row" spacing={4} p="4">
     
         <Button colorScheme="teal" variant="solid" onClick={()=>{localStorage.setItem('login','1') ;onOpen()}} >
             Log in

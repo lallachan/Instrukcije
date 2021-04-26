@@ -6,6 +6,7 @@ import charka, {
   Flex,
   flexbox,
   FormControl,
+  Grid,
   Heading,
   HStack,
   Input,
@@ -257,7 +258,7 @@ const TutorForm: React.FC = (props: Props) => {
                   placeholder="A simple description about you..."
                   variant="filled"
                   _hover={{ border: "2px solid teal" }}
-                  {...register2("desc",{required:true, maxLength:"100"})}
+                  {...register2("desc",{required:true,minLength:"50",maxLength:"1000"})}
 
                 />
               </FormControl>
@@ -353,7 +354,7 @@ const TutorForm: React.FC = (props: Props) => {
               mt="10"
               isRounded="true"
               mx="auto"
-              w={["80vw","50vw","30vw","30vw"]}
+              w={["80vw","80vw","30vw","50vw"]}
             >
               <Heading fontSize="2xl">Dodajte predmete koje predajete</Heading>
               <HStack>
@@ -375,13 +376,16 @@ const TutorForm: React.FC = (props: Props) => {
                 </Button>
               </HStack>
               {endNOTag && <p>Unesite predmet .</p>}
-              <Stack direction="row">
+              <Grid  templateColumns={["repeat(2, 1fr)","repeat(2, 1fr)","repeat(3, 1fr)","repeat(4, 1fr)"]} gap={3} w="100%">
                 {tags.map((i: any) => ( 
                    
                   <Tag
+                    
+                    p="12"
+                    w="100%"
+                    h="10"
                     size="lg"
-                    p="5"
-                    w="10vw"
+                    fontSize="1rem"
                     justify="center"
                     textAlign="center"
                     justifyContent="center"
@@ -396,11 +400,11 @@ const TutorForm: React.FC = (props: Props) => {
                   >
                     {i}
                   </Tag>
-                  
+               
                 
                 ))}
-                
-              </Stack>
+                   
+              </Grid>
               <FormControl isRequired>
                    <InputGroup>
                      <InputLeftElement

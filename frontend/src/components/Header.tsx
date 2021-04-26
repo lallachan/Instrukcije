@@ -28,13 +28,13 @@ const Header : React.FC = (props: Props) => {
   return (
    <>
    
-      <HStack w="100%"  h="10vh" position="fixed" background="white" boxShadow="md" zIndex="100">
+      <HStack w="100vw"  h="10vh" position="fixed"  background="white" boxShadow="md" zIndex="100">
         <Box w="90%"  ml="4" mt="2">
          
           <Image src={logo} boxSize="50px" onClick={()=>history.push("/")}/>
          
         </Box>
-        <Stack direction="row" spacing={4} p="2">
+        <Stack direction="row" spacing={4} p="4">
     
         <Button colorScheme="teal" variant="solid" onClick={()=>{localStorage.setItem('login','1') ;onOpen()}} >
             Log in

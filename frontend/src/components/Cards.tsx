@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Flex,
+  Grid,
   Heading,
   HStack,
   Image,
@@ -56,44 +57,42 @@ const Cards: React.FC = (props: Props) => {
 
 
   return (
-    <VStack>
+    <VStack w="100vw">
       <Heading mt="10">Most Popular</Heading>
       <Divider mb="10" />
  
       
-      <Flex  justify="center" p="20" w="100%" direction={['column','column','column','row']}
+      <Grid p="2" templateColumns={["repeat(1, 1fr)","repeat(2, 1fr)","repeat(2, 1fr)","repeat(4, 1fr)"]} gap={3} w={["100%","100%","80%","80%"]}>
       
-    >
+    
         {tutors.length===0?null:tutors.map((tutor) => {
-          console.log(tutor)
+          
           return (
           
             <Box
               key={tutor.id}
               border="1px solid teal"
-              borederRadius="20%"
-              height="100%"
-              p="10"
-              w={{sm:"100%"}}
+              p="8"
               
+             
               
             >
               <VStack>
                 <Image
                   mt="8"
                   borderRadius="full"
-                  boxSize="150px"
+                  boxSize=""
                   src="https://bit.ly/sage-adebayo"
                   alt="Segun Adebayo"
                 />
-                <Heading>{tutor.firstName} {tutor.lastName}</Heading>
+                <Heading h="20">{tutor.firstName} {tutor.lastName}</Heading>
                 <Text>
                   {tutor.tags.map((tag,indx)=>{
    
                    return  <Tag key={indx}>{tag}</Tag>
                   })}
                 </Text>
-                <Text >
+                <Text justifyContent="center">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
                   maiores ullam, enim aliquid dolorem veritatis facilis
                   perspiciatis ipsa deleniti doloribus obcaecati nobis provident
@@ -102,17 +101,19 @@ const Cards: React.FC = (props: Props) => {
                  
 
                 </Text>
-                
-                <Button colorScheme="teal" variant="solid">
-                  More
+               
+
+                <Button colorScheme="teal" variant="solid" mt="10">
+                  Više
                 </Button>
+               
               </VStack>
              
             </Box>
            
           );
         })}
-      </Flex>
+      </Grid>
      
     </VStack>
   );

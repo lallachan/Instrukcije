@@ -14,10 +14,10 @@ const LandingPage: React.FC = () => {
 
 
   return (
-    <VStack>
+    <VStack w="100vw">
       
       <Main />
-      <Cards />
+      <Cards/>
      
 
     </VStack>

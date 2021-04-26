@@ -16,6 +16,9 @@ const bcrypt = require("bcryptjs");
 
 const {verifyToken,verifyEmail} = require("./validations/verifys")
 
+
+//? REGISTER FUNCTION  ---- START
+
 // *@desc register User
 // *@route POST /api/userAuth/register
 // *@acces Public
@@ -89,11 +92,6 @@ exports.registerUser = async (req, res) => {
     });
   }
 };
-
-
-
-
-
 
 
 // *@desc register Instruktor
@@ -178,13 +176,16 @@ exports.registerInstruktor= async(req,res)=>{
 2525
 }
 
+
 // *@desc validete User email
 // *@route GET /api/userAuth/register/confirmation/:token
 // *@acces Public
 exports.validateEmail = async (req,res)=>{
+
+
   try{
-    const {_id} = jwt.verify(req.params.token,process.env.EMAIL_SECRET)
-    const user = await userAuth.findById(_id)
+  
+    const user = await req.Model.findById(req.user_id)
    
     if(user.emailVerifed == false){
       return res.status(200).send("Email already verifed")
@@ -205,10 +206,20 @@ exports.validateEmail = async (req,res)=>{
   
 }
 
+//? REGISTER FUNCTION  ---- END
 
 
 
 
+
+
+
+
+//? LOGIN FUNCTIONS  ---- START
+
+
+
+// * helper
 
 
 // *@desc login User returns JWT
@@ -222,12 +233,17 @@ exports.loginUser = async (req, res) => {
   try {
 
 
-    const user = await userAuth.findOne({ email: req.body.email });
+    let user = await userAuth.findOne({ email: req.body.email });
+    if(!user){
+       user = await Instruktor.findOne({ email: req.body.email });
+    }
     if (!user) {
       return res.status(400).send("Invalid email or password/E"); //! TODO REMOREgit  E and P
     }
+    
+  
     //Check Password
-    const validPass = await bcrypt.compare(req.body.password, user.password);
+    const validPass= await bcrypt.compare(req.body.password, user.password);
     if (!validPass) {
       return res.status(400).send("Invalid email or password/P"); //! TODO REMORE E and P
     }
@@ -243,4 +259,7 @@ exports.loginUser = async (req, res) => {
     console.log(error);
   }
 };
+
+//? LOGIN FUNCTIONS  ---- END
+
 

@@ -19,6 +19,7 @@ connect_to_DB()
 
 //import Route
 const authRoute = require('./routes/auth')
+const userRoute = require('./routes/user')
 const ladingRoute = require('./routes/landing')
 
 
@@ -31,6 +32,7 @@ app.use(cors())
 
 
 app.use('/api/userAuth',authRoute)
+app.use('/api/user',userRoute)
 app.use('/api/landing',ladingRoute)
 
 app.get("/",(req,res)=>{

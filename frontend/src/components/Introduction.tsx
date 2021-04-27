@@ -16,7 +16,7 @@ import React from "react";
 import { FaEllo, FaGraduationCap } from "react-icons/fa";
 import { Form } from "./Form";
 
-import { UseModalContext } from "../ModalContex";
+import { UseModalContext } from "./Contexts/ModalContex";
 import {
   Link,
   Router as BrowserRouter,
@@ -31,7 +31,7 @@ export const Introduction: React.FC = (props: Props) => {
   const history = useHistory();
 
   return (
-    <VStack ml="4" maxW={{ sm: "80vw",md:"100vw" }}>
+    <VStack ml="4" maxW={{ sm: "100vw",md:"100vw",lg:"50vw",xl:"50vw" }}>
       <Heading
         alignSelf="flex-start"
         textAlign="left"

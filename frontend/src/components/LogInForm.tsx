@@ -10,12 +10,14 @@ import {
     FormHelperText,
   } from "@chakra-ui/react";
 import axios from "axios";
+import { isContext } from "node:vm";
   
   import React from "react";
 import { useForm } from "react-hook-form";
   import {FaEnvelope,FaInfoCircle,FaLock} from 'react-icons/fa'
 import { useHistory } from "react-router";
-import { UseModalContext } from "../ModalContex";
+import { HeaderContext, UseHeaderContext } from "./Contexts/HeaderContext";
+import { UseModalContext } from "./Contexts/ModalContex";
   
 
   type LoginUser = {
@@ -32,6 +34,10 @@ import { UseModalContext } from "../ModalContex";
     const { register, handleSubmit } = useForm<LoginUser>();
 
     const history = useHistory()
+    
+  const {setJwt} = UseHeaderContext()
+
+   
 
     const onSubmit = handleSubmit( async(data) => {
 
@@ -40,7 +46,13 @@ import { UseModalContext } from "../ModalContex";
       console.log(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_LOGIN_ROUTE)
       const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_LOGIN_ROUTE, data)
       console.log(response)
-      localStorage.setItem('token',response.data)// ! CHANGE THIS
+      setJwt(response.data)
+      
+
+      
+        
+
+
 
       // // TODO REMOVE THIS
       // const userResponse = await axios.get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {

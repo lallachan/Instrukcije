@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const extendSchema = require('mongoose-extend-schema');
+
 
 const User_AuthSchema = mongoose.Schema({
     firstName:{
@@ -35,4 +37,53 @@ const User_AuthSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('User_Auth',User_AuthSchema)
+
+
+const Insturktor_Schema = extendSchema(User_AuthSchema,{
+    desc:{
+        type:String,
+        required:true,
+        max:5000,
+        min:50,
+    },
+    phoneNumber:{
+        type:String,
+        required:true,
+        max:30,
+        min:5
+    },
+    address:{
+        type:String,
+        required:[true,'Please add an address'],
+        max:50
+    },
+    zip:{
+        type:String,
+        required:[true,'Please add an Zip'],
+    },
+    tags:{
+        type:[String]
+    },
+    price:{
+        type:Number,
+        required:true,
+        min:1
+    },
+    location:{
+        type:{
+            type:String,
+            enum:['Point'],
+        },
+        coordinates:{
+            type:[Number],
+            index: '2dsphere'
+        },
+        formattedAdress:String,
+        city:String
+    }
+})
+
+module.exports.Instruktor = mongoose.model('Instruktor',Insturktor_Schema)
+module.exports.userAuth = mongoose.model('User_Auth',User_AuthSchema)
+
+

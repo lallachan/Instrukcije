@@ -80,7 +80,21 @@ const Insturktor_Schema = extendSchema(User_AuthSchema,{
         },
         formattedAdress:String,
         city:String
+    },
+    rating:{
+        type:Number,
+        default:0
+    },
+    timesRated:{
+        type:Number,
+        default:0
+    },
+    imageUrl:{
+        type:String,
+        default:null
     }
+
+
 })
 
 module.exports.Instruktor = mongoose.model('Instruktor',Insturktor_Schema)

@@ -18,4 +18,19 @@ exports.getUserData = async (req,res)=>{
 
 }
 
+exports.updateUserImage = async (req,res)=>{
+  
+    try {
+        const user = await req.Model.findById(req.user_id)
+ 
+        if(!req.body.imageUrl) return res.status(400).send("imageUrl missing")
+
+        user.imageUrl = req.body.imageUrl
+        await user.save()
+        res.status(200).send("Image Upload Successfully")
+    } catch (error) {
+        console.log(err)
+    }
+}
+
 //? USER DATA FUNCTIONS   ----------END

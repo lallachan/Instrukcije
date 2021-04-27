@@ -38,12 +38,15 @@ const registerInstruktorValidation = (register_obj)=>{
     address:Joi.string().max(50).required(),
     zip:Joi.string().pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/)).min(5).max(5).required(),
     tags:Joi.array().items(Joi.string().required()).required(),
-    price:Joi.number().min(1).required()
+    price:Joi.number().min(1).required(),
   });
    const {error} = register_schema.validate(register_obj);
   return error;
  
 }
+
+
+
 
 module.exports.registerValidation = registerValidation
 module.exports.registerInstruktorValidation = registerInstruktorValidation

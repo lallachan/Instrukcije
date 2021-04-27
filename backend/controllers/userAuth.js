@@ -30,9 +30,11 @@ exports.registerUser = async (req, res) => {
   }
 
   try {
-    if (verifyEmail(req.body.email)) {
-      return res.status(400).send("Email already exsists");
+    //Verify if email already exists
+    if(await verifyEmail(req.body.email)){
+      return res.status(400).send("Email is already in use")
     }
+
   } catch (error) {
     console.log(error);
   }

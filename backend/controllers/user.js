@@ -27,7 +27,17 @@ exports.getUserData = async (req,res)=>{
 
 
 
+exports.addReview = async (req,res)=>{ 
+    console.log("hey")
+    return res.json({})
 
+}
+
+exports.addRating = async (req,res)=>{ 
+    console.log("hey")
+    return res.json({})
+
+}
 
 // *@desc update User image 
 // *@route PUT /api/user/updateImage

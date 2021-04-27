@@ -62,7 +62,7 @@ const Cards: React.FC = (props: Props) => {
       <Divider mb="10" />
  
       
-      <Grid p="2" templateColumns={["repeat(1, 1fr)","repeat(2, 1fr)","repeat(2, 1fr)","repeat(4, 1fr)"]} gap={3} w={["100%","100%","80%","80%"]}>
+      <Grid p="2" templateColumns={["repeat(1, 1fr)","repeat(2, 1fr)","repeat(2, 1fr)","repeat(4, 1fr)"]} gap={4} w={["100%","100%","80%","80%"]}>
       
     
         {tutors.length===0?null:tutors.map((tutor) => {

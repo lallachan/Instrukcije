@@ -90,9 +90,7 @@ exports.registerUser = async (req, res) => {
       res.send({ user: user._id });
   } catch (err) {
     console.log(err)
-    res.status(400).send({
-      msg: err,
-    });
+    res.status(400).send(err);
   }
 };
 

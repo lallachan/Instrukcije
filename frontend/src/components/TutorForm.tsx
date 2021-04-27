@@ -47,6 +47,7 @@ import {
 import { useForm, Resolver } from "react-hook-form";
 import { getValueTransition } from "framer-motion/types/animation/utils/transitions";
 import logo from "../images/logoEmail.png";
+import axios from "axios";
 
 type TutorStep1 = {
   firstName: string;
@@ -59,7 +60,7 @@ type TutorStep2 = {
   desc: string;
   phoneNumber: RegExp;
   address: string;
-  zipCode: RegExp;
+  zip: RegExp;
 };
 
 interface Props {}
@@ -85,16 +86,20 @@ const TutorForm: React.FC = (props: Props) => {
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
 
+  const [error, setError] = useState("")
+
   const [toggleEmailVal, seTtoggleEmailVal] = useState(false);
 
   const {
     watch,
     register,
+    handleSubmit,
     formState: { errors, isValid },
   } = useForm<TutorStep1>({ mode: "all" });
   const {
     watch: watch2,
     register: register2,
+    handleSubmit : handleSubmit2,
     formState: { errors: errors2, isValid: isValid2 },
   } = useForm<TutorStep2>({ mode: "all" });
 
@@ -110,12 +115,35 @@ const TutorForm: React.FC = (props: Props) => {
     setTags([...tags, value]);
   }
 
-  function handleSubmit() {
-    setEndNoTag(tags.length === 0);
-    const post = { ...watch(), ...watch2(), tags: [...tags], price };
-    console.log(post);
-    seTtoggleEmailVal(true);
-  }
+
+    const onSubmit =  (e:any)=>{
+      console.log(e)
+      e.preventDefault()
+      const post = {...watch(),...watch2(),tags,price}
+      
+      axios.post("http://localhost:5000/api/userAuth/registerInstruktor",post)
+
+      .then(res=> {
+        setError("")
+        seTtoggleEmailVal(true);
+      }
+       
+        )
+      .catch(err=>{
+        console.log(err.response.data)
+        setError(err.response.data + "")
+        ref1.current.click()
+        
+      }
+       
+        )
+    }
+
+    
+
+  
+  
+  
 
   const EmailValidation: React.FC = (props: Props) => {
     return (
@@ -141,6 +169,7 @@ const TutorForm: React.FC = (props: Props) => {
 
   return (
     <div>
+      <form onSubmit={(e)=>onSubmit(e)}>
       <VStack w="100vw">
         <Box backgroundColor="teal" w="100vw" mb="50">
           <Heading
@@ -172,7 +201,12 @@ const TutorForm: React.FC = (props: Props) => {
           </TabList>
           <TabPanels>
             <TabPanel>
+              {error}
               <Heading>Registracija</Heading>
+              
+
+
+              
               <Stack
                 spacing={4}
                 border="2px solid teal"
@@ -268,6 +302,7 @@ const TutorForm: React.FC = (props: Props) => {
               <Button
                 mt="10"
                 w="2xs"
+                type="button"
                 mb="20"
                 disabled={!isValid}
                 onClick={() => {
@@ -277,10 +312,11 @@ const TutorForm: React.FC = (props: Props) => {
               >
                 Next
               </Button>
+            
             </TabPanel>
             <TabPanel>
               <Heading>Osnovni podaci</Heading>
-
+             
               <Stack
                 spacing={4}
                 border="2px solid teal"
@@ -358,7 +394,7 @@ const TutorForm: React.FC = (props: Props) => {
                       placeholder="Zip code"
                       variant="filled"
                       _hover={{ border: "2px solid teal" }}
-                      {...register2("zipCode", {
+                      {...register2("zip", {
                         required: true,
                         maxLength: "5",
                         pattern: /^\d{5}(?:[-\s]\d{4})?$/,
@@ -378,6 +414,7 @@ const TutorForm: React.FC = (props: Props) => {
               >
                 <Button
                   w="50%"
+                  type="button"
                   onClick={() => {
                     ref1.current.click();
                   }}
@@ -386,6 +423,7 @@ const TutorForm: React.FC = (props: Props) => {
                 </Button>
                 <Button
                   w="50%"
+                  type="button"
                   disabled={!isValid2}
                   onClick={() => {
                     setToggleTab3(false);
@@ -426,6 +464,7 @@ const TutorForm: React.FC = (props: Props) => {
                         </Select>
                       </FormControl>
                       <Button
+                      type="button"
                         onClick={() => {
                           dodajTag(selectRef.current.value);
                         }}
@@ -499,6 +538,7 @@ const TutorForm: React.FC = (props: Props) => {
                   >
                     <Button
                       w="50%"
+                      type="button"
                       onClick={() => {
                         ref2.current.click();
                       }}
@@ -507,20 +547,22 @@ const TutorForm: React.FC = (props: Props) => {
                     </Button>
                     <Button
                       w="50%"
-                      onClick={() => {
-                        handleSubmit();
-                      }}
+                      type="submit"
+                      
                     >
                       Završi
                     </Button>
+                   
                   </Stack>
+                  
                 </>
+                
               )}
             </TabPanel>
           </TabPanels>
         </Tabs>
       </VStack>
-    </div>
+      </form> </div>
   );
 };
 

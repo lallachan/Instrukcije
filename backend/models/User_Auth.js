@@ -34,6 +34,10 @@ const User_AuthSchema = mongoose.Schema({
     date:{
         type:Date,
         default:Date.now
+    },
+    imageUrl :{
+        type: String,
+        default:null
     }
 })
 
@@ -89,10 +93,7 @@ const Insturktor_Schema = extendSchema(User_AuthSchema,{
         type:Number,
         default:0
     },
-    imageUrl:{
-        type:String,
-        default:null
-    }
+ 
 
 
 })

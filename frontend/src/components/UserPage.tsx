@@ -1,5 +1,4 @@
 import Icon from "@chakra-ui/icon";
-import { Image } from "@chakra-ui/image";
 import {
   Box,
   Divider,
@@ -18,29 +17,105 @@ import {
   TabPanel,
   Tag,
   Grid,
+  Image,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaCommentAlt,
-    FaDollarSign,
+  FaDollarSign,
+  FaImage,
   FaMapMarker,
   FaMapMarkerAlt,
   FaStar,
   FaUser,
 } from "react-icons/fa";
 import image from "../images/profileImage.jpg";
+import avatar from "../images/avatar.png";
+import axios from "axios";
+import { UseHeaderContext } from "./Contexts/HeaderContext";
+import _ from "lodash";
 
 interface Props {}
 
 const UserPage: React.FC = (props: Props) => {
   const arr = [1, 2, 3, 5];
 
-    // useEffect(() => {
-    //    if(data == ""){
-        
-    //    }
-    // }, [])
+  const [picture, setPicture] = useState(null);
+  const [imgData, setImgData] = useState<any>(avatar);
 
+  const { jwt, data, setData } = UseHeaderContext();
+  useEffect(() => {
+    if (_.isEmpty(data)) {
+      axios
+        .get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {
+          headers: { "auth-token": jwt },
+        })
+        .then((res) => {
+          setData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    const help: any = data;
+
+    if (!_.isEmpty(help.imageUrl)) {
+      setImgData(
+        "https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/" +
+          help.imageUrl
+      );
+    } else {
+      setImgData(avatar);
+    }
+  }, [data]);
+
+  const nes: any = window;
+  let widget_nes = nes.cloudinary.createUploadWidget(
+    {
+      cloudName: "dbfwwnhat",
+      uploadPreset: "jydos0sa",
+      folder: "users",
+      //  cropping:true,
+      name: "hey",
+    },
+    (error: any, result: any) => {
+      if (result.event === "success") {
+        console.log(result.info);
+        updateImage(result.info.path);
+      }
+    }
+  );
+
+  async function updateImage(imgUrl: string) {
+    setImgData(
+      "https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/" +
+        imgUrl
+    );
+    try {
+      const res = await axios.put(
+        process.env.REACT_APP_SERVER_CONNECT + "/api/user/updateImage",
+        { imageUrl: imgUrl },
+        {
+          headers: {
+            "auth-token": jwt,
+          },
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  function showWidget() {
+    widget_nes.open();
+  }
 
   return (
     <Stack h="300vh" w="100vw" direction="row">
@@ -48,8 +123,11 @@ const UserPage: React.FC = (props: Props) => {
 
       <VStack w="30%" mt="20">
         <Box boxSize="sm">
-          <Image src={image} />
-
+          <Image borderRadius="full" boxSize="300px" src={imgData} />
+          <Button onClick={showWidget}>
+            <Icon children={<FaImage />} />
+            Upload photo
+          </Button>
           <Divider mt="10" />
 
           <Stack mt="10">
@@ -83,14 +161,8 @@ const UserPage: React.FC = (props: Props) => {
         </Box>
       </VStack>
 
-      <VStack
-        w="40%"
-       
-        textAlign="left"
-        justifyContent="left"
-        
-      >
-        <Stack  w="100%" mt="70px" p="10" spacing={6}>
+      <VStack w="40%" textAlign="left" justifyContent="left">
+        <Stack w="100%" mt="70px" p="10" spacing={6}>
           <HStack>
             <Heading as="h2" size="2xl">
               Ivan Rakitić
@@ -99,16 +171,32 @@ const UserPage: React.FC = (props: Props) => {
             <Stack w="50%" direction="row">
               <Icon w={8} h={8} children={<FaMapMarkerAlt />}></Icon>
               <Text>Zagreb,Croatia</Text>
+
+              <Stat>
+                <StatLabel>Collected Fees</StatLabel>
+                <StatNumber>£0.00</StatNumber>
+                <StatHelpText>Feb 12 - Feb 28</StatHelpText>
+              </Stat>
             </Stack>
           </HStack>
 
           <Grid templateColumns="repeat(5, 1fr)" gap={6}>
-                    <Tag w="100%" h="10" size="lg">Matematika</Tag>
-                    <Tag w="100%" h="10" size="lg">Fizika</Tag>
-                    <Tag w="100%" h="10" size="lg" >Hrvatski</Tag>
-                    <Tag w="100%" h="10" size="lg" >Hrvatski</Tag>
-                    <Tag w="100%" h="10" size="lg" >Hrvatski</Tag>
-                    </Grid>
+            <Tag w="100%" h="10" size="lg">
+              Matematika
+            </Tag>
+            <Tag w="100%" h="10" size="lg">
+              Fizika
+            </Tag>
+            <Tag w="100%" h="10" size="lg">
+              Hrvatski
+            </Tag>
+            <Tag w="100%" h="10" size="lg">
+              Hrvatski
+            </Tag>
+            <Tag w="100%" h="10" size="lg">
+              Hrvatski
+            </Tag>
+          </Grid>
 
           <Text>Rang</Text>
           <HStack w="100%">
@@ -121,51 +209,34 @@ const UserPage: React.FC = (props: Props) => {
           </HStack>
 
           <HStack w="100%" mt="20" spacing={4}>
-            <Button w="50%" p="4"  size="lg">
+            <Button w="50%" p="4" size="lg">
               <Icon w={6} h={6} color="black" children={<FaCommentAlt />} />
               Send Message
             </Button>
-            
-           
           </HStack>
         </Stack>
 
-     
-       
-        <Divider/>
-       
-            
-        
-              <VStack textAlign="left" alignContent="left" >
-                  <Stack spacing={4} w="100%" textAlign="left" justifyContent="left" alignContent="left">
-                  <Text>Phone : +385 9378543324</Text>
-                  <Text>Address : 2826  Del Dew Drive </Text>
-                  <Text>Email : z4599ug0ay@temporary-mail.net</Text>
-                  <Text>www.google.com</Text>
-                  
-                  
-                  
+        <Divider />
 
+        <VStack textAlign="left" alignContent="left">
+          <Stack
+            spacing={4}
+            w="100%"
+            textAlign="left"
+            justifyContent="left"
+            alignContent="left"
+          >
+            <Text>Phone : +385 9378543324</Text>
+            <Text>Address : 2826 Del Dew Drive </Text>
+            <Text>Email : z4599ug0ay@temporary-mail.net</Text>
+            <Text>www.google.com</Text>
 
-                  <Text><FaDollarSign/>100kn/h</Text>
-                  </Stack>
-
-
-
-                    
-                  
-              </VStack>
-       
-            
-            
-
-           
-              
-             
-        
-            
-         
-   
+            <Text>
+              <FaDollarSign />
+              100kn/h
+            </Text>
+          </Stack>
+        </VStack>
       </VStack>
     </Stack>
   );

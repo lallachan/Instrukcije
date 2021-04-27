@@ -23,6 +23,7 @@ const {verifyToken,verifyEmail} = require("./validations/verifys")
 // *@route POST /api/userAuth/register
 // *@acces Public
 exports.registerUser = async (req, res) => {
+
   const error = registerValidation(req.body);
 
   if (error) {
@@ -98,10 +99,13 @@ exports.registerUser = async (req, res) => {
 // *@route POST /api/userAuth/registerInstruktor
 // *@acces Public
 exports.registerInstruktor= async(req,res)=>{
+
   const error = registerInstruktorValidation(req.body)
+ 
   if(error){
     return res.status(400).send(error.details[0].message);
   }
+
   const NEW_ID =   await new mongoose.mongo.ObjectId();
 
   try{
@@ -166,7 +170,7 @@ exports.registerInstruktor= async(req,res)=>{
    
  });
 
- //user.save()
+ user.save()
  return res.status(200).json({id:user._id})
 
   }catch(err){

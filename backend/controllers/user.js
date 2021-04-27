@@ -26,8 +26,9 @@ exports.updateUserImage = async (req,res)=>{
         if(!req.body.imageUrl) return res.status(400).send("imageUrl missing")
 
         user.imageUrl = req.body.imageUrl
+        console.log( user.imageUrl)
         await user.save()
-        res.status(200).send("Image Upload Successfully")
+        return res.status(200).send("Image Upload Successfully")
     } catch (error) {
         console.log(err)
     }

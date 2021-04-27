@@ -3,11 +3,16 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 
-//? USER DATA FUNCTIONS   ----------START
-// *@desc login User returns JWT
-// *@route POST /api/userAuth/user/:token
-// *@acces Private (JWT Header)
+const {
+    userUpdateValidation
+  } = require("./validations/validations");
+  
 
+//? USER DATA FUNCTIONS   ----------START
+
+// *@desc login User returns User Data
+// *@route GET /api/user
+// *@acces Private (JWT Header)
 exports.getUserData = async (req,res)=>{
     try{
         const user = await req.Model.findById(req.user_id)
@@ -18,6 +23,18 @@ exports.getUserData = async (req,res)=>{
 
 }
 
+
+// *@desc login User returns public User Data
+// *@route GET /api/user/:token
+// *@acces Public 
+exports.getPublicUserData = async(req,res)=>{
+    
+}
+
+
+// *@desc update User image 
+// *@route PUT /api/user/updateImage
+// *@acces Private (JWT Header)
 exports.updateUserImage = async (req,res)=>{
   
     try {
@@ -33,5 +50,26 @@ exports.updateUserImage = async (req,res)=>{
         console.log(err)
     }
 }
+
+// *@desc update User data (excluding email and password)
+// *@route PUT /api/user/updateData
+// *@acces Private (JWT Header)
+exports.updateUserData = async (req,res)=>{
+   const error =  userUpdateValidation(req.body)
+
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+  try {
+ 
+    const user = await req.Model.findByIdAndUpdate(req.user_id,{...req.body}).exec()
+    return res.status(200).send("Updated Succesfully")
+  } catch (error) {
+      console.log(error)
+  }
+ 
+
+}
+
 
 //? USER DATA FUNCTIONS   ----------END

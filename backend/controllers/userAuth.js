@@ -45,8 +45,9 @@ exports.registerUser = async (req, res) => {
 
   try{
 
+    const data = req.body
   
-  const user = await new Instruktor({
+  const user = await new userAuth({
     ...data,
     password: hashedPassword,
     _id : NEW_ID

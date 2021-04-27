@@ -44,7 +44,7 @@ module.exports.emailConfirmation = function (req,res,next) {
     } catch(err){
         res.status(400).send('Invalid Token')
         }
-    }
+}
 
 module.exports.getUserColletion = async function (req,res,next) {
     try {
@@ -66,3 +66,12 @@ module.exports.getUserColletion = async function (req,res,next) {
     }
 
 }
+
+
+module.exports.checkIDparams = function (req,res,next) {
+    const  id = req.params.id
+    if(!id) return res.status(401).send("Access Denied")
+    req.user_id = id
+    next()
+}
+

@@ -177,7 +177,7 @@ exports.updateUserData = async (req,res)=>{
         formattedAdress:loc[0].formattedAddress,
         city:loc[0].city
     }
-    const user = await req.Model.findByIdAndUpdate(req.user_id,{...req.body}).exec()
+    await req.Model.findByIdAndUpdate(req.user_id,{...req.body}).exec()
     return res.status(200).send("Updated Succesfully")
   } catch (error) {
       console.log(error)

@@ -21,28 +21,40 @@ import TutorForm from "./components/TutorForm";
 import { HeaderContext } from "./components/Contexts/HeaderContext";
 import UserPage from "./components/UserPage";
 import axios from "axios";
+import { PageNotFound } from "./components/PageNotFound";
+import _ from "lodash";
 
 function App() {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [data, setData] = useState({})
   const [jwt, setJwt] = useState("")
 
+
+
   useEffect(() => {
     checkJwt(jwt)
   }, [])
 
-  function checkJwt(jwt : string){
+  async function checkJwt(jwt : string){
     
 
     //ADD TO LOCAL STORAGE
     const verify_JWT = localStorage.getItem("token")
+    if(_.isNull(verify_JWT)){ return}
 
 
-    //TODO AXIOS CHECK IF JWT IS VALID
+    try {
+     
+      await axios.get(process.env.REACT_APP_SERVER_CONNECT+"/api/user/checkToken",{headers:{
+        "auth-token":verify_JWT
+      }})
+  
+      setJwt(verify_JWT+"")
+    } catch (error) {
+      console.log(error.response.data)
+    }
+  
     
-
-    //THEN 
-    setJwt(verify_JWT+"")
   }
 
 
@@ -72,15 +84,18 @@ function App() {
       <HeaderContext.Provider value={userData}>
       <ModalContext.Provider value={modalValues}>
         <Router>
-          <Header />
-          <Switch>
+          <Header  />
+          <div style={{marginTop:"10vh"}}>
+          <Switch >
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/tutorSignUp" component={TutorForm} />
-            { jwt != ""  && 
+            {   !_.isEqual("",jwt)   && 
               <Route exact path="/myPage" component={UserPage} />
+              
             }
-         
+            <Route component={PageNotFound} />
           </Switch>
+          </div>
           <Footer />
           <LogInSignUpModal
             isOpen={modalValues.isOpen}

@@ -3,7 +3,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
 import { Input } from "@chakra-ui/input";
-import { Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
+import { Box, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
@@ -31,34 +31,39 @@ export const Introduction: React.FC = (props: Props) => {
   const history = useHistory();
 
   return (
-    <VStack ml="4" maxW={{ sm: "100vw",md:"100vw",lg:"50vw",xl:"50vw" }}>
-      <Heading
+    <VStack pl="8" maxW={{ sm: "100%",md:"100%",lg:"50%",xl:"50%" }}>
+     <Heading
         alignSelf="flex-start"
         textAlign="left"
         fontSize={["60px", "60px", "100px", "100px"]}
       >
         Pronađi instruktora
       </Heading>
-      <Text
-        as="h1"
-        fontSize={["70px", "70px", "100px", "100px"]}
-        fontWeight="bold"
+       
+       <Box width="100%">
+      <Heading
+        textAlign="left"
+        m ="0"  
+        as= "h1"
         color="white"
         alignSelf="flex-start"
       >
         DANAS
-      </Text>
+      </Heading>
+      </Box>
+      
       <HStack w="100%" direction={["row", "row", "row", "row"]}>
         <Input
           placeholder="Pronađi instruktore"
           size="lg"
           background="white"
-          w={["100%"]}
+          w={"100%"}
         />
         <Button backgroundColor="black" color="white" size="lg">
           Kreni
         </Button>
       </HStack>
+  
       <HStack w="100%" direction={["row", "row", "row", "row"]}>
         <Button
           backgroundColor="black"
@@ -68,8 +73,9 @@ export const Introduction: React.FC = (props: Props) => {
           p="2"
           alignSelf="flex-start"
           _hover={{
-            padding: "30px",
-            fontSize:"30px"
+            backgroundColor:"white",
+            color:"black",
+          
             
           }}
           
@@ -79,10 +85,12 @@ export const Introduction: React.FC = (props: Props) => {
         >
           Postani Instruktor 
           
-        {/* <FaGraduationCap/> */}
+      
         </Button>
 
       </HStack>
+   
+   
     </VStack>
   );
 };

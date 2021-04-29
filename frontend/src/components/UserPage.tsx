@@ -40,12 +40,21 @@ import axios from "axios";
 import { UseHeaderContext } from "./Contexts/HeaderContext";
 import _ from "lodash";
 
+import ReactMapGL, { Marker } from 'react-map-gl';
+
+
 interface Props {
 
 }
 
 
+
+
+
 const UserPage: React.FC = (props: Props) => {
+
+
+
   const arr = [1, 2, 3, 5];
 
   const [picture, setPicture] = useState(null);
@@ -56,15 +65,14 @@ const UserPage: React.FC = (props: Props) => {
 
 
   useEffect(() => {
-    if (_.isEmpty(data)) {
+    if (_.isEqual({},data)) {
       axios
         .get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {
           headers: { "auth-token": jwt },
         })
         .then((res) => {
           setData(res.data);
-          
-
+          console.log(res.data)
         })
         .catch((err) => {
           console.log(err);
@@ -118,6 +126,9 @@ const UserPage: React.FC = (props: Props) => {
           },
         }
       );
+
+      setData({...data,imageUrl:imgUrl})
+
     } catch (error) {
       console.log(error);
     }
@@ -127,100 +138,100 @@ const UserPage: React.FC = (props: Props) => {
   }
 
 
-  if(data==null) return <Spinner/>
+
+
+  function Map() {
+    const innitial_lat = _.isUndefined(data.price)?0:data.location!.coordinates![1]
+    const innitial_long = _.isUndefined(data.price)?0:data.location!.coordinates![0]
+    const [viewport, setViewport] = useState({
+      width: "100%",
+      height: "500px",
+      latitude: innitial_lat,
+      longitude: innitial_long,
+      zoom: 15
+    });
+    if(_.isUndefined(data.price))return<></>
+    return (
+      <ReactMapGL
+        {...viewport}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        onViewportChange={(nextViewport:any) => setViewport(nextViewport)}
+      >
+        <Marker latitude={data.location!.coordinates![1]} longitude={data.location!.coordinates![0]} offsetLeft={-20} offsetTop={-10}>
+          <img width="40px" src="https://www.cp-desk.com/wp-content/uploads/2019/02/map-marker-free-download-png.png" />
+        </Marker>
+      </ReactMapGL>
+    );
+  }
+  
+
+
+
+  if(_.isEqual({},data)) return <Spinner/>
   
   return (
-    <Stack h="300vh" w="80vw" direction="row" mx="auto">
+    <Stack h="300vh" w={["100%","100%","100%","100%","80%"]} direction={["column","column","column","row","row"]} mx="auto" >
       {/* <Heading mt="20">Dobrodošli!</Heading> */}
 
-      <VStack w="30%" mt="20">
-        <Box boxSize="sm">
-          <Image borderRadius="full" boxSize="300px" src={imgData} />
+      <VStack w={["100%","100%","100%","30%","30%"]} mt="20" h="80vh" mx="auto">
+       
+     
+        <Box boxSize="sm" >
+          <Image borderRadius="full" border="1px solid teal" boxSize="300px" ml="10" mt="5" src={imgData} />
+          <Stack mt="10">
           <Button onClick={showWidget}>
             <Icon children={<FaImage />} />
             Upload photo
           </Button>
+          </Stack>
           <Divider mt="10" />
-
-          <Stack mt="10">
+            {_.isUndefined(data.price)?null: <Stack mt="10" border="2px solid teal" p="4">
             <Heading textAlign="left">Kratki Opis</Heading>
             <Text textAlign="left">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. A harum
-              laboriosam magnam officia? Repellendus totam impedit maiores hic
-              cumque delectus ea, reprehenderit amet officia? Minus ut facere
-              earum laudantium accusantium!
+              {data.desc}
             </Text>
-          </Stack>
+          </Stack>}
+         
 
-          <Stack mt="10">
-            <Heading textAlign="left">Posao</Heading>
-            <Text textAlign="left">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. A harum
-              laboriosam magnam officia? Repellendus totam impedit maiores hic
-              cumque delectus ea, reprehenderit amet officia? Minus ut facere
-              earum laudantium accusantium!
-            </Text>
-          </Stack>
+          
 
-          <Divider mt="10" />
+        
 
-          <UnorderedList mt="10">
-            <ListItem>Lorem ipsum dolor sit amet</ListItem>
-            <ListItem>Consectetur adipiscing elit</ListItem>
-            <ListItem>Integer molestie lorem at massa</ListItem>
-            <ListItem>Facilisis in pretium nisl aliquet</ListItem>
-          </UnorderedList>
+         
         </Box>
+     
       </VStack>
 
-      <VStack w="70%" textAlign="left" justifyContent="left">
-        <Stack w="100%" mt="70px" p="10" spacing={6}>
-          <HStack>
+      <VStack w={["100%","100%","100%","50%","50%"]} >
+        <Stack  mt="70px" p="10" spacing={6} >
+          <HStack w="100%">
             <Heading as="h2" size="2xl">
            
-            {data.firstName}
-            {data.address}
-            {data.zip}
-            {data.email}
-            {data.phoneNumber}
-            {data.price}
-            {data.tags}
-            {data.desc}
+            {data.firstName} {data.lastName}
+            
             </Heading>
 
-            <Stack w="50%" direction="row">
-              <Icon w={8} h={8} children={<FaMapMarkerAlt />}></Icon>
-              <Text></Text>
+            
 
-              <Stat>
-                <StatLabel>Collected Fees</StatLabel>
-                <StatNumber>£0.00</StatNumber>
-                <StatHelpText>Feb 12 - Feb 28</StatHelpText>
-              </Stat>
-            </Stack>
+              
+          </HStack>
+{_.isUndefined(data.price)?null:<>
+          <HStack>
+              <Icon w={8} h={8} children={<FaMapMarkerAlt />}></Icon>
+              <Heading size="md">{data.address},{data.zip} {data.city}</Heading>
           </HStack>
 
-          <Grid templateColumns="repeat(5, 1fr)" gap={6}>
-            <Tag w="100%" h="10" size="lg">
-              Matematika
-            </Tag>
-            <Tag w="100%" h="10" size="lg">
-              Fizika
-            </Tag>
-            <Tag w="100%" h="10" size="lg">
-              Hrvatski
-            </Tag>
-            <Tag w="100%" h="10" size="lg">
-              Hrvatski
-            </Tag>
-            <Tag w="100%" h="10" size="lg">
-              Hrvatski
-            </Tag>
+          <Grid templateColumns="repeat(4, 1fr)" gap={6} >
+           
+           {data.tags?.map(tag=>{
+             return  <Tag w="100%" size="lg" p="6" textAlign="center" justifyContent="center">{tag}</Tag>
+           })}
+   
           </Grid>
 
-          <Text>Rang</Text>
+          {/* TODO RANG */}
           <HStack w="100%">
-            <Heading w="20%">8,6</Heading>
+          <Heading w="20%">8,6</Heading>
 
             {arr.map((star) => {
               return <Icon w={10} h={10} color="teal" children={<FaStar />} />;
@@ -228,37 +239,39 @@ const UserPage: React.FC = (props: Props) => {
             <Icon w={10} h={10} color="black" children={<FaStar />} />
           </HStack>
 
-          <HStack w="100%" mt="20" spacing={4}>
+          
             <Button w="50%" p="4" size="lg">
               <Icon w={6} h={6} color="black" children={<FaCommentAlt />} />
-              Send Message
-            </Button>
-          </HStack>
+              Pošalji poruku
+              </Button>
+              </>}
         </Stack>
 
-        <Divider />
+       
+      
 
-        <VStack textAlign="left" alignContent="left">
-          <Stack
-            spacing={4}
-            w="100%"
-            textAlign="left"
-            justifyContent="left"
-            alignContent="left"
-          >
-            <Text>Phone : +385 9378543324</Text>
-            <Text>Address : 2826 Del Dew Drive </Text>
-            <Text>Email : z4599ug0ay@temporary-mail.net</Text>
-            <Text>www.google.com</Text>
-
-            <Text>
-              <FaDollarSign />
-              100kn/h
-            </Text>
-          </Stack>
-        </VStack>
       </VStack>
+    
+
+      <VStack w={["100%","100%","100%","30%","30%"]} >
+          <Stack mt="6" w={["100%","100%","100%","50%","100%"]}>
+                <Heading fontSize="50px" mt="20">{_.isUndefined(data.price)? null : data.price + "kn/h"}</Heading>
+                <Stack textAlign="left"  border="2px solid teal" p="4" >
+                <Heading size="md" >Kontakt</Heading>
+                <Text>{_.isUndefined( data.phoneNumber)?null:data.phoneNumber}</Text>
+                <Text>{data.email}</Text>
+            </Stack>
+            </Stack>
+    
+   
+              <Divider  />
+              <Map />
+              
+      </VStack>
+    
     </Stack>
+
+
   );
 
 

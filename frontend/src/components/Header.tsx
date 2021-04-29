@@ -41,19 +41,28 @@ import { UseHeaderContext } from "./Contexts/HeaderContext";
 import { UseModalContext } from "./Contexts/ModalContex";
 import avatar from "../images/avatar.png";
 import _ from "lodash";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-interface Props {}
+interface Props {
+
+}
 
 const Header: React.FC = (props: Props) => {
   const { isOpen, onClose, onOpen } = UseModalContext();
 
   const history = useHistory();
 
-  const { jwt, data, setJwt } = UseHeaderContext();
+  const { jwt, data, setJwt,setData} = UseHeaderContext();
+  const cloudinary_url =   "https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/"
+  const [image, setImage] = useState(avatar)
 
+  useEffect(() => {
+    if(!  _.isEmpty(data.imageUrl)){
+      setImage(cloudinary_url+data.imageUrl)
+    }
+  }, [data.imageUrl])
 
-
+  
 
 
   const LoggedInHeader: React.FC = () => {
@@ -67,12 +76,12 @@ const Header: React.FC = (props: Props) => {
         boxShadow="md"
         zIndex="100"
       >
-        <Box w="30%" mr="8" p="4" >
+        <Box  w={["30%","30%","30%","30%","30%"]} mr="8" p="4" >
           <Image src={logo} boxSize="50px" onClick={() => history.push("/")} />
         </Box>
        
 
-        <InputGroup w="40%">
+        <InputGroup w={["80%","80%","40%","40%","40%"]}>
         <Input
           placeholder="Pronađi instruktore"
           background="white"
@@ -85,7 +94,7 @@ const Header: React.FC = (props: Props) => {
         <Box w="30%" textAlign="right" mr="8" p="4" mt="4">
         <Menu>
           <MenuButton>
-            <Image src={avatar}   borderRadius="full" boxSize="50px"  />
+            <Image src={image}   borderRadius="full" boxSize="50px"  />
           </MenuButton>
           <MenuList>
             <MenuItem onClick={()=>{history.push("/myPage")}}>Moj Profil</MenuItem>
@@ -94,6 +103,7 @@ const Header: React.FC = (props: Props) => {
                 setJwt("");
                 localStorage.removeItem("token");
                 console.log(localStorage.getItem("token"))
+                setData({})
                 history.push("/");
               }}
             >
@@ -153,9 +163,9 @@ const Header: React.FC = (props: Props) => {
     <>
 
 
-      
 
-        {jwt? <LoggedInHeader /> : <LoggedOutHeader />}
+
+        {_.isEqual("",jwt)? <LoggedOutHeader />: <LoggedInHeader /> }
       
     </>
   );

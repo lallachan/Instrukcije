@@ -45,14 +45,14 @@ const Cards: React.FC = (props: Props) => {
     .then(res => {
 
       setTutors(res.data)
-
+     
     }
       
       
       
     ).catch(err => console.log(err))}
 
-  }, [tutors])
+  }, [])
 
 
 

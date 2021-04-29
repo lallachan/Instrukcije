@@ -10,9 +10,15 @@ type Data = {
   desc?: string,
   phoneNumber?: RegExp,
   address?: string,
+  city?:string,
   zip?: RegExp,
   tags? : [],
-  price? : Number
+  price? : number,
+  imageUrl? : string,
+  location?: {
+    type?: string,
+    coordinates? : number[]
+  }
 }
 
 type userData = {

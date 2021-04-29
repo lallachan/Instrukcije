@@ -383,7 +383,7 @@ const TutorForm: React.FC = (props: Props) => {
                   </InputGroup>
                 </FormControl>
 
-                {errors2.desc && <p>Unesite kratki opis o sebi.</p>}
+                {errors2.desc && <p>Unesite kratki opis.</p>}
 
 
                 <FormControl isRequired>

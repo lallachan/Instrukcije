@@ -23,7 +23,7 @@ const logInValidation = (logInObj) => {
 };
 
 const registerInstruktorValidation = (register_obj) => {
-  const register_schema = Joi.object({
+  const register_schema = Joi.object({ 
     firstName: Joi.string().min(2).required(),
     lastName: Joi.string().min(2).required(),
     email: Joi.string().min(6).required().email(),
@@ -35,6 +35,7 @@ const registerInstruktorValidation = (register_obj) => {
       .max(30)
       .required(),
     address: Joi.string().max(50).required(),
+    city: Joi.string().min(1).max(500).required(),
     zip: Joi.string()
       .pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))
       .min(5)
@@ -52,6 +53,7 @@ const userUpdateValidation = (updateObj) => {
     firstName: Joi.string().min(2),
     lastName: Joi.string().min(2),
     desc: Joi.string().min(50).max(500),
+    city: Joi.string().min(1).max(500).required(),
     phoneNumber: Joi.string()
       .pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))
       .min(5)
@@ -70,6 +72,18 @@ const userUpdateValidation = (updateObj) => {
   return error;
 };
 
+
+const instruktorRatingValidaiton = (ratedInstruktor) => {
+  const ratin_schema = Joi.object({
+    grade: Joi.number().min(1).max(10).required()
+  });
+
+  const { error } = ratin_schema.validate(ratedInstruktor);
+  return error;
+}
+
+
+module.exports.instruktorRatingValidaiton = instruktorRatingValidaiton;
 module.exports.registerValidation = registerValidation;
 module.exports.registerInstruktorValidation = registerInstruktorValidation;
 module.exports.logInValidation = logInValidation;

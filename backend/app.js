@@ -4,12 +4,14 @@ const app = express()
 
 
 
+
 const mongoose = require("mongoose")
 const dotenv = require("dotenv").config({path:'./config/.env'})
 const cors = require("cors")
+const schedule = require("node-schedule")
 
 
-const {SetLandingInstructors } = require('./functions/ServerFunctions')
+const {midnightFunction } = require('./functions/ServerFunctions')
 const Instruktor_Landing = require("./models/Instruktor_Landing")
 const connect_to_DB = require('./config/db')
 
@@ -38,15 +40,9 @@ app.use('/api/landing',ladingRoute)
 app.get("/",(req,res)=>{
     res.send("UP")
 })
+schedule.scheduleJob('50 * * * * *',midnightFunction) 
 
 app.listen(process.env.PORT || 5000, async ()=>{
-    try{
-        const instruktors = await Instruktor_Landing.find({})
-        if (instruktors.length===0 || instruktors === null) SetLandingInstructors()
-    }catch(err){
-        console.log(err)
-    }
-   
-   
+
 })
 

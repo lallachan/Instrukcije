@@ -6,12 +6,15 @@ module.exports.verifyToken = function (req,res,next) {
 
     if(!token) return res.status(401).send("Access Denied")
 
+
     try{
+
         const verified = jwt.verify(token,process.env.TOKEN_SECRET)
         req.user_id= verified._id
         //
         next()
     } catch(err){
+        console.log(err)
         res.status(400).send('Invalid Token')}
 }
 

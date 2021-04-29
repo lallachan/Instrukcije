@@ -95,7 +95,7 @@ exports.registerUser = async (req, res) => {
 // *@desc register Instruktor
 // *@route POST /api/userAuth/registerInstruktor
 // *@acces Public
-exports.registerInstruktor= async(req,res)=>{
+exports.registerInstruktor= async (req,res)=>{
   const error = registerInstruktorValidation(req.body)
   if(error){
     return res.status(400).send(error.details[0].message);
@@ -111,7 +111,7 @@ exports.registerInstruktor= async(req,res)=>{
 
   const data = req.body
   // Location 
-  const loc = await geocoder.geocode({ address: data.address,zipcode:data.zip,country:"Hrvatska"})
+  const loc = await geocoder.geocode({ address: data.address,zipcode:data.zip,city:data.city,country:"Hrvatska"})
   data.location ={
       type:'Point',
       coordinates:[loc[0].longitude,loc[0].latitude],
@@ -164,7 +164,7 @@ exports.registerInstruktor= async(req,res)=>{
    
  });
 
- //user.save()
+ await user.save()
  return res.status(200).json({id:user._id})
 
   }catch(err){

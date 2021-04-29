@@ -37,7 +37,7 @@ const User_AuthSchema = mongoose.Schema({
     },
     imageUrl:{
         type:String,
-        default:null
+        default:"../images/avatar.png"
     }
 })
 
@@ -64,6 +64,10 @@ const Insturktor_Schema = extendSchema(User_AuthSchema,{
     zip:{
         type:String,
         required:[true,'Please add an Zip'],
+    },
+    city:{
+        type:String,
+        required:true,
     },
     tags:{
         type:[String]

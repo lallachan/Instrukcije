@@ -33,6 +33,7 @@ import { predmeti } from "../PREDMETI.json";
 
 import {
   FaAddressBook,
+  FaCity,
   FaClosedCaptioning,
   FaDollarSign,
   FaEnvelope,
@@ -61,6 +62,7 @@ type TutorStep2 = {
   phoneNumber: RegExp;
   address: string;
   zip: RegExp;
+  city : string
 };
 
 interface Props {}
@@ -381,8 +383,32 @@ const TutorForm: React.FC = (props: Props) => {
                   </InputGroup>
                 </FormControl>
 
-                {errors2.desc && <p>Unesite vašu adresu.</p>}
+                {errors2.desc && <p>Unesite kratki opis o sebi.</p>}
 
+
+                <FormControl isRequired>
+                  <InputGroup>
+                    <InputLeftElement
+                      pointerEvents="none"
+                      children={<FaCity color="gray.300" />}
+                    />
+                    <Input
+                      type="text"
+                      placeholder="City"
+                      variant="filled"
+                      _hover={{ border: "2px solid teal" }}
+                      {...register2("city", {
+                        required: true,
+                        maxLength: "30",
+                       
+                      })}
+                    />
+                  </InputGroup>
+                </FormControl>
+
+                {errors2.city && <p>Unesite grad.</p>}
+
+              
                 <FormControl isRequired>
                   <InputGroup>
                     <InputLeftElement
@@ -403,7 +429,7 @@ const TutorForm: React.FC = (props: Props) => {
                   </InputGroup>
                 </FormControl>
 
-                {errors2.desc && <p>Unesite poštanski broj.</p>}
+                {errors2.zip && <p>Unesite poštanski broj.</p>}
               </Stack>
 
               <Stack

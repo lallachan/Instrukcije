@@ -41,6 +41,7 @@ import { UseHeaderContext } from "./Contexts/HeaderContext";
 import { UseModalContext } from "./Contexts/ModalContex";
 import avatar from "../images/avatar.png";
 import _ from "lodash";
+import { useEffect } from "react";
 
 interface Props {}
 
@@ -50,6 +51,10 @@ const Header: React.FC = (props: Props) => {
   const history = useHistory();
 
   const { jwt, data, setJwt } = UseHeaderContext();
+
+
+
+
 
   const LoggedInHeader: React.FC = () => {
     return (
@@ -88,6 +93,7 @@ const Header: React.FC = (props: Props) => {
               onClick={() => {
                 setJwt("");
                 localStorage.removeItem("token");
+                console.log(localStorage.getItem("token"))
                 history.push("/");
               }}
             >
@@ -149,7 +155,7 @@ const Header: React.FC = (props: Props) => {
 
       
 
-        {_.isEmpty(jwt) ? <LoggedInHeader /> : <LoggedOutHeader />}
+        {jwt? <LoggedInHeader /> : <LoggedOutHeader />}
       
     </>
   );

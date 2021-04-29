@@ -32,16 +32,17 @@ function App() {
   }, [])
 
   function checkJwt(jwt : string){
-
-    //CHECK
     
 
     //ADD TO LOCAL STORAGE
     const verify_JWT = localStorage.getItem("token")
-    //TODO AXIOS CHECK IF JWT IS VALID
 
-          //THEN 
-          setJwt(verify_JWT+"")
+
+    //TODO AXIOS CHECK IF JWT IS VALID
+    
+
+    //THEN 
+    setJwt(verify_JWT+"")
   }
 
 
@@ -75,7 +76,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/tutorSignUp" component={TutorForm} />
-            { jwt != "" && 
+            { jwt != ""  && 
               <Route exact path="/myPage" component={UserPage} />
             }
          

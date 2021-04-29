@@ -22,6 +22,7 @@ import {
   StatLabel,
   StatNumber,
   StatHelpText,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
@@ -39,7 +40,10 @@ import axios from "axios";
 import { UseHeaderContext } from "./Contexts/HeaderContext";
 import _ from "lodash";
 
-interface Props {}
+interface Props {
+
+}
+
 
 const UserPage: React.FC = (props: Props) => {
   const arr = [1, 2, 3, 5];
@@ -48,6 +52,9 @@ const UserPage: React.FC = (props: Props) => {
   const [imgData, setImgData] = useState<any>(avatar);
 
   const { jwt, data, setData } = UseHeaderContext();
+  
+
+
   useEffect(() => {
     if (_.isEmpty(data)) {
       axios
@@ -56,6 +63,8 @@ const UserPage: React.FC = (props: Props) => {
         })
         .then((res) => {
           setData(res.data);
+          
+
         })
         .catch((err) => {
           console.log(err);
@@ -74,6 +83,8 @@ const UserPage: React.FC = (props: Props) => {
     } else {
       setImgData(avatar);
     }
+
+    
   }, [data]);
 
   const nes: any = window;
@@ -87,7 +98,6 @@ const UserPage: React.FC = (props: Props) => {
     },
     (error: any, result: any) => {
       if (result.event === "success") {
-        console.log(result.info);
         updateImage(result.info.path);
       }
     }
@@ -108,7 +118,6 @@ const UserPage: React.FC = (props: Props) => {
           },
         }
       );
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -117,8 +126,11 @@ const UserPage: React.FC = (props: Props) => {
     widget_nes.open();
   }
 
+
+  if(data==null) return <Spinner/>
+  
   return (
-    <Stack h="300vh" w="100vw" direction="row">
+    <Stack h="300vh" w="80vw" direction="row" mx="auto">
       {/* <Heading mt="20">Dobrodošli!</Heading> */}
 
       <VStack w="30%" mt="20">
@@ -161,16 +173,24 @@ const UserPage: React.FC = (props: Props) => {
         </Box>
       </VStack>
 
-      <VStack w="40%" textAlign="left" justifyContent="left">
+      <VStack w="70%" textAlign="left" justifyContent="left">
         <Stack w="100%" mt="70px" p="10" spacing={6}>
           <HStack>
             <Heading as="h2" size="2xl">
-              Ivan Rakitić
+           
+            {data.firstName}
+            {data.address}
+            {data.zip}
+            {data.email}
+            {data.phoneNumber}
+            {data.price}
+            {data.tags}
+            {data.desc}
             </Heading>
 
             <Stack w="50%" direction="row">
               <Icon w={8} h={8} children={<FaMapMarkerAlt />}></Icon>
-              <Text>Zagreb,Croatia</Text>
+              <Text></Text>
 
               <Stat>
                 <StatLabel>Collected Fees</StatLabel>
@@ -240,6 +260,12 @@ const UserPage: React.FC = (props: Props) => {
       </VStack>
     </Stack>
   );
+
+
+
+  
+  
+   
 };
 
 export default UserPage;

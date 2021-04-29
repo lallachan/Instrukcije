@@ -82,7 +82,18 @@ const instruktorRatingValidaiton = (ratedInstruktor) => {
   return error;
 }
 
+const instruktorReviewValidation = (ratedInstruktor) => {
+  const review_schema = Joi.object({
+    desc: Joi.string().min(5).max(1000).required()
+  });
 
+  const { error } = review_validacija.validate(ratedInstruktor);
+  return error;
+}
+
+
+
+module.exports.instruktorReviewValidation = instruktorReviewValidation;
 module.exports.instruktorRatingValidaiton = instruktorRatingValidaiton;
 module.exports.registerValidation = registerValidation;
 module.exports.registerInstruktorValidation = registerInstruktorValidation;

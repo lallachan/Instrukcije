@@ -37,7 +37,7 @@ const User_AuthSchema = mongoose.Schema({
     },
     imageUrl:{
         type:String,
-        default:"../images/avatar.png"
+        default:null
     }
 })
 

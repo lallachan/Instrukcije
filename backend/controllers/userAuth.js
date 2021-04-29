@@ -23,6 +23,7 @@ const {verifyToken,verifyEmail} = require("./validations/verifys")
 // *@route POST /api/userAuth/register
 // *@acces Public
 exports.registerUser = async (req, res) => {
+
   const error = registerValidation(req.body);
 
   if (error) {
@@ -87,7 +88,7 @@ exports.registerUser = async (req, res) => {
  return res.status(200).json({id:user._id})
   } catch (err) {
     console.log(err)
-    res.status(400).send(msg);
+    res.status(400).send(err);
   }
 };
 
@@ -97,9 +98,11 @@ exports.registerUser = async (req, res) => {
 // *@acces Public
 exports.registerInstruktor= async (req,res)=>{
   const error = registerInstruktorValidation(req.body)
+ 
   if(error){
     return res.status(400).send(error.details[0].message);
   }
+
   const NEW_ID =   await new mongoose.mongo.ObjectId();
 
   try{
@@ -164,7 +167,11 @@ exports.registerInstruktor= async (req,res)=>{
    
  });
 
+<<<<<<< HEAD
  await user.save()
+=======
+ user.save()
+>>>>>>> 521823358ae5bda4a6d0bc869f2811fbb274b64e
  return res.status(200).json({id:user._id})
 
   }catch(err){

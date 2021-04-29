@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import { isContext } from "node:vm";
   
-  import React from "react";
+  import React, { useState } from "react";
 import { useForm } from "react-hook-form";
   import {FaEnvelope,FaInfoCircle,FaLock} from 'react-icons/fa'
 import { useHistory } from "react-router";
@@ -35,7 +35,9 @@ import { UseModalContext } from "./Contexts/ModalContex";
 
     const history = useHistory()
     
-  const {setJwt} = UseHeaderContext()
+   const {setJwt} = UseHeaderContext()
+
+   const [error, setError] = useState("")
 
    
 
@@ -67,6 +69,7 @@ import { UseModalContext } from "./Contexts/ModalContex";
 
       } catch (error) {
         console.log(error.response.data)
+        setError(error.response.data)
       }
   
     }
@@ -74,7 +77,9 @@ import { UseModalContext } from "./Contexts/ModalContex";
     );
 
     return (
+     
       <form onSubmit ={onSubmit}>
+         {error}
         <Stack spacing={4} >
           <FormControl isRequired>
             <InputGroup>

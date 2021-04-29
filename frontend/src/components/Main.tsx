@@ -10,8 +10,8 @@ interface Props {
 
 const Main : React.FC = (props: Props) => {
     return (
-        
-        <HStack background="teal"  w="100vw" h="100vh">
+      
+        <HStack background="teal"  w="100%" h="100vh">
             <Introduction/>
             <Aside/>
         </HStack>

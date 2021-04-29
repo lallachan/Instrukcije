@@ -34,6 +34,9 @@ export const SignUpForm: React.FC = (props: Props) => {
 
   const [toggleEmailVal, seTtoggleEmailVal] = useState(false)
 
+  
+  const [error, setError] = useState("")
+
   const onSubmit = handleSubmit( async(data) => {
 
     try {
@@ -48,6 +51,7 @@ export const SignUpForm: React.FC = (props: Props) => {
     } catch (error) {
   
      console.log(error.response.data)
+     setError(error.response.data)
     }
 
   }
@@ -71,6 +75,7 @@ export const SignUpForm: React.FC = (props: Props) => {
   return (<>
     {toggleEmailVal? <EmailValidation/> : 
     <form onSubmit={onSubmit}>
+      {error}
       {/* TODO ADD VALIDATION */}
       <Stack spacing={4}>
         <FormControl isRequired>

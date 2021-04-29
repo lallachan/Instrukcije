@@ -1,9 +1,24 @@
+
 import { createContext, useContext } from "react"
+
+
+type Data = {
+  firstName?: string,
+  lastName?: string,
+  email?: RegExp,
+  password?: string,
+  desc?: string,
+  phoneNumber?: RegExp,
+  address?: string,
+  zip?: RegExp,
+  tags? : [],
+  price? : Number
+}
 
 type userData = {
    
     jwt : string,
-    data : {},
+    data :Data,
     setData : Function,
     setJwt : Function
   }

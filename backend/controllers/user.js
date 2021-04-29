@@ -7,6 +7,7 @@ const {
     userUpdateValidation, instruktorRatingValidaiton
   } = require("./validations/validations");
 const { Instruktor } = require("../models/User_Auth");
+const { getUserColletion } = require("./validations/verifys");
   
 
 //? USER DATA FUNCTIONS   ----------START
@@ -16,7 +17,7 @@ const { Instruktor } = require("../models/User_Auth");
 // *@acces Private (JWT Header)
 exports.getUserData = async (req,res)=>{
     try{
-        const user = await req.Model.findById(req.user_id).select(["-password" ,"-emailVerifed","-location","-__v","-_id"])
+        const user = await req.Model.findById(req.user_id).select(["-password" ,"-emailVerifed","-__v","-_id"])
        
        
         return res.status(200).json(user)
@@ -34,19 +35,31 @@ exports.addReview = async (req,res)=>{
 
 }
 
-exports.addRating = async (req,res)=>{ 
+exports.addRating = async (req,res)=>{    
+    
     const error = instruktorRatingValidaiton(req.body)
     if(error){
       return res.status(400).send(error.details[0].message);
     }
 
-    try {
 
-        const rated_instruktor = await Instruktor.findById(req.user_id);
+    try{
+
+        //*CHECK IF INSTRUKTOR Exsists
+        const rated_instruktor = await Instruktor.findById(req.param_id);
         if(rated_instruktor == null){
-            return res.status(400).send(`Can not rate user with id: ${req.user_id}`);
+            return res.status(400).send(`Can not rate user with id: ${req.param_id}`);
         }
         
+
+         //*CHECK IF USER DID ALREADY RATE 
+        const user_that_rates = await req.Model.findById(req.user_id)
+        if(user_that_rates.ratedUsers.includes(req.param_id)){
+            throw Error(`User (ID: ${req.user_id}) has already rated this instruktor(Instruktor ID: ${req.param_id}) `)
+        }   
+    
+
+        //*Change Instruktor Rating
         let new_rating;
 
         if(rated_instruktor.timesRated==0){new_rating = req.body.grade}
@@ -56,15 +69,20 @@ exports.addRating = async (req,res)=>{
         rated_instruktor.timesRated +=1
 
         rated_instruktor.rating = new_rating
+    
+        //*Add that this user has rated this INSTURKOTR
+        user_that_rates.ratedUsers.push(req.param_id) 
 
 
+        //*SAVE CHANGES
         await rated_instruktor.save()
-
-        console.log(rated_instruktor)
-        res.status(200).send("ratedSuccefully")
+        await user_that_rates.save()
+        
+        res.status(200).send(`User (ID: ${req.user_id}) has succefully rated this instruktor(Instruktor ID: ${req.param_id}) `)
     
     } catch (error) {
         console.log(error)
+        return res.status(400).send(error)
     }
 
 }

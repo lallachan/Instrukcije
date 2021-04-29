@@ -74,7 +74,7 @@ module.exports.getUserColletion = async function (req,res,next) {
 module.exports.checkIDparams = function (req,res,next) {
     const  id = req.params.id
     if(!id) return res.status(401).send("Access Denied")
-    req.user_id = id
+    req.param_id = id
     next()
 }
 

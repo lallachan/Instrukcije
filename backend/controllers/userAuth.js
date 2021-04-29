@@ -167,11 +167,7 @@ exports.registerInstruktor= async (req,res)=>{
    
  });
 
-<<<<<<< HEAD
- await user.save()
-=======
  user.save()
->>>>>>> 521823358ae5bda4a6d0bc869f2811fbb274b64e
  return res.status(200).json({id:user._id})
 
   }catch(err){

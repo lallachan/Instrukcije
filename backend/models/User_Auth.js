@@ -1,3 +1,4 @@
+const { required } = require("joi");
 const mongoose = require("mongoose");
 const extendSchema = require('mongoose-extend-schema');
 
@@ -38,6 +39,10 @@ const User_AuthSchema = mongoose.Schema({
     imageUrl:{
         type:String,
         default:null
+    },
+    ratedUsers:{
+        type:[String],
+        default:[]
     }
 })
 
@@ -96,7 +101,38 @@ const Insturktor_Schema = extendSchema(User_AuthSchema,{
     timesRated:{
         type:Number,
         default:0
+    },
+    comments:[
+       { user:{
+            _id:{
+                type:String,
+                min:24,
+                max:24
+            },
+            firstName:{
+                type:String,
+                min:6,
+                max:255
+            } ,
+             lastName:{
+                type:String,
+                min:6,
+                max:255
+            },
+            imageUrl:{
+                type:String,
+                default:null
+            },
+        },
+        comment:{
+            type:String
+        },
+        created_at:{
+            type:Date,
+            default:Date.now
+        }
     }
+    ]
 
 
 })

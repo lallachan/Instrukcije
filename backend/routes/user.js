@@ -13,8 +13,8 @@ router.put('/updateUserData',verifyToken,getUserColletion,updateUserData)
 
 
 //For instruktors Only no need to find userColletion
-router.put('/:id/addReview',verifyToken,checkIDparams,addReview)
-router.put('/:id/rate',verifyToken,checkIDparams,addRating)
+router.put('/:id/addReview',verifyToken,checkIDparams,getUserColletion,addReview)
+router.put('/:id/rate',verifyToken,checkIDparams,getUserColletion,addRating)
 
 
 router.get('/:id',checkIDparams,getUserColletion,getUserData)

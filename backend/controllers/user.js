@@ -15,7 +15,9 @@ const {
 // *@acces Private (JWT Header)
 exports.getUserData = async (req,res)=>{
     try{
-        const user = await req.Model.findById(req.user_id)
+        const user = await req.Model.findById(req.user_id).select(["-password" ,"-emailVerifed","-location","-__v","-_id"])
+       
+       
         return res.status(200).json(user)
     }catch(err){
         console.log(err)
@@ -24,13 +26,18 @@ exports.getUserData = async (req,res)=>{
 }
 
 
-// *@desc login User returns public User Data
-// *@route GET /api/user/:token
-// *@acces Public 
-exports.getPublicUserData = async(req,res)=>{
-    
+
+exports.addReview = async (req,res)=>{ 
+    console.log("hey")
+    return res.json({})
+
 }
 
+exports.addRating = async (req,res)=>{ 
+    console.log("hey")
+    return res.json({})
+
+}
 
 // *@desc update User image 
 // *@route PUT /api/user/updateImage

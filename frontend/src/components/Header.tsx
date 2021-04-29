@@ -40,6 +40,7 @@ import { UseHeaderContext } from "./Contexts/HeaderContext";
 
 import { UseModalContext } from "./Contexts/ModalContex";
 import avatar from "../images/avatar.png";
+import _ from "lodash";
 
 interface Props {}
 
@@ -148,7 +149,7 @@ const Header: React.FC = (props: Props) => {
 
       
 
-        {jwt ? <LoggedInHeader /> : <LoggedOutHeader />}
+        {_.isEmpty(jwt) ? <LoggedInHeader /> : <LoggedOutHeader />}
       
     </>
   );

@@ -29,7 +29,7 @@ exports.registerUser = async (req, res) => {
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
-
+  const NEW_ID =   await new mongoose.mongo.ObjectId();
   try {
     //Verify if email already exists
     if(await verifyEmail(req.body.email)){
@@ -44,50 +44,47 @@ exports.registerUser = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+  try{
 
-  try {
-   
- 
-    //Send Mail
-
-
-    await jwt.sign({ _id: user._id }, process.env.EMAIL_SECRET,{expiresIn:"1d"},(err,emailToken)=>{
   
-       const emailUrl =`${req.protocol}://${req.get('host')}${req.originalUrl}/confirmation/${emailToken}`
+  const user = await new Instruktor({
+    ...data,
+    password: hashedPassword,
+    _id : NEW_ID
+  });
+  await jwt.sign({ _id: NEW_ID }, process.env.EMAIL_SECRET,{expiresIn:"1d"},(err,emailToken)=>{
+  
+    const emailUrl =`${req.protocol}://${req.get('host')}${req.originalUrl}/confirmation/${emailToken}`
 
 
-   
-       const transporter = nodemailer.createTransport({
-              service: 'hotmail',
-            //   secureConnection: false,
-            //   port:  995,
-            //   tls: {
-            //     ciphers:'SSLv3'
-            //  },
-              auth: {
-                user: process.env.EMAIL_NAME,
-                pass: process.env.EMAIL_PASS,
-              },
-            })
 
-          transporter.sendMail({
-          from: process.env.EMAIL_NAME,
-          to:  req.body.email,
-          subject: 'Confirm Email',
-          html: `Please click this email to confirm your email: <a href="${emailUrl}">${emailUrl}</a>`,
-          text: `Please clik to confirm your email: ${emailUrl}`
-        });
+    const transporter = nodemailer.createTransport({
+           host: 'smtp.elasticemail.com',
+         //   secureConnection: false,
+           port:  2525,
+         //   tls: {
+         //     ciphers:'SSLv3'
+         //  },
+           auth: {
+             user: process.env.EMAIL_NAME,
+             pass: process.env.EMAIL_PASS,
+           },
+         })
 
+       transporter.sendMail({
+       from: process.env.EMAIL_NAME,
+       to:  req.body.email,
+       subject: 'Confirm Email',
+       html: `Please click this email to confirm your email: <a href="${emailUrl}">${emailUrl}</a>`,
+       text: `Please clik to confirm your email: ${emailUrl}`
+     });
     
-    });
 
+   
+ });
 
-    const user = new userAuth({
-      ...req.body,
-      password: hashedPassword,
-    });
-  
-      res.send({ user: user._id });
+ user.save()
+ return res.status(200).json({id:user._id})
   } catch (err) {
     console.log(err)
     res.status(400).send(err);

@@ -67,6 +67,7 @@ const userUpdateValidation = (updateObj) => {
       ,
     tags: Joi.array().items(Joi.string()),
     price: Joi.number().min(1),
+    city: Joi.string().min(1).max(500).required(),
   });
   const { error } = update_Schema.validate(updateObj);
   return error;
@@ -87,7 +88,7 @@ const instruktorReviewValidation = (ratedInstruktor) => {
     desc: Joi.string().min(5).max(1000).required()
   });
 
-  const { error } = review_validacija.validate(ratedInstruktor);
+  const { error } = review_schema.validate(ratedInstruktor);
   return error;
 }
 

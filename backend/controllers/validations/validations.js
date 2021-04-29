@@ -87,7 +87,7 @@ const instruktorReviewValidation = (ratedInstruktor) => {
     desc: Joi.string().min(5).max(1000).required()
   });
 
-  const { error } = review_validacija.validate(ratedInstruktor);
+  const { error } = review_schema.validate(ratedInstruktor);
   return error;
 }
 

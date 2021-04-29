@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 
 
 const {
-    userUpdateValidation, instruktorRatingValidaiton
+    userUpdateValidation, instruktorRatingValidaiton, instruktorReviewValidation
   } = require("./validations/validations");
 const { Instruktor } = require("../models/User_Auth");
 const { getUserColletion } = require("./validations/verifys");
@@ -30,8 +30,61 @@ exports.getUserData = async (req,res)=>{
 
 
 exports.addReview = async (req,res)=>{ 
- 
     
+    const error = instruktorReviewValidation(req.body)
+    if(error){
+      return res.status(400).send(error.details[0].message);
+    }
+
+    try {
+
+       //*CHECK IF INSTRUKTOR Exsists
+        const reviewed_instruktor = await Instruktor.findById(req.param_id);
+        if(reviewed_instruktor == null){
+            return res.status(400).send(`Can not rate user with id: ${req.param_id}`);
+        }
+
+
+        //*CHECK IF USER DID ALREADY RATE 
+        const user_that_reviews = await req.Model.findById(req.user_id)
+        if(user_that_reviews.reviewedUsers.includes(req.param_id)){
+            throw Error(`User (ID: ${req.user_id}) has already reviewED this instruktor(Instruktor ID: ${req.param_id}) `)
+        }   
+
+        console.log(user_that_reviews.firstName)
+        //*Crete New Review
+        const  comment = {
+            user:{
+                _id:user_that_reviews._id,
+                firstName:user_that_reviews.firstName,
+                lastName:user_that_reviews.lastName,
+                imageUrl:user_that_reviews.imageUrl
+            },
+            comment:req.body.desc,
+            created_at:Date.now()
+        }
+
+
+        console.log(comment)
+
+
+        //*Add Comment TO Instruktor
+        reviewed_instruktor.comments.push(comment)
+
+         //*Add that this user has reviewed this INSTURKOTR
+         user_that_reviews.reviewedUsers.push(reviewed_instruktor._id)
+
+         //Save
+         await reviewed_instruktor.save()
+         await user_that_reviews.save()
+
+
+        res.status(200).send("Succesfully reviewed")
+        
+    } catch (error) {
+        console.log(error)
+        return res.status(400).send(error.message)
+    }
 
 }
 
@@ -82,7 +135,7 @@ exports.addRating = async (req,res)=>{
     
     } catch (error) {
         console.log(error)
-        return res.status(400).send(error)
+        return res.status(400).send(error.message)
     }
 
 }

@@ -43,6 +43,10 @@ const User_AuthSchema = mongoose.Schema({
     ratedUsers:{
         type:[String],
         default:[]
+    },
+    reviewedUsers:{
+        type:[String],
+        default:[]
     }
 })
 

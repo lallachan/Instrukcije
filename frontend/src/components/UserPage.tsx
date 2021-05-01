@@ -188,9 +188,12 @@ const UserPage: React.FC = (props: Props) => {
       console.log(values);
 
       try{
-     const res = await axios.put(process.env.REACT_APP_SERVER_CONNECT + "/api/user/updateUserData" , {headers:{"auth-token" : jwt}}, values)
+     const res = await axios.put(process.env.REACT_APP_SERVER_CONNECT + "/api/user/updateUserData", {
+      headers: { "auth-token": jwt }
+    },values)
       setSubmitting(false)
       console.log(res.data)
+     
       }
     catch(err){
       console.log(err.response.data)

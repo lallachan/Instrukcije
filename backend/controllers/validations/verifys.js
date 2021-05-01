@@ -50,9 +50,14 @@ module.exports.emailConfirmation = function (req,res,next) {
 
 module.exports.getUserColletion = async function (req,res,next) {
     try {
-     
-        const instruktor =await Instruktor.findById(req.user_id)
-        const user = await userAuth.findById(req.user_id)
+        let user_id = req.user_id;
+        if(!user_id){
+            //TODO MABYY BIG ERROR BE CAREFULL
+            user_id = req.param_id
+            req.user_id = user_id
+        }
+        const instruktor =await Instruktor.findById(user_id)
+        const user = await userAuth.findById(user_id)
 
         if(instruktor){
             req.Model =Instruktor

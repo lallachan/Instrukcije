@@ -15,7 +15,7 @@ module.exports.verifyToken = function (req,res,next) {
         next()
     } catch(err){
       
-        res.status(400).send(err.message + " MOJA PORUKA")}
+        res.status(400).send(err.message)}
 }
 
 
@@ -62,10 +62,12 @@ module.exports.getUserColletion = async function (req,res,next) {
             req.Model = Instruktor
             next()
         }
-
+        
+        throw Error("User Does not Exists")
 
     } catch (error) {
         console.log(error)
+        res.status(400).send(error.message)
     }
 
 }

@@ -185,27 +185,30 @@ const UserPage: React.FC = (props: Props) => {
 
   function EditProfileModal() {
     const handleSubmit = async (values: any, { setSubmitting }: any) => {
-      console.log(values);
-
-      try{
-     const res = await axios.put(process.env.REACT_APP_SERVER_CONNECT + "/api/user/updateUserData", {
-      headers: { "auth-token": jwt }
-    },values)
-      setSubmitting(false)
-      console.log(res.data)
      
-      }
-    catch(err){
-      console.log(err.response.data)
-    }
-
     
-   
+      try {
+        const res = await axios.put(
+          process.env.REACT_APP_SERVER_CONNECT + "/api/user/updateUserData",
+          _.omit(values,"select"),
+          {
+            headers: {
+              "auth-token": jwt,
+            }, 
+          }
+        );
+        const new_data = await axios.get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {
+          headers: { "auth-token": jwt },
+        })
+        setData(new_data.data)
+        setSubmitting(false);
+        console.log(res.data);
+        onClose()
+      } catch (err) {
+        console.log(err.response.data);
+      }
     };
 
-    
-
- 
     // TODO VALIDATION
     // const validationSchema = Yup.object({
     //   firstName: Yup.string().required(),
@@ -226,7 +229,6 @@ const UserPage: React.FC = (props: Props) => {
     //   // tags: Yup.boolean().equals([true]),
     // });
 
-
     return (
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -235,17 +237,21 @@ const UserPage: React.FC = (props: Props) => {
           <ModalCloseButton />
           <ModalBody>
             <Formik
-              initialValues={{..._.omit(data, [
-                "email",
-                "imageUrl",
-                "location",
-                "comments",
-                "ratedUsers",
-                "reviewedUsers",
-                "rating",
-                "tags",
-                "timesRated",
-              ]),select:""}}
+              initialValues={{
+                ..._.omit(data, [
+                  "email",
+                  "imageUrl",
+                  "location",
+                  "comments",
+                  "ratedUsers",
+                  "date",
+                  "reviewedUsers",
+                  "rating",
+                  "tags",
+                  "timesRated",
+                ]),
+                select: "",
+              }}
               onSubmit={handleSubmit}
             >
               {/* {({ handleSubmit, values, errors }) => ( */}

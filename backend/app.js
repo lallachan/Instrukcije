@@ -40,7 +40,7 @@ app.use('/api/landing',ladingRoute)
 app.get("/",(req,res)=>{
     res.send("UP")
 })
-schedule.scheduleJob('50 * * * * *',midnightFunction) 
+schedule.scheduleJob('0 0 * * *',midnightFunction) 
 
 app.listen(process.env.PORT || 5000, async ()=>{
 

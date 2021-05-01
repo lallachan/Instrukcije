@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
+const geocoder = require('../utills/geocoder')
 
 const {
     userUpdateValidation, instruktorRatingValidaiton, instruktorReviewValidation

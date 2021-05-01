@@ -53,7 +53,7 @@ const userUpdateValidation = (updateObj) => {
     firstName: Joi.string().min(2),
     lastName: Joi.string().min(2),
     desc: Joi.string().min(50).max(500),
-    city: Joi.string().min(1).max(500).required(),
+    city: Joi.string().min(1).max(500),
     phoneNumber: Joi.string()
       .pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))
       .min(5)
@@ -67,7 +67,7 @@ const userUpdateValidation = (updateObj) => {
       ,
     tags: Joi.array().items(Joi.string()),
     price: Joi.number().min(1),
-    city: Joi.string().min(1).max(500).required(),
+ 
   });
   const { error } = update_Schema.validate(updateObj);
   return error;

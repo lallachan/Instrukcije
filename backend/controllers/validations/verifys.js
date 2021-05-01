@@ -1,16 +1,15 @@
 const jwt = require("jsonwebtoken")
 const {userAuth,Instruktor} = require("../../models/User_Auth")
-
-module.exports.verifyToken = function (req,res,next) {
+module.exports.verifyToken =  function  (req,res,next) {
     const  token = req.header('auth-token')
-
     if(!token) return res.status(401).send("Access Denied")
 
 
     try{
 
-        const verified = jwt.verify(token,process.env.TOKEN_SECRET)
-        req.user_id= verified._id
+        const verified =  jwt.verify(token,process.env.TOKEN_SECRET)
+        req.user_id=  verified._id
+    
         //
         next()
     } catch(err){
@@ -51,23 +50,27 @@ module.exports.emailConfirmation = function (req,res,next) {
 
 module.exports.getUserColletion = async function (req,res,next) {
     try {
-        let user_id = await userAuth.findById(req.user_id)
-        if(user_id){
+     
+        const instruktor =await Instruktor.findById(req.user_id)
+        const user = await userAuth.findById(req.user_id)
+
+        if(instruktor){
+            req.Model =Instruktor
+        }
+        if(user){
             req.Model = userAuth
-            next()
+        }
+        if(!user && !instruktor){
+            throw Error("Nema")
         }
 
-        user_id = await Instruktor.findById(req.user_id)
-        if(user_id){
-            req.Model = Instruktor
-            next()
-        }
+        next()
+  
         
-        throw Error("User Does not Exists")
 
     } catch (error) {
         console.log(error)
-        res.status(400).send(error.message)
+        res.status(405).send(error.message)
     }
 
 }

@@ -74,8 +74,6 @@ const Cards: React.FC = (props: Props) => {
               border="1px solid teal"
               p="8"
               
-             
-              
             >
               <VStack>
                 <Image
@@ -98,10 +96,9 @@ const Cards: React.FC = (props: Props) => {
                   perspiciatis ipsa deleniti doloribus obcaecati nobis provident
                   atque qui officiis beatae magnam veniam molestiae.
 
-                 
 
                 </Text>
-               
+                  
 
                 <Button colorScheme="teal" variant="solid" mt="10">
                   Više

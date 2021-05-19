@@ -15,6 +15,7 @@ type Data = {
   tags? : [],
   price? : number,
   imageUrl? : string,
+  comments? : [],
   location?: {
     type?: string,
     coordinates? : number[]

@@ -76,7 +76,7 @@ const userUpdateValidation = (updateObj) => {
 
 const instruktorRatingValidaiton = (ratedInstruktor) => {
   const ratin_schema = Joi.object({
-    grade: Joi.number().min(1).max(10).required()
+    grade: Joi.number().min(1).max(5).required()
   });
 
   const { error } = ratin_schema.validate(ratedInstruktor);

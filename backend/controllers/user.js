@@ -89,29 +89,32 @@ exports.addReview = async (req,res)=>{
 }
 
 exports.addRating = async (req,res)=>{    
-    
+ 
     const error = instruktorRatingValidaiton(req.body)
     if(error){
-      return res.status(400).send(error.details[0].message);
+      
+ 
+      return res.status(412).send(error.details[0].message);
     }
-
-
+  
     try{
 
         //*CHECK IF INSTRUKTOR Exsists
         const rated_instruktor = await Instruktor.findById(req.param_id);
         if(rated_instruktor == null){
+            
             return res.status(400).send(`Can not rate user with id: ${req.param_id}`);
         }
-        
+
 
          //*CHECK IF USER DID ALREADY RATE 
         const user_that_rates = await req.Model.findById(req.user_id)
         if(user_that_rates.ratedUsers.includes(req.param_id)){
+           
             throw Error(`User (ID: ${req.user_id}) has already rated this instruktor(Instruktor ID: ${req.param_id}) `)
         }   
     
-
+       
         //*Change Instruktor Rating
         let new_rating;
 
@@ -134,7 +137,7 @@ exports.addRating = async (req,res)=>{
         res.status(200).send(`User (ID: ${req.user_id}) has succefully rated this instruktor(Instruktor ID: ${req.param_id}) `)
     
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
         return res.status(400).send(error.message)
     }
 

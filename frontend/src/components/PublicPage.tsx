@@ -176,7 +176,11 @@ export const PublicPage = (props: Props) => {
       result*=100
       console.log(result)
 
-     return  <Icon children={  <FaStar style={{clipPath:`inset(0 ${1-result}% 0 0)`}}/>}/>
+     return <div> 
+      
+       <Icon  style={{position:"absolute",marginRight:"70px"}} w={10} h={10} color="rgb(255, 204, 0)" children={  <FaStar style={{clipPath:`inset(0 ${1-result}% 0 0)`}}/>}/>
+       <Icon w={10} h={10} children={<FaStar  style={{ stroke: "grey" ,strokeWidth: "30"}}/>}/>
+      </div>
          
    
       })}

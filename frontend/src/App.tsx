@@ -24,6 +24,7 @@ import axios from "axios";
 import { PageNotFound } from "./components/PageNotFound";
 import _ from "lodash";
 import { PublicPage } from "./components/PublicPage";
+import { SearchPage } from "./components/SearchPage";
 
 function App() {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -95,6 +96,7 @@ function App() {
               
             }
             <Route exact path="/users/:id" component={PublicPage} />
+            <Route exact path="/search" component={SearchPage} />
             <Route component={PageNotFound} />
           </Switch>
           </div>

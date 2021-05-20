@@ -42,10 +42,13 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   FaCommentAlt,
   FaDollarSign,
+  FaHeart,
   FaImage,
   FaMapMarker,
   FaMapMarkerAlt,
   FaStar,
+  FaThumbsDown,
+  FaThumbsUp,
   FaUser,
 } from "react-icons/fa";
 import image from "../images/profileImage.jpg";
@@ -210,6 +213,7 @@ const UserPage: React.FC = (props: Props) => {
              
 
                 <Text>Posted at {datestring}</Text>
+                
                 </Box>
 
                 </HStack>
@@ -442,15 +446,23 @@ const UserPage: React.FC = (props: Props) => {
           )}
         </Stack>
 
-        <h1>Komentari</h1>
-        <Komentari komentari={data.comments}/>
-        <Komentari komentari={data.comments}/>
-        <Komentari komentari={data.comments}/>
-        <Komentari komentari={data.comments}/>
-        <Komentari komentari={data.comments}/>
+       
+        {_.isUndefined(data.comments) ? null : (
+          <>
+           <h1>Komentari</h1>
+           <Komentari komentari={data.comments}/>
+            <Komentari komentari={data.comments}/>
+            <Komentari komentari={data.comments}/>
+            <Komentari komentari={data.comments}/>
+            <Komentari komentari={data.comments}/>
+            <Button>Add Comment</Button>
+          </>
+           
+    
+          )}
+       
 
-
-        <Button>Add Comment</Button>
+      
         //TODO LIKE DISLIKE
 
       </VStack>

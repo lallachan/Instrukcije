@@ -26,7 +26,7 @@ exports.seachInstruktors = async (req, res) => {
 
     //find by
     const instruktors = await Instruktor.find(findObj)
-      .select(["-password", "-emailVerifed", "-__v", "-_id","-comments","-date","-reviewedUsers","-ratedUsers"])
+      .select(["-password", "-emailVerifed", "-__v","-comments","-date","-reviewedUsers","-ratedUsers"])
       .all("tags", req.body.param)
       .sort({ rating: -1 })
       .limit(20)

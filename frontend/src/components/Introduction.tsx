@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { useDisclosure } from "@chakra-ui/hooks";
 import Icon from "@chakra-ui/icon";
 import { Image } from "@chakra-ui/image";
-import { Input } from "@chakra-ui/input";
+import { Input, InputGroup } from "@chakra-ui/input";
 import { Box, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/layout";
 import {
   Modal,
@@ -12,7 +12,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/modal";
-import React from "react";
+import React, { useState } from "react";
 import { FaEllo, FaGraduationCap } from "react-icons/fa";
 import { Form } from "./Form";
 
@@ -23,12 +23,37 @@ import {
   Router,
   useHistory,
 } from "react-router-dom";
+import axios from "axios";
 
 interface Props {}
 
 export const Introduction: React.FC = (props: Props) => {
   const { isOpen, onClose, onOpen } = UseModalContext();
   const history = useHistory();
+  const [subject, setSubject] = useState("")
+  const obj = {
+    param : subject
+  }
+
+  function handleChange(e : any){
+    setSubject(e.target.value)
+     
+  }
+
+  async function handleSearch (){
+
+  try {
+    const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",obj)
+    console.log(res.data)
+    history.push({
+      pathname: '/search',
+       state: { detail: res.data }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+
+  }
 
   return (
     <VStack pl="8" maxW={{ sm: "100%",md:"100%",lg:"50%",xl:"50%" }}>
@@ -51,15 +76,37 @@ export const Introduction: React.FC = (props: Props) => {
         DANAS
       </Heading>
       </Box>
+
+
       
       <HStack w="100%" direction={["row", "row", "row", "row"]}>
+        <InputGroup >
         <Input
-          placeholder="Pronađi instruktore"
+          placeholder="Unesi predmet"
+          size="lg"
+          background="white"
+          w={"100%"}
+          onChange={(e)=>handleChange(e)}
+          
+        />
+
+<Input
+          placeholder="Unesi grad"
           size="lg"
           background="white"
           w={"100%"}
         />
-        <Button backgroundColor="black" color="white" size="lg">
+        
+        </InputGroup>
+
+
+
+        <Button backgroundColor="black" color="white" size="lg"
+        onClick={handleSearch}
+          
+
+
+        >
           Kreni
         </Button>
       </HStack>

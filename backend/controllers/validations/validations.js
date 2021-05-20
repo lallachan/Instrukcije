@@ -92,6 +92,21 @@ const instruktorReviewValidation = (ratedInstruktor) => {
   return error;
 }
 
+const searchParamsValidation = (searchParam) =>{
+  const search_schema = Joi.object({
+    param: Joi.array().items(Joi.string().min(2).max(1000).required()),
+    city: Joi.string().min(2).max(100),
+    location: Joi.object({
+      long:Joi.string().required(),
+      lat:Joi.string().required()
+    })
+
+
+  });
+
+  const { error } = search_schema.validate(searchParam);
+  return error;
+}
 
 
 module.exports.instruktorReviewValidation = instruktorReviewValidation;
@@ -100,3 +115,4 @@ module.exports.registerValidation = registerValidation;
 module.exports.registerInstruktorValidation = registerInstruktorValidation;
 module.exports.logInValidation = logInValidation;
 module.exports.userUpdateValidation = userUpdateValidation;
+module.exports.searchParamsValidation = searchParamsValidation;

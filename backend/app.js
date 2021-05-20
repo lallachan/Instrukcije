@@ -23,6 +23,7 @@ connect_to_DB()
 const authRoute = require('./routes/auth')
 const userRoute = require('./routes/user')
 const ladingRoute = require('./routes/landing')
+const searchRoute = require('./routes/search')
 
 
 
@@ -36,6 +37,7 @@ app.use(cors())
 app.use('/api/userAuth',authRoute)
 app.use('/api/user',userRoute)
 app.use('/api/landing',ladingRoute)
+app.use('/api/search',searchRoute)
 
 app.get("/",(req,res)=>{
     res.send("UP")

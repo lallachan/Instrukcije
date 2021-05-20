@@ -165,7 +165,6 @@ export const PublicPage = (props: Props) => {
       <Heading w="20%">{data.rating.toFixed(2)}</Heading>
 
 
- 
 
       {arr.map((star,i) => {
         
@@ -173,27 +172,13 @@ export const PublicPage = (props: Props) => {
       if(result<0){
         result = 0;
       }
-     
-      if(result >1){result =1}
-      result = result.toFixed(2)
-      console.log(result,typeof(result))
-        return (
-        <Icon h={10} w={10}>
-          <svg  >
+      result-=1
+      result*=100
+      console.log(result)
 
-         <defs>
-           <linearGradient id="myGradient" gradientTransform="rotate(0)">
-             <stop offset={result+""+"%"}  stopColor="black" />
-             
-             <stop offset="0" stopColor="white" />
-           </linearGradient>
-         </defs>
-         <IconContext.Provider value={{ attr: {fill: "url('#myGradient')"}}}>
-           <FaStar />
-         </IconContext.Provider>
-       </svg>
-       </Icon>
-        );
+     return  <Icon children={  <FaStar style={{clipPath:`inset(0 ${1-result}% 0 0)`}}/>}/>
+         
+   
       })}
     
       {data.rating? <Button>Already Rated</Button> :  

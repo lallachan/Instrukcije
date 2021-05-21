@@ -129,7 +129,7 @@ exports.registerInstruktor= async (req,res)=>{
   
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
   
-
+  data.tags = data.tags.map(tag=>tag.trim().toLowerCase())
   
   const user = await new Instruktor({
     ...data,

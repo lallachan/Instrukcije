@@ -11,12 +11,12 @@ interface Props {
 
 const UserStars = (props: Props) => {
         const {rating} = props
-        
+    
         
         const arr =[1,2,3,4,5]
         if(_.isUndefined(rating)){return <></>}
         return <VStack w="100%">
-        <Heading >{rating.toFixed(2)}</Heading>
+        <Heading >{rating==0?"Nije ocijenjen":rating.toFixed(2)}</Heading>
   
 
         <HStack>

@@ -47,7 +47,7 @@ export const Introduction: React.FC = (props: Props) => {
     console.log(res.data)
     history.push({
       pathname: '/search',
-       state: { detail: res.data }
+       state: { detail: res.data,subject }
     })
   } catch (error) {
     console.log(error)
@@ -87,11 +87,12 @@ export const Introduction: React.FC = (props: Props) => {
           background="white"
           w={"100%"}
           onChange={(e)=>handleChange(e)}
-          
+          borderRightRadius="none"
         />
 
 <Input
           placeholder="Unesi grad"
+          borderLeftRadius="none"
           size="lg"
           background="white"
           w={"100%"}

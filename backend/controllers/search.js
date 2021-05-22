@@ -1,3 +1,4 @@
+const { options } = require("joi");
 const mongoose = require("mongoose");
 
 const { Instruktor } = require("../models/User_Auth");
@@ -5,35 +6,39 @@ const { searchParamsValidation } = require("./validations/validations");
 
 exports.seachInstruktors = async (req, res) => {
   try {
-    // const error = searchParamsValidation(req.body)
-    // if(error){
-    //     throw Error(`${error.details[0].message}`)
-    // }
-
-    //*TOOD limit by location
-    // ** Limit by city
-
-    //         //** Limit by location */
-
-    let findObj = {};
-    if (req.body.city !== undefined) {
-      findObj.city = req.body.city;
+   
+    const error = searchParamsValidation(req.body)
+    const options  ={
+      limit:1,
+      page:req.body.page,
+      sort : {rating: -1},
+      select:["-password", "-emailVerifed", "-__v","-comments","-date","-reviewedUsers","-ratedUsers"],
     }
-    // //!! TODO LOCATION SEARCH
-    // if (req.body.location !== undefined) {
-    //   findObj.location = req.body.location;
-    // }
 
-    //find by
-    const instruktors = await Instruktor.find(findObj)
-      .select(["-password", "-emailVerifed", "-__v","-comments","-date","-reviewedUsers","-ratedUsers"])
-      .all("tags", req.body.param)
-      .sort({ rating: -1 })
-      .limit(20)
-      .exec()
-    console.log(instruktors);
+    
+    if(error){
+      console.log(error.details[0].message)
+        throw Error(`${error.details[0].message}`)
+    }
+   
+   
+    let query = {}
+    if(req.body.param != undefined){ 
+      query.tags = {$all:[req.body.param.toLowerCase()]}
+    }
+    
+    if(req.body.city != undefined){ 
+      query.city = req.body.city
+    }
+    
 
-    return res.status(200).send(instruktors);
+    return Instruktor.paginate(query, options, (err,result)=>{
+      return res.status(200).send(result)
+    })
+
+ 
+
+ 
   } catch (error) {
     return res.status(400).send(error.message);
   }

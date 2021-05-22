@@ -16,11 +16,13 @@ import { Spinner } from "@chakra-ui/spinner";
 import { Tag } from "@chakra-ui/tag";
 import axios from "axios";
 import _ from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaCity, FaSearch, FaStar } from "react-icons/fa";
 import { useHistory } from "react-router";
 import avatar from "../images/avatar.png";
 import UserStars from "./Contexts/UserStars";
+import gradovi from "../gradovi.json"
+import { Select } from "@chakra-ui/select";
 interface Props {}
 
 export const SearchPage = (props: Props) => {
@@ -29,6 +31,7 @@ export const SearchPage = (props: Props) => {
   const [tutors, setTutors] = useState(history.location.state.detail)
   const [subject, setSubject] = useState(history.location.state.subject)
   const [loading, setLoading] = useState(false)
+  const selectRef:any = useRef(null)
   
   function truncateTest(text: string) {
     if (text.length > 80) {
@@ -41,7 +44,13 @@ export const SearchPage = (props: Props) => {
     setLoading(true)
     try {
   
-      const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",{param:subject})
+      let obj:any = {
+        param:subject
+      } 
+  
+      if(! _.isEmpty(selectRef.current.value)){ obj.city = selectRef.current.value}
+  
+      const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",obj)
         console.log(res.data)
       setTutors(res.data)
     } catch (error) {
@@ -142,14 +151,18 @@ export const SearchPage = (props: Props) => {
             onChange={(e)=>setSubject(e.target.value)}
           />
          
-          {/* <InputLeftAddon borderLeftRadius="none" children={<FaCity/>} /> */}
-          <Input
-            placeholder="Unesite grad"
-            background="white"
-            borderLeftRadius="none"
-            // value={subject}
-            // onChange={(e)=>setSubject(e.target.value)}
-          />
+         
+        <Select placeholder="Unesi grad"
+          borderRadius="none"
+          background="white"
+          ref={selectRef}
+          >
+          {
+            gradovi.map(i=>
+               <option value={i}>{i}</option>
+            )
+          }
+        </Select>
            <InputRightAddon  onClick={handleSearch} children={<FaSearch/>} />
         </InputGroup>
       </Stack>

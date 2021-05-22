@@ -93,15 +93,11 @@ const instruktorReviewValidation = (ratedInstruktor) => {
 }
 
 const searchParamsValidation = (searchParam) =>{
+
   const search_schema = Joi.object({
-    param: Joi.array().items(Joi.string().min(2).max(1000).required()),
+    param: Joi.string().min(2).max(1000),
     city: Joi.string().min(2).max(100),
-    location: Joi.object({
-      long:Joi.string().required(),
-      lat:Joi.string().required()
-    })
-
-
+    page:Joi.number().min(1).max(100).default(1),
   });
 
   const { error } = search_schema.validate(searchParam);

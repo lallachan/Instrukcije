@@ -12,7 +12,7 @@ const schedule = require("node-schedule")
 
 
 const {midnightFunction } = require('./functions/ServerFunctions')
-const Instruktor_Landing = require("./models/Instruktor_Landing")
+
 const connect_to_DB = require('./config/db')
 
 //DB_CONNECT

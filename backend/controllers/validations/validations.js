@@ -85,7 +85,8 @@ const instruktorRatingValidaiton = (ratedInstruktor) => {
 
 const instruktorReviewValidation = (ratedInstruktor) => {
   const review_schema = Joi.object({
-    desc: Joi.string().min(5).max(1000).required()
+    desc: Joi.string().min(5).max(1000).required(),
+    param_id:Joi.string().min(24).max(24)
   });
 
   const { error } = review_schema.validate(ratedInstruktor);

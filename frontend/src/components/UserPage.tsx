@@ -90,7 +90,7 @@ const UserPage: React.FC = (props: Props) => {
   const { jwt, data, setData } = UseHeaderContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const commentRef : any = useRef(null)
+
 
   useEffect(() => {
     if (_.isEqual({}, data)) {
@@ -195,52 +195,7 @@ const UserPage: React.FC = (props: Props) => {
     );
   }
 
-  function Komentari(komentari : any){
-
-   
-
-   
-    return <div>
-          {
-            komentari.komentari.map((c:any)=>{
-
-              var d = new Date(c.created_at);
-
-              var datestring = d.getDate()  + "." + (d.getMonth()+1) + "." + d.getFullYear() + " " +
-              d.getHours() + ":" + d.getMinutes();
-
-              return <Box borderRadius="3px" border="2px solid grey" p="10" >
-               
-                <HStack>
-                <Image mr="4" mb="6" borderRadius="full" maxW="40px" src={"https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/" + c.user.imageUrl}/>
-
-                <Box>
-                <Heading size="md" textAlign="left">
-                {c.user.firstName} {c.user.lastName} 
-                </Heading>
-                <Text textAlign="left"> {c.comment}</Text>
-             
-
-                <Text>Posted at {datestring}</Text>
-                
-                </Box>
-
-                </HStack>
-             
-               
-           
-               
-              
-                
-              
-               
-                
-              </Box>
-            })
-          }
-
-          </div>
-  }
+  
 
 
   function EditProfileModal() {
@@ -364,30 +319,53 @@ const UserPage: React.FC = (props: Props) => {
 
   if (_.isEqual({}, data)) return <Spinner />;
 
+  function Komentari(komentari : any){
 
-  async function postComment(){
-  
-    const obj = {desc:commentRef.current.value}
-  
-    try {
-      const res = await axios.put(  process.env.REACT_APP_SERVER_CONNECT  + `/api/user/${data._id}/addReview`,
-      obj,
-      {
-        headers: {
-          "auth-token": jwt,
-        },
-      }
-      
-      )
-      
-      console.log(res.data)
-      delete commentRef.current
+   
 
-    } catch (error) {
-      console.log(error.response.data)
-    }
-  
+   
+    return <div>
+          {
+            komentari.komentari.map((c:any)=>{
+
+              var d = new Date(c.created_at);
+
+              var datestring = d.getDate()  + "." + (d.getMonth()+1) + "." + d.getFullYear() + " " +
+              d.getHours() + ":" + d.getMinutes();
+
+              return <Box borderRadius="3px" border="2px solid grey" p="10" >
+               
+                <HStack>
+                <Image mr="4" mb="6" borderRadius="full" maxW="40px" src={"https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/" + c.user.imageUrl}/>
+
+                <Box>
+                <Heading size="md" textAlign="left">
+                {c.user.firstName} {c.user.lastName} 
+                </Heading>
+                <Text textAlign="left"> {c.comment}</Text>
+             
+
+                <Text>Posted at {datestring}</Text>
+                
+                </Box>
+
+                </HStack>
+             
+               
+           
+               
+              
+                
+              
+               
+                
+              </Box>
+            })
+          }
+
+          </div>
   }
+  
 
   return (
     <Stack
@@ -492,21 +470,7 @@ const UserPage: React.FC = (props: Props) => {
             <Komentari komentari={data.comments}/>
             
 
-          <Popover>
-        <PopoverTrigger>
-          <Button>Add Comment</Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverArrow />
-  
-          
         
-          <PopoverBody >
-          <Textarea  ref={commentRef}></Textarea>
-          </PopoverBody>
-          <Button w="50%" mx="auto" mt="2" backgroundColor="teal" color="white" onClick={postComment}>Post</Button>
-        </PopoverContent>
-        </Popover>
           </>
            
     

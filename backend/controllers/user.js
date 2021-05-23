@@ -30,7 +30,7 @@ exports.getUserData = async (req,res)=>{
 
 
 exports.addReview = async (req,res)=>{ 
-    
+
     const error = instruktorReviewValidation(req.body)
     if(error){
       return res.status(400).send(error.details[0].message);
@@ -44,7 +44,7 @@ exports.addReview = async (req,res)=>{
             return res.status(400).send(`Can not rate user with id: ${req.param_id}`);
         }
 
-
+        console.log(req.user_id)
         //*CHECK IF USER DID ALREADY RATE 
         const user_that_reviews = await req.Model.findById(req.user_id)
         if(user_that_reviews.reviewedUsers.includes(req.param_id)){

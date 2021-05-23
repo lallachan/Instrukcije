@@ -5,10 +5,10 @@ const { searchParamsValidation } = require("./validations/validations");
 
 exports.seachInstruktors = async (req, res) => {
   try {
-    // const error = searchParamsValidation(req.body)
-    // if(error){
-    //     throw Error(`${error.details[0].message}`)
-    // }
+    const error = searchParamsValidation(req.body)
+    if(error){
+        throw Error(`${error.details[0].message}`)
+    }
 
     //*TOOD limit by location
     // ** Limit by city

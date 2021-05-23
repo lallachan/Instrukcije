@@ -17,7 +17,7 @@ const { getUserColletion } = require("./validations/verifys");
 // *@acces Private (JWT Header)
 exports.getUserData = async (req,res)=>{
     try{
-        const user = await req.Model.findById(req.user_id).select(["-password" ,"-emailVerifed","-__v","-_id"])
+        const user = await req.Model.findById(req.user_id).select(["-password" ,"-emailVerifed","-__v"])
        
        
         return res.status(200).json(user)

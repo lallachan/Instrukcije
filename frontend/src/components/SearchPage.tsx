@@ -30,6 +30,8 @@ export const SearchPage = (props: Props) => {
 
   const [tutors, setTutors] = useState(history.location.state.detail)
   const [subject, setSubject] = useState(history.location.state.subject)
+  const [nextPage, setNextPage] = useState(history.location.state.nextPage)
+  const [hasNextPage, setHasNextPage] = useState(history.location.state.hasNextPage)
   const [loading, setLoading] = useState(false)
   const selectRef:any = useRef(null)
   
@@ -40,19 +42,54 @@ export const SearchPage = (props: Props) => {
     return text;
   }
 
+  async function handleLoadMore(){
+    setLoading(true)
+    try {
+  
+      let obj:any = {} 
+      if(!_.isEmpty(subject)){obj.param = subject}
+      if(hasNextPage){ obj.page = nextPage}
+      if(! _.isEmpty(selectRef.current.value)){ obj.city = selectRef.current.value}
+  
+      const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",obj)
+     
+      setTutors([...tutors,...res.data.docs])
+      setHasNextPage(res.data.hasNextPage)
+      
+      if(res.data.hasNextPage){
+        setNextPage(res.data.nextPage)
+      }
+
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+    setLoading(false)
+  }
+
   async function handleSearch (){
     setLoading(true)
     try {
   
       let obj:any = {
-        param:subject
+        page:1
       } 
-  
+     
+
+      if(!_.isEmpty(subject)){obj.param = subject}
       if(! _.isEmpty(selectRef.current.value)){ obj.city = selectRef.current.value}
-  
+
       const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",obj)
-        console.log(res.data)
-      setTutors(res.data)
+
+      setTutors([...res.data.docs])
+      setHasNextPage(res.data.hasNextPage)
+      
+      if(res.data.hasNextPage){
+        setNextPage(res.data.nextPage)
+      }
+
+      
     } catch (error) {
       console.log(error)
       
@@ -163,7 +200,7 @@ export const SearchPage = (props: Props) => {
             )
           }
         </Select>
-           <InputRightAddon  onClick={handleSearch} children={<FaSearch/>} />
+           <InputRightAddon  onClick={()=>{handleSearch()}} children={<FaSearch/>} />
         </InputGroup>
       </Stack>
 
@@ -189,19 +226,11 @@ export const SearchPage = (props: Props) => {
                 return <Tutor tutor={tutor} />;
               })}
 
-          {tutors.length === 0
-            ? null
-            : tutors.map((tutor: any) => {
-                return <Tutor tutor={tutor} />;
-              })}
-
-          {tutors.length === 0
-            ? null
-            : tutors.map((tutor: any) => {
-                return <Tutor tutor={tutor} />;
-              })}
+              
         </Grid>
         }
+
+        {hasNextPage?<Button onClick={handleLoadMore}>Load More</Button>:<Heading>Kraj</Heading>}
       </Stack>
     </React.Fragment>
   );

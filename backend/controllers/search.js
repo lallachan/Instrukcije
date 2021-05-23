@@ -17,7 +17,7 @@ exports.seachInstruktors = async (req, res) => {
 
     
     if(error){
-      console.log(error.details[0].message)
+        console.log("Hey")
         throw Error(`${error.details[0].message}`)
     }
    
@@ -33,6 +33,7 @@ exports.seachInstruktors = async (req, res) => {
     
 
     return Instruktor.paginate(query, options, (err,result)=>{
+      console.log(result)
       return res.status(200).send(result)
     })
 

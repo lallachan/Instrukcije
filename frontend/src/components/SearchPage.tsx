@@ -173,11 +173,12 @@ export const SearchPage = (props: Props) => {
         textAlign="center"
         justifyContent="center"
         w="100vw"
+        
         h="100px"
       
-        mt={["0", "0", "0", "0", "-13vh"]}
+        mt={["0", "0", "0", "0", "0"]}
         
-        backgroundColor={["teal.400", "teal.400", "teal.400","teal.400", "transparent"]}
+        backgroundColor={["teal.400", "teal.400", "teal.400","teal.400", "teal.400"]}
         zIndex="100"
       >
         <InputGroup mt="4" pl="2"  w={["90%", "90%", "75%", "50%"]} mx="auto">
@@ -204,7 +205,7 @@ export const SearchPage = (props: Props) => {
         </InputGroup>
       </Stack>
 
-      <Stack w="100vw" backgroundColor="#E2E8F0" mt={["100px", "100px", "100px", "100px", "0"]}>
+      <Stack w="100vw" backgroundColor="#E2E8F0" mt={["100px", "100px", "100px", "100px", "100px"]}>
         {loading?<Spinner mx="auto" mt="10"/>:
         <Grid
           p="2"
@@ -228,9 +229,14 @@ export const SearchPage = (props: Props) => {
 
               
         </Grid>
-        }
+      
 
-        {hasNextPage?<Button onClick={handleLoadMore}>Load More</Button>:<Heading>Kraj</Heading>}
+       
+        }
+    
+        {hasNextPage?<Stack   w="100vw"><Button mb="2" backgroundColor="teal.300" _hover={{backgroundColor:"lightgrey"}} mx="auto" alignContent="center" onClick={handleLoadMore} w="20%">Load More</Button></Stack>:<Heading>Kraj</Heading>
+        }
+         
       </Stack>
     </React.Fragment>
   );

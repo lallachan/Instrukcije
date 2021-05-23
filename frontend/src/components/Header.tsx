@@ -102,39 +102,9 @@ const Header: React.FC = (props: Props) => {
           <Image src={logo} boxSize="50px" onClick={() => history.push("/")} />
         </Box>
        
-
-        <InputGroup >
-        <Input
-          placeholder="Unesi predmet"
-          size="lg"
-          background="white"
-          w={"100%"}
-          onChange={(e)=>handleChange(e)}
-          borderRightRadius="none"
-        />
-
-<Input
-          placeholder="Unesi grad"
-          borderLeftRadius="none"
-          size="lg"
-          background="white"
-          w={"100%"}
-        />
-        
-        <InputRightAddon children={<FaSearch/>}
-        onClick={handleSearch}
-          
-
-
-        />
-        </InputGroup>
-
-
-
     
-        
 
-        <Box w="30%" textAlign="right" mr="8" p="4" mt="4">
+        <Box w="80%" textAlign="right" mr="8" p="4" mt="4">
         <Menu>
           <MenuButton>
             <Image src={image}   borderRadius="full" boxSize="50px"  />

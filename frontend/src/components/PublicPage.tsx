@@ -179,7 +179,7 @@ export const PublicPage = (props: Props) => {
     const arr = [1, 2, 3,4, 5];
     const [imgData, setImgData] = useState<any>(avatar);
     const { jwt, data : userData } = UseHeaderContext();
-
+    const [error, setError] =useState("")
     let { id } = useParams<any>();
 
     useEffect(() => {
@@ -211,9 +211,11 @@ export const PublicPage = (props: Props) => {
         
         console.log(res.data)
         delete commentRef.current
+        window.location.reload(false)
   
       } catch (error) {
         console.log(error.response.data)
+        // setError(error.response.data)
       }
     
     }
@@ -385,12 +387,9 @@ export const PublicPage = (props: Props) => {
           <>
            <h1>Komentari</h1>
            <Komentari komentari={data.comments}/>
-            <Komentari komentari={data.comments}/>
-            <Komentari komentari={data.comments}/>
-            <Komentari komentari={data.comments}/>
-            <Komentari komentari={data.comments}/>
+           
             
-
+          
           <Popover>
         <PopoverTrigger>
           <Button>Add Comment</Button>
@@ -402,6 +401,7 @@ export const PublicPage = (props: Props) => {
         
           <PopoverBody >
           <Textarea  ref={commentRef}></Textarea>
+         <Text>{error}</Text> 
           </PopoverBody>
           <Button w="50%" mx="auto" mt="2" backgroundColor="teal" color="white" onClick={postComment}>Post</Button>
         </PopoverContent>

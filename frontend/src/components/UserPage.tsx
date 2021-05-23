@@ -37,6 +37,13 @@ import {
   InputLeftElement,
   Textarea,
   ButtonGroup,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -82,6 +89,8 @@ const UserPage: React.FC = (props: Props) => {
 
   const { jwt, data, setData } = UseHeaderContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const commentRef : any = useRef(null)
 
   useEffect(() => {
     if (_.isEqual({}, data)) {
@@ -237,6 +246,7 @@ const UserPage: React.FC = (props: Props) => {
   function EditProfileModal() {
     const handleSubmit = async (values: any, { setSubmitting }: any) => {
      
+
     
       try {
         const res = await axios.put(
@@ -354,6 +364,31 @@ const UserPage: React.FC = (props: Props) => {
 
   if (_.isEqual({}, data)) return <Spinner />;
 
+
+  async function postComment(){
+  
+    const obj = {desc:commentRef.current.value}
+  
+    try {
+      const res = await axios.put(  process.env.REACT_APP_SERVER_CONNECT  + `/api/user/${data._id}/addReview`,
+      obj,
+      {
+        headers: {
+          "auth-token": jwt,
+        },
+      }
+      
+      )
+      
+      console.log(res.data)
+      delete commentRef.current
+
+    } catch (error) {
+      console.log(error.response.data)
+    }
+  
+  }
+
   return (
     <Stack
       h="300vh"
@@ -455,7 +490,23 @@ const UserPage: React.FC = (props: Props) => {
             <Komentari komentari={data.comments}/>
             <Komentari komentari={data.comments}/>
             <Komentari komentari={data.comments}/>
-            <Button>Add Comment</Button>
+            
+
+          <Popover>
+        <PopoverTrigger>
+          <Button>Add Comment</Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverArrow />
+  
+          
+        
+          <PopoverBody >
+          <Textarea  ref={commentRef}></Textarea>
+          </PopoverBody>
+          <Button w="50%" mx="auto" mt="2" backgroundColor="teal" color="white" onClick={postComment}>Post</Button>
+        </PopoverContent>
+        </Popover>
           </>
            
     

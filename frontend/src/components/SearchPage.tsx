@@ -16,11 +16,13 @@ import { Spinner } from "@chakra-ui/spinner";
 import { Tag } from "@chakra-ui/tag";
 import axios from "axios";
 import _ from "lodash";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaCity, FaSearch, FaStar } from "react-icons/fa";
 import { useHistory } from "react-router";
 import avatar from "../images/avatar.png";
 import UserStars from "./Contexts/UserStars";
+import gradovi from "../gradovi.json"
+import { Select } from "@chakra-ui/select";
 interface Props {}
 
 export const SearchPage = (props: Props) => {
@@ -28,7 +30,10 @@ export const SearchPage = (props: Props) => {
 
   const [tutors, setTutors] = useState(history.location.state.detail)
   const [subject, setSubject] = useState(history.location.state.subject)
+  const [nextPage, setNextPage] = useState(history.location.state.nextPage)
+  const [hasNextPage, setHasNextPage] = useState(history.location.state.hasNextPage)
   const [loading, setLoading] = useState(false)
+  const selectRef:any = useRef(null)
   
   function truncateTest(text: string) {
     if (text.length > 80) {
@@ -37,13 +42,54 @@ export const SearchPage = (props: Props) => {
     return text;
   }
 
+  async function handleLoadMore(){
+    setLoading(true)
+    try {
+  
+      let obj:any = {} 
+      if(!_.isEmpty(subject)){obj.param = subject}
+      if(hasNextPage){ obj.page = nextPage}
+      if(! _.isEmpty(selectRef.current.value)){ obj.city = selectRef.current.value}
+  
+      const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",obj)
+     
+      setTutors([...tutors,...res.data.docs])
+      setHasNextPage(res.data.hasNextPage)
+      
+      if(res.data.hasNextPage){
+        setNextPage(res.data.nextPage)
+      }
+
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+    setLoading(false)
+  }
+
   async function handleSearch (){
     setLoading(true)
     try {
   
-      const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",{param:subject})
-        console.log(res.data)
-      setTutors(res.data)
+      let obj:any = {
+        page:1
+      } 
+     
+
+      if(!_.isEmpty(subject)){obj.param = subject}
+      if(! _.isEmpty(selectRef.current.value)){ obj.city = selectRef.current.value}
+
+      const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",obj)
+
+      setTutors([...res.data.docs])
+      setHasNextPage(res.data.hasNextPage)
+      
+      if(res.data.hasNextPage){
+        setNextPage(res.data.nextPage)
+      }
+
+      
     } catch (error) {
       console.log(error)
       
@@ -142,15 +188,19 @@ export const SearchPage = (props: Props) => {
             onChange={(e)=>setSubject(e.target.value)}
           />
          
-          {/* <InputLeftAddon borderLeftRadius="none" children={<FaCity/>} /> */}
-          <Input
-            placeholder="Unesite grad"
-            background="white"
-            borderLeftRadius="none"
-            // value={subject}
-            // onChange={(e)=>setSubject(e.target.value)}
-          />
-           <InputRightAddon  onClick={handleSearch} children={<FaSearch/>} />
+         
+        <Select placeholder="Unesi grad"
+          borderRadius="none"
+          background="white"
+          ref={selectRef}
+          >
+          {
+            gradovi.map(i=>
+               <option value={i}>{i}</option>
+            )
+          }
+        </Select>
+           <InputRightAddon  onClick={()=>{handleSearch()}} children={<FaSearch/>} />
         </InputGroup>
       </Stack>
 
@@ -176,19 +226,11 @@ export const SearchPage = (props: Props) => {
                 return <Tutor tutor={tutor} />;
               })}
 
-          {tutors.length === 0
-            ? null
-            : tutors.map((tutor: any) => {
-                return <Tutor tutor={tutor} />;
-              })}
-
-          {tutors.length === 0
-            ? null
-            : tutors.map((tutor: any) => {
-                return <Tutor tutor={tutor} />;
-              })}
+              
         </Grid>
         }
+
+        {hasNextPage?<Button onClick={handleLoadMore}>Load More</Button>:<Heading>Kraj</Heading>}
       </Stack>
     </React.Fragment>
   );

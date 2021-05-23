@@ -2,6 +2,7 @@ const { required } = require("joi");
 const mongoose = require("mongoose");
 const extendSchema = require('mongoose-extend-schema');
 
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const User_AuthSchema = mongoose.Schema({
     firstName:{
@@ -140,6 +141,7 @@ const Insturktor_Schema = extendSchema(User_AuthSchema,{
 
 
 })
+Insturktor_Schema.plugin(mongoosePaginate);
 
 module.exports.Instruktor = mongoose.model('Instruktor',Insturktor_Schema)
 module.exports.userAuth = mongoose.model('User_Auth',User_AuthSchema)

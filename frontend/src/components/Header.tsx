@@ -42,6 +42,7 @@ import { UseModalContext } from "./Contexts/ModalContex";
 import avatar from "../images/avatar.png";
 import _ from "lodash";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 interface Props {
 
@@ -55,14 +56,35 @@ const Header: React.FC = (props: Props) => {
   const { jwt, data, setJwt,setData} = UseHeaderContext();
   const cloudinary_url =   "https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/"
   const [image, setImage] = useState(avatar)
-
+  const [subject, setSubject] = useState("")
+  const obj = {
+    param : subject
+  }
   useEffect(() => {
     if(!  _.isEmpty(data.imageUrl)){
       setImage(cloudinary_url+data.imageUrl)
     }
   }, [data.imageUrl])
 
-  
+  function handleChange(e : any){
+    setSubject(e.target.value)
+     
+  }
+
+  async function handleSearch (){
+
+  try {
+    const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",obj)
+   
+    history.push({
+      pathname: '/search',
+       state: { detail: res.data,subject }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+
+  }
 
 
   const LoggedInHeader: React.FC = () => {
@@ -80,18 +102,9 @@ const Header: React.FC = (props: Props) => {
           <Image src={logo} boxSize="50px" onClick={() => history.push("/")} />
         </Box>
        
+    
 
-        <InputGroup w={["80%","80%","40%","40%","40%"]}>
-        <Input
-          placeholder="Pronađi instruktore"
-          background="white"
-          size="md"
-          mx="auto"
-        />
-        <InputRightAddon children={<FaSearch/>}/>
-        </InputGroup>
-
-        <Box w="30%" textAlign="right" mr="8" p="4" mt="4">
+        <Box w="80%" textAlign="right" mr="8" p="4" mt="4">
         <Menu>
           <MenuButton>
             <Image src={image}   borderRadius="full" boxSize="50px"  />
@@ -161,9 +174,6 @@ const Header: React.FC = (props: Props) => {
 
   return (
     <>
-
-
-
 
         {_.isEqual("",jwt)? <LoggedOutHeader />: <LoggedInHeader /> }
       

@@ -17,7 +17,7 @@ exports.seachInstruktors = async (req, res) => {
 
     
     if(error){
-        console.log("Hey")
+
         throw Error(`${error.details[0].message}`)
     }
    

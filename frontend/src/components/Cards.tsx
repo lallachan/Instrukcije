@@ -100,11 +100,7 @@ const Cards: React.FC = (props: Props) => {
                   })}
                 </Text>
                 <Text justifyContent="center">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-                  maiores ullam, enim aliquid dolorem veritatis facilis
-                  perspiciatis ipsa deleniti doloribus obcaecati nobis provident
-                  atque qui officiis beatae magnam veniam molestiae.
-
+                {tutor.desc}
 
                 </Text>
                   

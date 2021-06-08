@@ -85,6 +85,7 @@ export const Introduction: React.FC = (props: Props) => {
         as= "h1"
         color="white"
         alignSelf="flex-start"
+        fontSize="100px"
       >
         DANAS
       </Heading>

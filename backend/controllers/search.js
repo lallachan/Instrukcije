@@ -9,7 +9,7 @@ exports.seachInstruktors = async (req, res) => {
    
     const error = searchParamsValidation(req.body)
     const options  ={
-      limit:1,
+      limit:4,
       page:req.body.page,
       sort : {rating: -1},
       select:["-password", "-emailVerifed", "-__v","-comments","-date","-reviewedUsers","-ratedUsers"],

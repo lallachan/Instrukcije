@@ -1,4 +1,3 @@
-
 import Icon from "@chakra-ui/icon";
 import {
   Box,
@@ -81,61 +80,59 @@ import { predmeti } from "../PREDMETI.json";
 import { useParams } from "react-router";
 import { IconContext } from "react-icons/lib";
 
-interface Props {
-    
-}
+interface Props {}
 
 export const PublicPage = (props: Props) => {
+  const cloudinary =
+    "https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/";
 
+  const commentRef: any = useRef(null);
+  function Komentari(komentari: any) {
+    return (
+      <div>
+        {komentari.komentari.map((c: any) => {
+          var d = new Date(c.created_at);
 
-  const commentRef : any = useRef(null)
-  function Komentari(komentari : any){
+          var datestring =
+            d.getDate() +
+            "." +
+            (d.getMonth() + 1) +
+            "." +
+            d.getFullYear() +
+            " " +
+            d.getHours() +
+            ":" +
+            d.getMinutes();
 
-   
-
-   
-    return <div>
-          {
-            komentari.komentari.map((c:any)=>{
-
-              var d = new Date(c.created_at);
-
-              var datestring = d.getDate()  + "." + (d.getMonth()+1) + "." + d.getFullYear() + " " +
-              d.getHours() + ":" + d.getMinutes();
-
-              return <Box borderRadius="3px" border="2px solid grey" p="10" >
-               
-                <HStack>
-                <Image mr="4" mb="6" borderRadius="full" maxW="40px" src={"https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/" + c.user.imageUrl}/>
+          return (
+            <Box borderRadius="3px" border="2px solid grey" p="10" mt="2">
+              <HStack >
+                <Image
+                  mr="4"
+                  mb="6"
+                  
+                  borderRadius="full"
+                  maxW="40px"
+                  src={
+                    _.isEmpty(c.user.imageUrl) ? avatar : cloudinary + c.user.imageUrl
+                  }
+                />
 
                 <Box>
-                <Heading size="md" textAlign="left">
-                {c.user.firstName} {c.user.lastName} 
-                </Heading>
-                <Text textAlign="left"> {c.comment}</Text>
-             
+                  <Heading size="md" textAlign="left">
+                    {c.user.firstName} {c.user.lastName}
+                  </Heading>
+                  <Text textAlign="left"> {c.comment}</Text>
 
-                <Text>Posted at {datestring}</Text>
-                
+                  <Text>Posted at {datestring}</Text>
                 </Box>
-
-                </HStack>
-             
-               
-           
-               
-              
-                
-              
-               
-                
-              </Box>
-            })
-          }
-
-          </div>
+              </HStack>
+            </Box>
+          );
+        })}
+      </div>
+    );
   }
-
 
   function Map() {
     const innitial_lat = _.isUndefined(data.price)
@@ -152,9 +149,6 @@ export const PublicPage = (props: Props) => {
       zoom: 15,
     });
     if (_.isUndefined(data.price)) return <></>;
-
-    
-
 
     return (
       <ReactMapGL
@@ -174,263 +168,274 @@ export const PublicPage = (props: Props) => {
     );
   }
 
+  const [data, setData] = useState<any>(null);
+  const arr = [1, 2, 3, 4, 5];
+  const [imgData, setImgData] = useState<any>(avatar);
+  const { jwt, data: userData } = UseHeaderContext();
+  const [error, setError] = useState("");
+  let { id } = useParams<any>();
 
-    const [data,setData] = useState<any>(null)
-    const arr = [1, 2, 3,4, 5];
-    const [imgData, setImgData] = useState<any>(avatar);
-    const { jwt, data : userData } = UseHeaderContext();
-    const [error, setError] =useState("")
-    let { id } = useParams<any>();
+  useEffect(() => {
+    console.log("hej");
+    axios
+      .get(process.env.REACT_APP_SERVER_CONNECT + "/api/user/" + id)
+      .then((res) => {
+        setData(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
+  }, []);
 
-    useEffect(() => {
-        console.log("hej")
-        axios.get(process.env.REACT_APP_SERVER_CONNECT + "/api/user/"+id)
-        .then(res=>{
-            setData(res.data)
-            console.log(res.data)
-        })
-        .catch(err=>{
-          console.log(err.data)
-        })
-    }, [])
+  async function postComment() {
+    const obj = { desc: commentRef.current.value };
 
-    async function postComment(){
-  
-      const obj = {desc:commentRef.current.value}
-    
-      try {
-        const res = await axios.put(  process.env.REACT_APP_SERVER_CONNECT  + `/api/user/${data._id}/addReview`,
+    try {
+      const res = await axios.put(
+        process.env.REACT_APP_SERVER_CONNECT +
+          `/api/user/${data._id}/addReview`,
         obj,
         {
           headers: {
             "auth-token": jwt,
           },
         }
-        
-        )
-        
-        console.log(res.data)
-        delete commentRef.current
-        window.location.reload(false)
-  
-      } catch (error) {
-        console.log(error.response.data)
-        // setError(error.response.data)
-      }
-    
+      );
+
+      console.log(res.data);
+      delete commentRef.current;
+      window.location.reload(false);
+    } catch (error) {
+      console.log(error.response.data);
+      // setError(error.response.data)
     }
+  }
 
+  function Rating() {
+    const stars = [1, 2, 3, 4, 5];
+    const [indx, setIndx] = useState(0);
+    const [isRated, setIsRated] = useState(false);
 
-    function Rating(){
-      const stars = [1,2,3,4,5]
-      const [indx, setIndx] = useState(0)
-      const [isRated, setIsRated] = useState(false)
-
-      async function rateUser(rate:Number){
-      setIsRated(true)
-      if(_.isEmpty(jwt)) alert("Please log in or create an account!")   
-      try{const res = await axios.put(process.env.REACT_APP_SERVER_CONNECT + "/api/user/"+ id + "/rate",{grade:rate},{headers:{"auth-token":jwt}})
-        console.log(res.data)
-    }
-      catch(err){
-          console.log(err.message)
-      }
-      
-        
-
-      }
-
-      if(_.isUndefined(data.rating)){return <></>}
-      return <HStack w="100%">
-      <Heading w="20%">{data.rating.toFixed(2)}</Heading>
-
-
-
-      {arr.map((star,i) => {
-        
-      let result:any = Number.parseFloat((data.rating - i).toFixed(2))
-      if(result<0){
-        result = 0;
-      }
-      result-=1
-      result*=100
-      console.log(result)
-
-     return <div> 
-      
-       <Icon  style={{position:"absolute",marginRight:"70px"}} w={10} h={10} color="rgb(255, 204, 0)" children={  <FaStar style={{clipPath:`inset(0 ${1-result}% 0 0)`}}/>}/>
-       <Icon w={10} h={10} children={<FaStar  style={{ stroke: "grey" ,strokeWidth: "30"}}/>}/>
-      </div>
-         
-   
-      })}
-    
-      {data.rating? <Button>Already Rated</Button> :  
-       
-      <Popover  placement="left" >
-      
-      <PopoverTrigger >
-      <Button>Trigger</Button>
-       
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverArrow />
-        <PopoverCloseButton />
-        <PopoverHeader>Ocijenite instruktora!</PopoverHeader>
-        <PopoverBody onMouseLeave={() => setIndx(0)}> {stars.map((star,i) => {
-        return (
-          <Icon 
-          onMouseOver={() => {
-       
-          setIndx(i)
-          }}
-          onClick={()=>{
-         
-          rateUser(i+1)
-          return <div>Thanks for Rating!</div>
-          }}
-          
-          w={10} h={10} color={indx>=i? "rgb(255, 204, 0)" : "grey"}  children={<FaStar />} />
+    async function rateUser(rate: Number) {
+      setIsRated(true);
+      if (_.isEmpty(jwt)) alert("Please log in or create an account!");
+      try {
+        const res = await axios.put(
+          process.env.REACT_APP_SERVER_CONNECT + "/api/user/" + id + "/rate",
+          { grade: rate },
+          { headers: { "auth-token": jwt } }
         );
-      })}</PopoverBody>
-      </PopoverContent>
-    </Popover>
-    }
-    </HStack>
+        console.log(res.data);
+      } catch (err) {
+        console.log(err.message);
+      }
     }
 
-
- 
-    if(_.isNull(data)) {return <Spinner/>} 
+    if (_.isUndefined(data.rating)) {
+      return <></>;
+    }
     return (
-      <Stack
-        h="300vh"
-        w={["100%", "100%", "100%", "100%", "80%"]}
-        direction={["column", "column", "column", "row", "row"]}
+      <HStack w="100%">
+        <Heading w="20%">{data.rating.toFixed(2)}</Heading>
+
+        {arr.map((star, i) => {
+          let result: any = Number.parseFloat((data.rating - i).toFixed(2));
+          if (result < 0) {
+            result = 0;
+          }
+          result -= 1;
+          result *= 100;
+          console.log(result);
+
+          return (
+            <div>
+              <Icon
+                style={{ position: "absolute", marginRight: "70px" }}
+                w={10}
+                h={10}
+                color="rgb(255, 204, 0)"
+                children={
+                  <FaStar style={{ clipPath: `inset(0 ${1 - result}% 0 0)` }} />
+                }
+              />
+              <Icon
+                w={10}
+                h={10}
+                children={
+                  <FaStar style={{ stroke: "grey", strokeWidth: "30" }} />
+                }
+              />
+            </div>
+          );
+        })}
+
+        {data.rating ? (
+          <Button>Already Rated</Button>
+        ) : (
+          <Popover placement="left">
+            <PopoverTrigger>
+              <Button>Trigger</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>Ocijenite instruktora!</PopoverHeader>
+              <PopoverBody onMouseLeave={() => setIndx(0)}>
+                {" "}
+                {stars.map((star, i) => {
+                  return (
+                    <Icon
+                      onMouseOver={() => {
+                        setIndx(i);
+                      }}
+                      onClick={() => {
+                        rateUser(i + 1);
+                        window.location.reload(false);
+                        return <div>Thanks for Rating!</div>;
+                      }}
+                      w={10}
+                      h={10}
+                      color={indx >= i ? "rgb(255, 204, 0)" : "grey"}
+                      children={<FaStar />}
+                    />
+                  );
+                })}
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        )}
+      </HStack>
+    );
+  }
+
+  if (_.isNull(data)) {
+    return <Spinner />;
+  }
+  return (
+    <Stack
+      h="300vh"
+      w={["100%", "100%", "100%", "100%", "80%"]}
+      direction={["column", "column", "column", "row", "row"]}
+      mx="auto"
+    >
+      {/* <Heading mt="20">Dobrodošli!</Heading> */}
+
+      <VStack
+        w={["100%", "100%", "100%", "30%", "30%"]}
+        mt="20"
+        h="80vh"
         mx="auto"
       >
-        {/* <Heading mt="20">Dobrodošli!</Heading> */}
-  
-        <VStack
-          w={["100%", "100%", "100%", "30%", "30%"]}
-          mt="20"
-          h="80vh"
-          mx="auto"
-        >
-          <Box boxSize="sm">
-            <Image
-              borderRadius="full"
-              border="1px solid teal"
-              boxSize="300px"
-              ml="10"
-              mt="5"
-              src={"https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/"+ data.imageUrl}
-            />
-            <Stack mt="10">
+        <Box boxSize="sm">
+          <Image
+            borderRadius="full"
+            border="1px solid teal"
+            boxSize="300px"
+            ml="10"
+            mt="5"
+            src={_.isEmpty(data.imageUrl) ? avatar : cloudinary + data.imageUrl}
+          />
+          <Stack mt="10"></Stack>
+          <Divider mt="10" />
+          {_.isUndefined(data.price) ? null : (
+            <Stack mt="10" border="2px solid teal" p="4">
+              <Heading textAlign="left">Kratki Opis</Heading>
+              <Text textAlign="left">{data.desc}</Text>
             </Stack>
-            <Divider mt="10" />
-            {_.isUndefined(data.price) ? null : (
-              <Stack mt="10" border="2px solid teal" p="4">
-                <Heading textAlign="left">Kratki Opis</Heading>
-                <Text textAlign="left">{data.desc}</Text>
-              </Stack>
-            )}
-          </Box>
-        </VStack>
-  
-        <VStack w={["100%", "100%", "100%", "50%", "50%"]}>
-          <Stack mt="70px" p="6" spacing={6} border="2px solid teal">
-            <HStack w="100%">
-              <Heading as="h2" size="2xl">
-                {data.firstName} {data.lastName}
-              </Heading>
-            </HStack>
-            {_.isUndefined(data.price) ? null : (
-              <>
-                <HStack>
-                  <Icon w={8} h={8} children={<FaMapMarkerAlt />}></Icon>
-                  <Heading size="md">
-                    {data.address},{data.zip} {data.city}
-                  </Heading>
-                </HStack>
-  
-                <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-                  {data.tags?.map((tag:any) => {
-                    return (
-                      <Tag
-                        w="100%"
-                        size="lg"
-                        p="6"
-                        textAlign="center"
-                        justifyContent="center"
-                      >
-                        {tag}
-                      </Tag>
-                    );
-                  })}
-                </Grid>
-  
-                {/* TODO RANG */}
-                <Rating/>
-                
-  
-                <Button w="50%" p="4" size="lg">
-                  <Icon w={6} h={6} color="black" children={<FaCommentAlt />} />
-                  Pošalji poruku
-                </Button>
-              </>
-            )}
-          </Stack>
-
-
-          {_.isUndefined(data.comments) ? null : (
-          <>
-           <h1>Komentari</h1>
-           <Komentari komentari={data.comments}/>
-           
-            
-          
-          <Popover>
-        <PopoverTrigger>
-          <Button>Add Comment</Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <PopoverArrow />
-  
-          
-        
-          <PopoverBody >
-          <Textarea  ref={commentRef}></Textarea>
-         <Text>{error}</Text> 
-          </PopoverBody>
-          <Button w="50%" mx="auto" mt="2" backgroundColor="teal" color="white" onClick={postComment}>Post</Button>
-        </PopoverContent>
-        </Popover>
-          </>
-           
-    
           )}
-        </VStack>
-  
-        <VStack w={["100%", "100%", "100%", "30%", "30%"]}>
-          <Stack mt="4" w={["100%", "100%", "100%", "50%", "100%"]}>
-            <Heading fontSize="50px" mt="20">
-              {_.isUndefined(data.price) ? null : data.price + "kn/h"}
+        </Box>
+      </VStack>
+
+      <VStack w={["100%", "100%", "100%", "50%", "50%"]}>
+        <Stack mt="70px" p="6" spacing={6} border="2px solid teal">
+          <HStack w="100%">
+            <Heading as="h2" size="2xl">
+              {data.firstName} {data.lastName}
             </Heading>
-            <Stack textAlign="left" border="2px solid teal" p="4">
-              <Heading size="md">Kontakt</Heading>
-              <Text>
-                {_.isUndefined(data.phoneNumber) ? null : data.phoneNumber}
-              </Text>
-              <Text>{data.email}</Text>
-            </Stack>
+          </HStack>
+          {_.isUndefined(data.price) ? null : (
+            <>
+              <HStack>
+                <Icon w={8} h={8} children={<FaMapMarkerAlt />}></Icon>
+                <Heading size="md">
+                  {data.address},{data.zip} {data.city}
+                </Heading>
+              </HStack>
+
+              <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+                {data.tags?.map((tag: any) => {
+                  return (
+                    <Tag
+                      w="100%"
+                      size="lg"
+                      p="6"
+                      textAlign="center"
+                      justifyContent="center"
+                    >
+                      {tag}
+                    </Tag>
+                  );
+                })}
+              </Grid>
+
+              {/* TODO RANG */}
+              <Rating />
+
+      
+            </>
+          )}
+        </Stack>
+
+        {_.isUndefined(data.comments) ? null : (
+          <>
+            <h1>Komentari</h1>
+            <Komentari komentari={data.comments} />
+
+            <Popover>
+              <PopoverTrigger>
+                <Button>Add Comment</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+
+                <PopoverBody>
+                  <Textarea ref={commentRef}></Textarea>
+                  <Text>{error}</Text>
+                </PopoverBody>
+                <Button
+                  w="50%"
+                  mx="auto"
+                  mt="2"
+                  backgroundColor="teal"
+                  color="white"
+                  onClick={postComment}
+                >
+                  Post
+                </Button>
+              </PopoverContent>
+            </Popover>
+          </>
+        )}
+      </VStack>
+
+      <VStack w={["100%", "100%", "100%", "30%", "30%"]}>
+        <Stack mt="4" w={["100%", "100%", "100%", "50%", "100%"]}>
+          <Heading fontSize="50px" mt="20">
+            {_.isUndefined(data.price) ? null : data.price + "kn/h"}
+          </Heading>
+          <Stack textAlign="left" border="2px solid teal" p="4">
+            <Heading size="md">Kontakt</Heading>
+            <Text>
+              {_.isUndefined(data.phoneNumber) ? null : data.phoneNumber}
+            </Text>
+            <Text>{data.email}</Text>
           </Stack>
-  
-          <Divider />
-          <Map />
-        </VStack>
-  
-       
-      </Stack>
-    );
-}
+        </Stack>
+
+        <Divider />
+        <Map />
+      </VStack>
+    </Stack>
+  );
+};

@@ -89,9 +89,8 @@ const UserPage: React.FC = (props: Props) => {
 
   const { jwt, data, setData } = UseHeaderContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-
-
+  const cloudinary =
+  "https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/";
   useEffect(() => {
     if (_.isEqual({}, data)) {
       axios
@@ -195,55 +194,34 @@ const UserPage: React.FC = (props: Props) => {
     );
   }
 
-  
-
-
   function EditProfileModal() {
     const handleSubmit = async (values: any, { setSubmitting }: any) => {
-     
-
-    
       try {
         const res = await axios.put(
           process.env.REACT_APP_SERVER_CONNECT + "/api/user/updateUserData",
-          _.omit(values,"select"),
+          _.omit(values, "select"),
           {
             headers: {
               "auth-token": jwt,
-            }, 
+            },
           }
         );
-        const new_data = await axios.get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {
-          headers: { "auth-token": jwt },
-        })
-        setData(new_data.data)
+        const new_data = await axios.get(
+          process.env.REACT_APP_SERVER_CONNECT + "/api/user",
+          {
+            headers: { "auth-token": jwt },
+          }
+        );
+        setData(new_data.data);
         setSubmitting(false);
         console.log(res.data);
-        onClose()
+        onClose();
       } catch (err) {
         console.log(err.response.data);
       }
     };
 
-    // TODO VALIDATION
-    // const validationSchema = Yup.object({
-    //   firstName: Yup.string().required(),
-    //   lastName: Yup.string().required(),
-    //   desc: Yup.number().required().min(18),
-    //   phoneNumber: Yup.string()
-    //     .matches(
-    //       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-    //     )
-    //     .required(),
-    //   address: Yup.string().max(50),
-    //   city: Yup.string().max(30),
-    //   zip: Yup.string()
-    //     .required()
-    //     .max(5)
-    //     .matches(/^\d{5}(?:[-\s]\d{4})?$/),
-    //   price: Yup.number().required(),
-    //   // tags: Yup.boolean().equals([true]),
-    // });
+  
 
     return (
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -265,6 +243,7 @@ const UserPage: React.FC = (props: Props) => {
                   "rating",
                   "tags",
                   "timesRated",
+                  "_id"
                 ]),
                 select: "",
               }}
@@ -319,53 +298,51 @@ const UserPage: React.FC = (props: Props) => {
 
   if (_.isEqual({}, data)) return <Spinner />;
 
-  function Komentari(komentari : any){
+  function Komentari(komentari: any) {
+    return (
+      <div>
+        {komentari.komentari.map((c: any) => {
+          var d = new Date(c.created_at);
 
-   
+          var datestring =
+            d.getDate() +
+            "." +
+            (d.getMonth() + 1) +
+            "." +
+            d.getFullYear() +
+            " " +
+            d.getHours() +
+            ":" +
+            d.getMinutes();
 
-   
-    return <div>
-          {
-            komentari.komentari.map((c:any)=>{
-
-              var d = new Date(c.created_at);
-
-              var datestring = d.getDate()  + "." + (d.getMonth()+1) + "." + d.getFullYear() + " " +
-              d.getHours() + ":" + d.getMinutes();
-
-              return <Box borderRadius="3px" border="2px solid grey" p="10" >
-               
-                <HStack>
-                <Image mr="4" mb="6" borderRadius="full" maxW="40px" src={"https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/" + c.user.imageUrl}/>
+          return (
+            <Box borderRadius="3px" border="2px solid grey" p="10">
+              <HStack>
+                <Image
+                  mr="4"
+                  mb="6"
+                  borderRadius="full"
+                  maxW="40px"
+                  src={
+                    _.isEmpty(c.user.imageUrl) ? avatar : cloudinary + c.user.imageUrl
+                  }
+                />
 
                 <Box>
-                <Heading size="md" textAlign="left">
-                {c.user.firstName} {c.user.lastName} 
-                </Heading>
-                <Text textAlign="left"> {c.comment}</Text>
-             
+                  <Heading size="md" textAlign="left">
+                    {c.user.firstName} {c.user.lastName}
+                  </Heading>
+                  <Text textAlign="left"> {c.comment}</Text>
 
-                <Text>Posted at {datestring}</Text>
-                
+                  <Text>Posted at {datestring}</Text>
                 </Box>
-
-                </HStack>
-             
-               
-           
-               
-              
-                
-              
-               
-                
-              </Box>
-            })
-          }
-
-          </div>
+              </HStack>
+            </Box>
+          );
+        })}
+      </div>
+    );
   }
-  
 
   return (
     <Stack
@@ -451,35 +428,21 @@ const UserPage: React.FC = (props: Props) => {
                 <Icon w={10} h={10} color="black" children={<FaStar />} />
               </HStack>
 
-              <Button w="50%" p="4" size="lg">
-                <Icon w={6} h={6} color="black" children={<FaCommentAlt />} />
-                Pošalji poruku
-              </Button>
+             
             </>
           )}
         </Stack>
-
-       
         {_.isUndefined(data.comments) ? null : (
           <>
-           <h1>Komentari</h1>
-           <Komentari komentari={data.comments}/>
-            <Komentari komentari={data.comments}/>
-            <Komentari komentari={data.comments}/>
-            <Komentari komentari={data.comments}/>
-            <Komentari komentari={data.comments}/>
-            
-
-        
+            <h1>Komentari</h1>
+            <Komentari komentari={data.comments} />
+            <Komentari komentari={data.comments} />
+            <Komentari komentari={data.comments} />
+            <Komentari komentari={data.comments} />
+            <Komentari komentari={data.comments} />
           </>
-           
-    
-          )}
-       
-
-      
+        )}
         //TODO LIKE DISLIKE
-
       </VStack>
 
       <VStack w={["100%", "100%", "100%", "30%", "30%"]}>

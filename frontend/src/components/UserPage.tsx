@@ -194,6 +194,59 @@ const UserPage: React.FC = (props: Props) => {
     );
   }
 
+  function Rating() {
+    const stars = [1, 2, 3, 4, 5];
+    const [indx, setIndx] = useState(0);
+  
+    console.log(data)
+
+ 
+
+    if (_.isUndefined(data.rating)) {
+      return <></>;
+    }
+    return (
+      <HStack w="100%">
+        <Heading w="20%">{data.rating.toFixed(2)}</Heading>
+        
+        {stars.map((star, i) => {
+         
+          let result: any = Number.parseFloat((data.rating! - i).toFixed(2));
+          if (result < 0) {
+            result = 0;
+          }
+          result -= 1;
+          result *= 100;
+ 
+
+          return (
+            <div>
+              <Icon
+                style={{ position: "absolute", marginRight: "70px" }}
+                w={10}
+                h={10}
+                color="rgb(255, 204, 0)"
+                children={
+                  <FaStar style={{ clipPath: `inset(0 ${1 - result}% 0 0)` }} />
+                }
+              />
+              <Icon
+                w={10}
+                h={10}
+                children={
+                  <FaStar style={{ stroke: "grey", strokeWidth: "30" }} />
+                }
+              />
+            </div>
+          );
+        })}
+
+       
+    
+      </HStack>
+    );
+  }
+
   function EditProfileModal() {
     const handleSubmit = async (values: any, { setSubmitting }: any) => {
       try {
@@ -418,14 +471,7 @@ const UserPage: React.FC = (props: Props) => {
 
          
               <HStack w="100%">
-                <Heading w="20%">8,6</Heading>
-
-                {arr.map((star) => {
-                  return (
-                    <Icon w={10} h={10} color="teal" children={<FaStar />} />
-                  );
-                })}
-                <Icon w={10} h={10} color="black" children={<FaStar />} />
+                <Rating/>
               </HStack>
 
              

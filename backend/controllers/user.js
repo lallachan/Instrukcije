@@ -19,7 +19,7 @@ exports.getUserData = async (req,res,next)=>{
     try{
         const user = await req.Model.findById(req.user_id).select(["-password" ,"-emailVerifed","-__v"])
      
-        console.log(user._id)
+       
         return res.status(200).send(user)
     }catch(err){
         console.log(err)
@@ -34,6 +34,8 @@ exports.addReview = async (req,res)=>{
 
     const error = instruktorReviewValidation(req.body)
     if(error){
+        console.log(error.details[0].message)
+
       return res.status(400).send(error.details[0].message);
     }
 
@@ -79,8 +81,8 @@ exports.addReview = async (req,res)=>{
          await reviewed_instruktor.save()
          await user_that_reviews.save()
 
-
-        res.status(200).send("Succesfully reviewed")
+      
+       return res.status(200).send("Succesfully reviewed")
         
     } catch (error) {
       

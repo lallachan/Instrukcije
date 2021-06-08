@@ -12,7 +12,7 @@ module.exports.verifyToken =  function  (req,res,next) {
 
         const verified =  jwt.verify(token,process.env.TOKEN_SECRET)
         req.user_id=  verified._id
-        
+
         next()
     } catch(err){
       

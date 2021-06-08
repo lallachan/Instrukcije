@@ -231,10 +231,10 @@ useEffect(() => {
           },
         }
       );
-
+      window.location.reload();
     
       delete commentRef.current;
-      window.location.reload();
+
     } catch (error) {
 
       

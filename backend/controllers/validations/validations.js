@@ -28,7 +28,7 @@ const registerInstruktorValidation = (register_obj) => {
     lastName: Joi.string().min(2).required(),
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).required(),
-    desc: Joi.string().min(50).max(500).required(),
+    desc: Joi.string().min(10).max(500).required(),
     phoneNumber: Joi.string()
       .pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))
       .min(5)
@@ -52,7 +52,7 @@ const userUpdateValidation = (updateObj) => {
   const update_Schema = Joi.object({
     firstName: Joi.string().min(2),
     lastName: Joi.string().min(2),
-    desc: Joi.string().min(50).max(500),
+    desc: Joi.string().min(10).max(500),
     city: Joi.string().min(1).max(500),
     phoneNumber: Joi.string()
       .pattern(new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/))
@@ -85,7 +85,7 @@ const instruktorRatingValidaiton = (ratedInstruktor) => {
 
 const instruktorReviewValidation = (ratedInstruktor) => {
   const review_schema = Joi.object({
-    desc: Joi.string().min(5).max(1000).required(),
+    desc: Joi.string().min(1).max(1000).required(),
     param_id:Joi.string().min(24).max(24)
   });
 

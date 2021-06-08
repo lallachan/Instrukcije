@@ -189,7 +189,7 @@ export const SearchPage = (props: Props) => {
           "teal.400",
           "teal.400",
         ]}
-        zIndex="-100"
+        zIndex="99"
       >
         <InputGroup mt="4" pl="2" w={["90%", "90%", "75%", "50%"]} mx="auto">
           <Input

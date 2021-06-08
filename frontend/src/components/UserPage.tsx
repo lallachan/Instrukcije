@@ -99,7 +99,7 @@ const UserPage: React.FC = (props: Props) => {
         })
         .then((res) => {
           setData(res.data);
-          console.log(res.data);
+         
         })
         .catch((err) => {
           console.log(err);
@@ -214,7 +214,7 @@ const UserPage: React.FC = (props: Props) => {
         );
         setData(new_data.data);
         setSubmitting(false);
-        console.log(res.data);
+       
         onClose();
       } catch (err) {
         console.log(err.response.data);

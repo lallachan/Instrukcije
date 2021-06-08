@@ -176,12 +176,12 @@ export const PublicPage = (props: Props) => {
   let { id } = useParams<any>();
 
   useEffect(() => {
-    console.log("hej");
+  
     axios
       .get(process.env.REACT_APP_SERVER_CONNECT + "/api/user/" + id)
       .then((res) => {
         setData(res.data);
-        console.log(res.data);
+        
       })
       .catch((err) => {
         console.log(err.data);
@@ -203,7 +203,7 @@ export const PublicPage = (props: Props) => {
         }
       );
 
-      console.log(res.data);
+    
       delete commentRef.current;
       window.location.reload(false);
     } catch (error) {
@@ -226,7 +226,7 @@ export const PublicPage = (props: Props) => {
           { grade: rate },
           { headers: { "auth-token": jwt } }
         );
-        console.log(res.data);
+       
       } catch (err) {
         console.log(err.message);
       }
@@ -246,7 +246,7 @@ export const PublicPage = (props: Props) => {
           }
           result -= 1;
           result *= 100;
-          console.log(result);
+ 
 
           return (
             <div>

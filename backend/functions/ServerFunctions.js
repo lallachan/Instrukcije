@@ -3,10 +3,9 @@ const {userAuth,Instruktor} = require("../models/User_Auth")
 
  const SetLandingInstructors=  async  ()=> {
    
+    return
     const users = await Instruktor.find({})
-    users.forEach(user =>{
-       /// TODO ADD USERS TO LANDING HAHAHAHAHAH
-    })
+    
 }
 
 exports.midnightFunction = async ()=>{
@@ -40,8 +39,8 @@ const CheckIfEmailTimeExpired= async()=>{
 
         })
 
-        console.log(unVerifedUsers)
-        //TODO DELETE unVerifedUsers
+        userAuth.findByIdAndDelete(unVerifedUsers).save()
+
 
     }catch(err){
         console.log(err)

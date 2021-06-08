@@ -29,7 +29,7 @@ module.exports.verifyEmail = async function (email) {
     
         return userEmailCheck.length!=0 ||instruktorEmailCheck.length !=0 ;
     }catch(err){
-        console.log(err)
+        return res.send(401,err)
     }  
 }
 
@@ -52,7 +52,7 @@ module.exports.getUserColletion = async function (req,res,next) {
     try {
         let user_id = req.user_id;
         if(!user_id){
-            //TODO MABYY BIG ERROR BE CAREFULL
+           
             user_id = req.param_id
             req.user_id = user_id
         }
@@ -74,8 +74,8 @@ module.exports.getUserColletion = async function (req,res,next) {
         
 
     } catch (error) {
-        console.log(error)
-        res.status(405).send(error.message)
+      
+        return res.status(405).send(error.message)
     }
 
 }

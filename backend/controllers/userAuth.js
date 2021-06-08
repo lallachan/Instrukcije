@@ -22,7 +22,7 @@ const {verifyToken,verifyEmail} = require("./validations/verifys")
 // *@desc register User
 // *@route POST /api/userAuth/register
 // *@acces Public
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res,next) => {
 
   const error = registerValidation(req.body);
 
@@ -37,7 +37,7 @@ exports.registerUser = async (req, res) => {
     }
 
   } catch (error) {
-    console.log(error);
+    next(error)
   }
 
   //hash password
@@ -87,8 +87,8 @@ exports.registerUser = async (req, res) => {
  user.save()
  return res.status(200).json({id:user._id})
   } catch (err) {
-    console.log(err)
-    res.status(400).send(err);
+   
+   return res.status(400).send(err);
   }
 };
 
@@ -171,7 +171,7 @@ exports.registerInstruktor= async (req,res)=>{
  return res.status(200).json({id:user._id})
 
   }catch(err){
-    console.log(err)
+  
     return res.status(400).send(err)
   }
 2525
@@ -200,8 +200,7 @@ exports.validateEmail = async (req,res)=>{
     
 
   }catch(err){
-    console.log(err)
-    res.send(err)
+return    res.send(err)
   }
  
   
@@ -226,7 +225,7 @@ exports.validateEmail = async (req,res)=>{
 // *@desc login User returns JWT
 // *@route POST /api/userAuth/login
 // *@acces Public
-exports.loginUser = async (req, res) => {
+exports.loginUser = async (req, res,next) => {
   const error = logInValidation(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -239,14 +238,14 @@ exports.loginUser = async (req, res) => {
        user = await Instruktor.findOne({ email: req.body.email });
     }
     if (!user) {
-      return res.status(400).send("Invalid email or password/E"); //! TODO REMOREgit  E and P
+      return res.status(400).send("Invalid email or password");
     }
     
   
     //Check Password
     const validPass= await bcrypt.compare(req.body.password, user.password);
     if (!validPass) {
-      return res.status(400).send("Invalid email or password/P"); //! TODO REMORE E and P
+      return res.status(400).send("Invalid email or password"); 
     }
 
   if(user.emailVerifed == "false"){
@@ -257,7 +256,7 @@ exports.loginUser = async (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
     res.header("auth-token", token).send(token);
   } catch (error) {
-    console.log(error);
+    next(error)
   }
 };
 

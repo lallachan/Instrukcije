@@ -15,14 +15,14 @@ const { getUserColletion } = require("./validations/verifys");
 // *@desc login User returns User Data
 // *@route GET /api/user
 // *@acces Private (JWT Header)
-exports.getUserData = async (req,res)=>{
+exports.getUserData = async (req,res,next)=>{
     try{
         const user = await req.Model.findById(req.user_id).select(["-password" ,"-emailVerifed","-__v"])
        
        
         return res.status(200).json(user)
     }catch(err){
-        console.log(err)
+        next(err)
     }
 
 }
@@ -44,14 +44,14 @@ exports.addReview = async (req,res)=>{
             return res.status(400).send(`Can not rate user with id: ${req.param_id}`);
         }
 
-        console.log(req.user_id)
+      
         //*CHECK IF USER DID ALREADY RATE 
         const user_that_reviews = await req.Model.findById(req.user_id)
         if(user_that_reviews.reviewedUsers.includes(req.param_id)){
             throw Error(`User (ID: ${req.user_id}) has already reviewED this instruktor(Instruktor ID: ${req.param_id}) `)
         }   
 
-        console.log(user_that_reviews.firstName)
+     
         //*Crete New Review
         const  comment = {
             user:{
@@ -65,7 +65,7 @@ exports.addReview = async (req,res)=>{
         }
 
 
-        console.log(comment)
+       
 
 
         //*Add Comment TO Instruktor
@@ -82,7 +82,7 @@ exports.addReview = async (req,res)=>{
         res.status(200).send("Succesfully reviewed")
         
     } catch (error) {
-        console.log(error)
+      
         return res.status(400).send(error.message)
     }
 
@@ -137,7 +137,7 @@ exports.addRating = async (req,res)=>{
         res.status(200).send(`User (ID: ${req.user_id}) has succefully rated this instruktor(Instruktor ID: ${req.param_id}) `)
     
     } catch (error) {
-        console.log(error.message)
+      
         return res.status(400).send(error.message)
     }
 
@@ -146,7 +146,7 @@ exports.addRating = async (req,res)=>{
 // *@desc update User image 
 // *@route PUT /api/user/updateImage
 // *@acces Private (JWT Header)
-exports.updateUserImage = async (req,res)=>{
+exports.updateUserImage = async (req,res,next)=>{
   
     try {
         const user = await req.Model.findById(req.user_id)
@@ -154,18 +154,17 @@ exports.updateUserImage = async (req,res)=>{
         if(!req.body.imageUrl) return res.status(400).send("imageUrl missing")
 
         user.imageUrl = req.body.imageUrl
-        console.log( user.imageUrl)
         await user.save()
         return res.status(200).send("Image Upload Successfully")
     } catch (error) {
-        console.log(err)
+        next(error)
     }
 }
 
 // *@desc update User data (excluding email and password)
 // *@route PUT /api/user/updateData
 // *@acces Private (JWT Header)
-exports.updateUserData = async (req,res)=>{
+exports.updateUserData = async (req,res,next)=>{
    const error =  userUpdateValidation(req.body)
 
   if (error) {
@@ -187,7 +186,7 @@ exports.updateUserData = async (req,res)=>{
     await req.Model.findByIdAndUpdate(req.user_id,{...req.body}).exec()
     return res.status(200).send("Updated Succesfully")
   } catch (error) {
-      console.log(error)
+      next(error)
   }
  
 

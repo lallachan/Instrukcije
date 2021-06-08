@@ -27,11 +27,13 @@ import {
 import axios from "axios";
 import { Select } from "@chakra-ui/select";
 import _, { valuesIn } from "lodash";
+import { UseHeaderContext } from "./Contexts/HeaderContext";
 
 interface Props {}
 
 export const Introduction: React.FC = (props: Props) => {
   const { isOpen, onClose, onOpen } = UseModalContext();
+  const {jwt} = UseHeaderContext()
   const history = useHistory();
   const [subject, setSubject] = useState("")
 
@@ -148,7 +150,12 @@ export const Introduction: React.FC = (props: Props) => {
           }}
           
           onClick={() => {
+            if(jwt){
+                alert("Već ste ulogirani!")
+                return
+            }
             history.push("/tutorSignUp");
+            
           }}
         >
           Postani Instruktor 

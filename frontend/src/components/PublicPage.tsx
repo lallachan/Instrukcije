@@ -44,6 +44,7 @@ import {
   PopoverCloseButton,
   PopoverHeader,
   PopoverBody,
+  useModalContext,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -61,6 +62,7 @@ import image from "../images/profileImage.jpg";
 import avatar from "../images/avatar.png";
 import axios from "axios";
 import { UseHeaderContext } from "./Contexts/HeaderContext";
+import {UseModalContext} from './Contexts/ModalContex'
 import _, { isEqual } from "lodash";
 
 import marker from "../images/marker.png";
@@ -80,12 +82,15 @@ import { predmeti } from "../PREDMETI.json";
 import { useParams } from "react-router";
 import { IconContext } from "react-icons/lib";
 
+
 interface Props {}
 
 export const PublicPage = (props: Props) => {
   const cloudinary =
     "https://res.cloudinary.com/dbfwwnhat/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/";
 
+
+  const {onOpen} = UseModalContext()
   const commentRef: any = useRef(null);
   function Komentari(komentari: any) {
     return (
@@ -205,10 +210,10 @@ export const PublicPage = (props: Props) => {
 
     
       delete commentRef.current;
-      window.location.reload(false);
+      window.location.reload();
     } catch (error) {
       console.log(error.response.data);
-      // setError(error.response.data)
+      
     }
   }
 
@@ -394,7 +399,12 @@ export const PublicPage = (props: Props) => {
 
             <Popover>
               <PopoverTrigger>
-                <Button>Add Comment</Button>
+                <Button onClick={()=>{
+                  if(!jwt){
+                    onOpen();
+                    return
+                  }
+                }}>Add Comment</Button>
               </PopoverTrigger>
               <PopoverContent>
                 <PopoverArrow />

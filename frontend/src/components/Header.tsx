@@ -104,13 +104,13 @@ const Header: React.FC = (props: Props) => {
        
     
 
-        <Box w="80%" textAlign="right" mr="8" p="4" mt="4">
+        <Box w="80%" textAlign="right" mr="8" p="4" mt="4" zIndex="100">
         <Menu>
           <MenuButton>
             <Image src={image}   borderRadius="full" boxSize="50px"  />
           </MenuButton>
           <MenuList>
-            <MenuItem onClick={()=>{history.push("/myPage")}}>Moj Profil</MenuItem>
+            <MenuItem  onClick={()=>{history.push("/myPage")}}>Moj Profil</MenuItem>
             <MenuItem
               onClick={() => {
                 setJwt("");

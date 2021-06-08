@@ -385,7 +385,7 @@ const UserPage: React.FC = (props: Props) => {
       </VStack>
 
       <VStack w={["100%", "100%", "100%", "50%", "50%"]}>
-        <Stack mt="70px" p="10" spacing={6}>
+        <Stack mt="70px" p="10" spacing={6} border="2px solid teal">
           <HStack w="100%">
             <Heading as="h2" size="2xl">
               {data.firstName} {data.lastName}

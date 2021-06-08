@@ -158,12 +158,7 @@ export const SearchPage = (props: Props) => {
               <UserStars rating={tutor.rating} />
             </Stack>
 
-            {/* <Text>
-                  {tutor.tags.map((tag,indx)=>{
-   
-                   return  <Tag key={indx}>{tag}</Tag>
-                  })}
-                </Text> */}
+            
             <Text justifyContent="center" w="3xs" h="100px">
               {truncateTest(tutor.desc)}
             </Text>
@@ -194,7 +189,7 @@ export const SearchPage = (props: Props) => {
           "teal.400",
           "teal.400",
         ]}
-        zIndex="100"
+        zIndex="-100"
       >
         <InputGroup mt="4" pl="2" w={["90%", "90%", "75%", "50%"]} mx="auto">
           <Input

@@ -183,20 +183,22 @@ exports.registerInstruktor= async (req,res)=>{
 // *@acces Public
 exports.validateEmail = async (req,res)=>{
 
-
+  
   try{
   
     const user = await req.Model.findById(req.user_id)
-   
-    if(user.emailVerifed == false){
-      return res.status(200).send("Email already verifed")
+  
+
+    if(user.emailVerifed){
+      //return res.status(200).send("Email already verifed")
+      return  res.render('emailValid',{url:process.env.FRONT_LOCATION})
     }
 
     user.emailVerifed = true
     await user.save()
 
-    let data = fs.readFileSync(path.join(__dirname + '/emailValid.html'), 'utf8');
-    if(data)return res.send(data.replace('url',`${req.protocol}://${req.get('host')}`));
+    
+    return  res.render('emailValid',{url:process.env.FRONT_LOCATION})
     
 
   }catch(err){

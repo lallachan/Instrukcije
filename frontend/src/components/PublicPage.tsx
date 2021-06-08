@@ -379,7 +379,7 @@ export const PublicPage = (props: Props) => {
                 })}
               </Grid>
 
-              {/* TODO RANG */}
+             
               <Rating />
 
       

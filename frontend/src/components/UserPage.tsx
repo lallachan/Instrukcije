@@ -416,7 +416,7 @@ const UserPage: React.FC = (props: Props) => {
                 })}
               </Grid>
 
-              {/* TODO RANG */}
+         
               <HStack w="100%">
                 <Heading w="20%">8,6</Heading>
 
@@ -442,7 +442,7 @@ const UserPage: React.FC = (props: Props) => {
             <Komentari komentari={data.comments} />
           </>
         )}
-        //TODO LIKE DISLIKE
+       
       </VStack>
 
       <VStack w={["100%", "100%", "100%", "30%", "30%"]}>

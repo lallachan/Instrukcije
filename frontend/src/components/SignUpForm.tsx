@@ -76,7 +76,7 @@ export const SignUpForm: React.FC = (props: Props) => {
     {toggleEmailVal? <EmailValidation/> : 
     <form onSubmit={onSubmit}>
       {error}
-      {/* TODO ADD VALIDATION */}
+    
       <Stack spacing={4}>
         <FormControl isRequired>
           <InputGroup>

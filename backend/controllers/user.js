@@ -18,10 +18,11 @@ const { getUserColletion } = require("./validations/verifys");
 exports.getUserData = async (req,res,next)=>{
     try{
         const user = await req.Model.findById(req.user_id).select(["-password" ,"-emailVerifed","-__v"])
-       
-       
-        return res.status(200).json(user)
+     
+        console.log(user._id)
+        return res.status(200).send(user)
     }catch(err){
+        console.log(err)
         next(err)
     }
 

@@ -189,8 +189,7 @@ exports.validateEmail = async (req,res)=>{
     const user = await req.Model.findById(req.user_id)
   
 
-    if(user.emailVerifed){
-      //return res.status(200).send("Email already verifed")
+    if(user.emailVerifed == true){
       return  res.render('emailValid',{url:process.env.FRONT_LOCATION})
     }
 

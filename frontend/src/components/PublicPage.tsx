@@ -77,7 +77,7 @@ import {
   SubmitButton,
   TextareaControl,
 } from "formik-chakra-ui";
-import { object } from "yup/lib/locale";
+import { boolean, object } from "yup/lib/locale";
 import { predmeti } from "../PREDMETI.json";
 import { useParams } from "react-router";
 import { IconContext } from "react-icons/lib";
@@ -92,6 +92,8 @@ export const PublicPage = (props: Props) => {
 
   const {onOpen} = UseModalContext()
   const commentRef: any = useRef(null);
+
+
   function Komentari(komentari: any) {
     return (
       <div>
@@ -176,7 +178,8 @@ export const PublicPage = (props: Props) => {
   const [data, setData] = useState<any>(null);
   const arr = [1, 2, 3, 4, 5];
   const [imgData, setImgData] = useState<any>(avatar);
-  const { jwt, data: userData } = UseHeaderContext();
+  const { jwt, data: userData,setData: setUserData } = UseHeaderContext();
+
   const [error, setError] = useState("");
   let { id } = useParams<any>();
 
@@ -185,13 +188,34 @@ export const PublicPage = (props: Props) => {
     axios
       .get(process.env.REACT_APP_SERVER_CONNECT + "/api/user/" + id)
       .then((res) => {
-        setData(res.data);
+        setData(res.data);  
+      
         
       })
       .catch((err) => {
-        console.log(err.data);
+   
       });
   }, []);
+
+
+useEffect(() => {
+  if(_.isEqual({},userData)){
+    axios
+    .get(process.env.REACT_APP_SERVER_CONNECT + "/api/user/",{
+      headers: { "auth-token": jwt }
+    })
+    .then((res) => {
+ 
+      setUserData(res.data);  
+    
+    
+    })
+    .catch((err) => {
+     
+    });
+  }
+
+}, [])
 
   async function postComment() {
     const obj = { desc: commentRef.current.value };
@@ -212,7 +236,7 @@ export const PublicPage = (props: Props) => {
       delete commentRef.current;
       window.location.reload();
     } catch (error) {
-      console.log(error.response.data);
+
       
     }
   }
@@ -221,6 +245,16 @@ export const PublicPage = (props: Props) => {
     const stars = [1, 2, 3, 4, 5];
     const [indx, setIndx] = useState(0);
     const [isRated, setIsRated] = useState(false);
+
+    const checkIfRated  = ()=>{
+    
+      if(!  _.isEqual({},userData)){
+ 
+       let result =  userData!.ratedUsers!.includes(id)
+        return result
+      }
+
+    }
 
     async function rateUser(rate: Number) {
       setIsRated(true);
@@ -233,7 +267,7 @@ export const PublicPage = (props: Props) => {
         );
        
       } catch (err) {
-        console.log(err.message);
+      
       }
     }
 
@@ -275,12 +309,12 @@ export const PublicPage = (props: Props) => {
           );
         })}
 
-        {data.rating ? (
-          <Button>Already Rated</Button>
+        {checkIfRated() ? (
+          <Button>Već ocjenjen</Button>
         ) : (
           <Popover placement="left">
             <PopoverTrigger>
-              <Button>Trigger</Button>
+              <Button>Ocjeni</Button>
             </PopoverTrigger>
             <PopoverContent>
               <PopoverArrow />

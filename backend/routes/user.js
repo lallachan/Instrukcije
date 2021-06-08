@@ -16,9 +16,11 @@ router.put('/updateUserData',verifyToken,getUserColletion,updateUserData)
 router.put('/:id/addReview',verifyToken,checkIDparams,getUserColletion,addReview)
 router.put('/:id/rate',verifyToken,checkIDparams,getUserColletion,addRating)
 
-
+//Public
 router.get('/:id',checkIDparams,getUserColletion,getUserData)
 
+
+//private
 router.get('/',verifyToken,getUserColletion,getUserData)
 
 

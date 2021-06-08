@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken")
 const {userAuth,Instruktor} = require("../../models/User_Auth")
+
+
+
 module.exports.verifyToken =  function  (req,res,next) {
     const  token = req.header('auth-token')
     if(!token) return res.status(401).send("Access Denied")
@@ -9,8 +12,7 @@ module.exports.verifyToken =  function  (req,res,next) {
 
         const verified =  jwt.verify(token,process.env.TOKEN_SECRET)
         req.user_id=  verified._id
-       
-        //
+        
         next()
     } catch(err){
       

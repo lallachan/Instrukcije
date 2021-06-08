@@ -89,7 +89,7 @@ exports.addReview = async (req,res)=>{
 }
 
 exports.addRating = async (req,res)=>{    
- 
+    
     const error = instruktorRatingValidaiton(req.body)
     if(error){
       

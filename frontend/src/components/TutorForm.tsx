@@ -119,7 +119,7 @@ const TutorForm: React.FC = (props: Props) => {
 
 
     const onSubmit =  (e:any)=>{
-      console.log(e)
+     
       e.preventDefault()
       const post = {...watch(),...watch2(),tags,price}
       

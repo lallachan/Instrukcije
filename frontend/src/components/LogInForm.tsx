@@ -45,9 +45,9 @@ import { UseModalContext } from "./Contexts/ModalContex";
 
       try {
       
-      console.log(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_LOGIN_ROUTE)
+    
       const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_LOGIN_ROUTE, data)
-      console.log(response)
+    
       setJwt(response.data)
       
 
@@ -56,14 +56,7 @@ import { UseModalContext } from "./Contexts/ModalContex";
 
 
 
-      // // TODO REMOVE THIS
-      // const userResponse = await axios.get(process.env.REACT_APP_SERVER_CONNECT + "/api/user", {
-      //   headers: {
-      //     "auth-token" : localStorage.getItem('token')
-      //   }
-      // })
-  
-      // console.log(userResponse.data)
+    
       history.push("/myPage")
       onClose()
 

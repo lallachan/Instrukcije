@@ -115,7 +115,7 @@ const Header: React.FC = (props: Props) => {
               onClick={() => {
                 setJwt("");
                 localStorage.removeItem("token");
-                console.log(localStorage.getItem("token"))
+            
                 setData({})
                 history.push("/");
               }}

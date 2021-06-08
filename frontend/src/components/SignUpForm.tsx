@@ -43,7 +43,7 @@ export const SignUpForm: React.FC = (props: Props) => {
     
 
     const response = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "" + process.env.REACT_APP_REGISTER_ROUTE, data)
-    console.log(response)
+    
     if (response.status == 200){
       seTtoggleEmailVal(true)
     }
@@ -76,7 +76,7 @@ export const SignUpForm: React.FC = (props: Props) => {
     {toggleEmailVal? <EmailValidation/> : 
     <form onSubmit={onSubmit}>
       {error}
-      {/* TODO ADD VALIDATION */}
+    
       <Stack spacing={4}>
         <FormControl isRequired>
           <InputGroup>

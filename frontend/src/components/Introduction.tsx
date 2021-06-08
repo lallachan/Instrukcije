@@ -57,7 +57,7 @@ export const Introduction: React.FC = (props: Props) => {
     if(! _.isEmpty(selectRef.current.value)){ obj.city = selectRef.current.value}
 
     const res = await axios.post(process.env.REACT_APP_SERVER_CONNECT + "/api/search/",obj)
-    console.log(res.data)
+   
     history.push({
       pathname: '/search',
        state: { detail: res.data.docs,subject,nextPage:res.data.nextPage,hasNextPage:res.data.hasNextPage }

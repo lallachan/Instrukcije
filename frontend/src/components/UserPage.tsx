@@ -346,7 +346,7 @@ const UserPage: React.FC = (props: Props) => {
 
   return (
     <Stack
-      h="300vh"
+    h="max-content"
       w={["100%", "100%", "100%", "100%", "80%"]}
       direction={["column", "column", "column", "row", "row"]}
       mx="auto"
@@ -385,7 +385,7 @@ const UserPage: React.FC = (props: Props) => {
       </VStack>
 
       <VStack w={["100%", "100%", "100%", "50%", "50%"]}>
-        <Stack mt="70px" p="10" spacing={6} border="2px solid teal">
+        <Stack mt="70px" p="10" spacing={6} border={_.isUndefined(data.price)? "" : "2px solid teal"}>
           <HStack w="100%">
             <Heading as="h2" size="2xl">
               {data.firstName} {data.lastName}
